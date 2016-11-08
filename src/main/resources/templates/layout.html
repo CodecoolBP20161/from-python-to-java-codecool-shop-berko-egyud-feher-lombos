@@ -1,29 +1,29 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
-
-<div th:fragment="navbar">
-    <div class="well well-sm">
-        <strong th:text="${category.name}">Category Title</strong>
-    </div>
-</div>
-
-<div th:fragment="sidebar">
-    <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
-        <div th:each="cat,iterStat : ${categories}">
-            <a class="btn btn-success" th:attr="href='/' + ${cat.id}" th:text="${cat.name}">Test1</a>
+    <!--navbar-->
+    <div th:fragment="navbar">
+        <div class="well well-sm">
+            <strong th:text="${category.name}">Category Title</strong>
         </div>
     </div>
-</div>
 
-<div th:fragment="footer">
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <div>&copy; 2016 Codecool Budapest</div>
+    <!--sidebar-->
+    <div th:fragment="sidebar">
+        <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
+            <div th:each="cat,iterStat : ${categories}">
+                <a class="btn btn-success sidebtn" th:attr="href='/' + ${cat.id}" th:text="${cat.name}">Test1</a>
+            </div>
         </div>
-    </nav>
-</div>
+    </div>
 
-
+    <!--footer-->
+    <div th:fragment="footer">
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div>&copy; 2016 Codecool Budapest</div>
+            </div>
+        </nav>
+    </div>
 </body>
 </html>
