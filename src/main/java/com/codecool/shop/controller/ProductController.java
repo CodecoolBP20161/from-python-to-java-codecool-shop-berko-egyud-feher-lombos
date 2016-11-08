@@ -22,10 +22,22 @@ public class ProductController {
     public static ModelAndView renderProducts(Request req, Response res) {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-
         Map params = new HashMap<>();
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        Integer categoryId = 1;
+        params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
+
+        if ( req.params(":id") != null ) {
+            categoryId = Integer.parseInt(req.params(":id"));
+            params.put("category", productCategoryDataStore.find(categoryId));
+        }
+
+        params.put("categories", productCategoryDataStore.getAll());
+        params.put("products", productDataStore.getAll());
+
+        if ( req.params(":id") != null ) {
+            params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryId)));
+        }
+
         return new ModelAndView(params, "product/index");
     }
 

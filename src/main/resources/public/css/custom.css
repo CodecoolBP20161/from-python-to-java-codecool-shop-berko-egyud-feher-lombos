@@ -60,3 +60,26 @@
 {
     margin: 0 0 11px;
 }
+
+#main {
+    margin: auto;
+}
+
+#sidebar    {
+    float: left;
+}
+
+.sidebtn {
+    width: 100px;
+}
+
+
+#products-container  {
+    float: left;
+}
+
+.clear:after {
+    clear: both;
+    display: table;
+    content: "";
+}
