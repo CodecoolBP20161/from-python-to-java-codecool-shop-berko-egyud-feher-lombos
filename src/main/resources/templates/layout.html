@@ -9,11 +9,10 @@
 </div>
 
 <div th:fragment="sidebar">
-    <div id="sidebar" class="btn-group-vertical" role="group" aria-label="..."  th:each="cat,iterStat : ${category}">
-        <button type="button" class="btn btn-default" th:text="${cat.name}">Test1</button>
-        <button type="button" class="btn btn-default">Test2</button>
-        <button type="button" class="btn btn-default">Test3</button>
-        <button type="button" class="btn btn-default">Test4</button>
+    <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
+        <div th:each="cat,iterStat : ${categories}">
+            <a class="btn btn-success" th:attr="href='/' + ${cat.id}" th:text="${cat.name}">Test1</a>
+        </div>
     </div>
 </div>
 
