@@ -69,6 +69,11 @@
     float: left;
 }
 
+.sidebtn {
+    width: 100px;
+}
+
+
 #products-container  {
     float: left;
 }
