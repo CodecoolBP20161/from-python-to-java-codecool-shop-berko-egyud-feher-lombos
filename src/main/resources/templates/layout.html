@@ -14,6 +14,11 @@
             <div th:each="cat,iterStat : ${categories}">
                 <a class="btn btn-success sidebtn" th:attr="href='/' + ${cat.id}" th:text="${cat.name}">Test1</a>
             </div>
+
+            <br/>
+            <div th:each="supp,iterStat : ${suppliers}">
+                <a class="btn btn-info sidebtn" th:attr="href='/' + ${supp.id}" th:text="${supp.name}">Test2</a>
+            </div>
         </div>
     </div>
 
