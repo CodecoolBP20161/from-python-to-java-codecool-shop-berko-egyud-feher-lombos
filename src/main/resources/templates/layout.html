@@ -4,10 +4,11 @@
 
     <!--navbar-->
     <div th:fragment="navbar">
-        <div class="well well-sm">
-            <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
-            <div class="pull-right"><a class="btn btn-default cart-btn" href="#"><p th:text="${cart} ? ${cart.totalQuantity} : '0'"></p>
-                <img class="cart-img" th:attr="src='/img/shopping-cart.png'" alt="" /></a>
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
+                </div>
             </div>
         </div>
     </div>
