@@ -78,3 +78,11 @@
     display: table;
     content: "";
 }
+.cart-img {
+    width: 25px;
+    height: 25px;
+}
+
+.cart-btn {
+    display: inline-flex;
+}

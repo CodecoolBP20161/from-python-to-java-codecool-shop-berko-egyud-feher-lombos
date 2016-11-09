@@ -5,6 +5,8 @@
 <div th:fragment="navbar">
     <div class="well well-sm">
         <strong th:text="${category.name}">Category Title</strong>
+        <div class="pull-right"><a class="btn btn-default cart-btn" href="#"><p th:text="${cart} ? ${cart.totalQuantity} : '0'"></p>
+            <img class="cart-img" th:attr="src='/img/shopping-cart.png'" alt="" /></a></div>
     </div>
 </div>
 
