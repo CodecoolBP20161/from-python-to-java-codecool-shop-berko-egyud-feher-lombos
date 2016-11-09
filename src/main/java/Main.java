@@ -19,8 +19,8 @@ public class Main {
 
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
-        get("/:id", ProductController::renderProducts, new ThymeleafTemplateEngine());
-
+        get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/supplier/:supplierid", ProductController::renderProducts, new ThymeleafTemplateEngine());
     }
 
     public static void populateData() {

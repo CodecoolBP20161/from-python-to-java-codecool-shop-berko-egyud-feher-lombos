@@ -4,7 +4,7 @@
     <!--navbar-->
     <div th:fragment="navbar">
         <div class="well well-sm">
-            <strong th:text="${category.name}">Category Title</strong>
+            <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
         </div>
     </div>
 
@@ -12,7 +12,12 @@
     <div th:fragment="sidebar">
         <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
             <div th:each="cat,iterStat : ${categories}">
-                <a class="btn btn-success sidebtn" th:attr="href='/' + ${cat.id}" th:text="${cat.name}">Test1</a>
+                <a class="btn btn-success sidebtn" th:attr="href='/category/' + ${cat.id}" th:text="${cat.name}">Test1</a>
+            </div>
+
+            <br/>
+            <div th:each="supp,iterStat : ${suppliers}">
+                <a class="btn btn-info sidebtn" th:attr="href='/supplier/' + ${supp.id}" th:text="${supp.name}">Test2</a>
             </div>
         </div>
     </div>
