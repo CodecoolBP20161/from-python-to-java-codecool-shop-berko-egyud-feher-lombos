@@ -1,10 +1,14 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
+
     <!--navbar-->
     <div th:fragment="navbar">
         <div class="well well-sm">
             <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
+            <div class="pull-right"><a class="btn btn-default cart-btn" href="#"><p th:text="${cart} ? ${cart.totalQuantity} : '0'"></p>
+                <img class="cart-img" th:attr="src='/img/shopping-cart.png'" alt="" /></a>
+            </div>
         </div>
     </div>
 

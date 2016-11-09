@@ -17,6 +17,7 @@ public class Main {
 
         populateData();
 
+        get("/add/:id", (req, res) -> ProductController.addToCart(req, res));
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
