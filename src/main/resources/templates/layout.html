@@ -8,16 +8,21 @@
         </div>
     </div>
 
+
     <!--sidebar-->
     <div th:fragment="sidebar">
         <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
+            <div>
+                <a th:attr="href='/'" th:class="${category.name == 'All Products'} ? (${supplier == null} ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'">Home</a>
+            </div>
+            <br/>
             <div th:each="cat,iterStat : ${categories}">
                 <a th:class="${cat.id == category.id} ? 'btn btn-warning sidebtn' : 'btn btn-success sidebtn'" th:attr="href='/category/' + ${cat.id}" th:text="${cat.name}">Test1</a>
             </div>
 
             <br/>
             <div th:each="supp,iterStat : ${suppliers}">
-                <a th:class="(${supplier != null}) ? ((${supp.id == supplier.id}) ? 'btn btn-warning sidebtn': 'btn btn-info sidebtn') : 'btn btn-info sidebtn'" th:attr="href='/supplier/' + ${supp.id}" th:text="${supp.name}">Test2</a>
+                <a th:class="(${supplier != null}) ? ((${supp.id == supplier.id}) ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'" th:attr="href='/supplier/' + ${supp.id}" th:text="${supp.name}">Test2</a>
             </div>
         </div>
     </div>
