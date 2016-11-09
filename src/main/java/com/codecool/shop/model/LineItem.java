@@ -6,6 +6,7 @@ package com.codecool.shop.model;
 public class LineItem extends Product {
     private int quantity;
 
+
     public LineItem(Product product) {
         this.setId(product.getId());
         this.setName(product.getName());

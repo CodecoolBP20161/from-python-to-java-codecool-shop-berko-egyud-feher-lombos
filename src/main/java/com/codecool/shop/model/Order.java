@@ -13,10 +13,12 @@ import static com.codecool.shop.model.Status.*;
  */
 public class Order implements Orderable {
     private int id;
+    private int totalQuantity = 0;
     private Status status;
     private double total;
     private static int idCount = 1;
     private HashSet<LineItem> itemsToBuy = new HashSet<>();
+
 
     {
         this.id = idCount++;
@@ -50,12 +52,18 @@ public class Order implements Orderable {
         this.total = total;
     }
 
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+
     public HashSet<LineItem> getItemsToBuy() {
         return itemsToBuy;
     }
 
     public void add(Product item) {
         LineItem newItem = new LineItem(item);
+        totalQuantity += 1;
         boolean contains = false;
         for (LineItem k : itemsToBuy) {
             if (newItem.id == k.id) {
@@ -66,8 +74,7 @@ public class Order implements Orderable {
         }
         if (!contains) {
             this.itemsToBuy.add(newItem);
-        }
-        this.setTotal(this.getTotal() + item.getDefaultPrice());
+        } this.setTotal(this.getTotal() + item.getDefaultPrice());
     }
 
     @Override
