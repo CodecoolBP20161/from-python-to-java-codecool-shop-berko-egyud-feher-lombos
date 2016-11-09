@@ -2,31 +2,42 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:fragment="navbar">
-    <div class="well well-sm">
-        <strong th:text="${category.name}">Category Title</strong>
-        <div class="pull-right"><a class="btn btn-default cart-btn" href="#"><p th:text="${cart} ? ${cart.totalQuantity} : '0'"></p>
-            <img class="cart-img" th:attr="src='/img/shopping-cart.png'" alt="" /></a></div>
-    </div>
-</div>
-
-<div th:fragment="sidebar">
-    <div id="sidebar" class="btn-group-vertical" role="group" aria-label="..."  th:each="cat,iterStat : ${category}">
-        <button type="button" class="btn btn-default" th:text="${cat.name}">Test1</button>
-        <button type="button" class="btn btn-default">Test2</button>
-        <button type="button" class="btn btn-default">Test3</button>
-        <button type="button" class="btn btn-default">Test4</button>
-    </div>
-</div>
-
-<div th:fragment="footer">
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <div>&copy; 2016 Codecool Budapest</div>
+    <!--navbar-->
+    <div th:fragment="navbar">
+        <div class="well well-sm">
+            <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
+            <div class="pull-right"><a class="btn btn-default cart-btn" href="#"><p th:text="${cart} ? ${cart.totalQuantity} : '0'"></p>
+                <img class="cart-img" th:attr="src='/img/shopping-cart.png'" alt="" /></a>
+            </div>
         </div>
-    </nav>
-</div>
+    </div>
 
 
+    <!--sidebar-->
+    <div th:fragment="sidebar">
+        <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
+            <div>
+                <a th:attr="href='/'" th:class="${category.name == 'All Products'} ? (${supplier == null} ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'"><span>Home</span></a>
+            </div>
+            <br/>
+            <div th:each="cat,iterStat : ${categories}">
+                <a th:class="${cat.id == category.id} ? 'btn btn-warning sidebtn' : 'btn btn-success sidebtn'" th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Test1</span></a>
+            </div>
+
+            <br/>
+            <div th:each="supp,iterStat : ${suppliers}">
+                <a th:class="(${supplier != null}) ? ((${supp.id == supplier.id}) ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'" th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Test2</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!--footer-->
+    <div th:fragment="footer">
+        <nav class="navbar navbar-default text-center footer">
+            <div class="container ">
+                <div>&copy; 2016 Codecool Budapest</div>
+            </div>
+        </nav>
+    </div>
 </body>
 </html>
