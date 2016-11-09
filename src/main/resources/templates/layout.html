@@ -4,7 +4,7 @@
     <!--navbar-->
     <div th:fragment="navbar">
         <div class="well well-sm">
-            <strong th:text="${category.name}">Category Title</strong>
+            <strong th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}"></strong>
         </div>
     </div>
 
