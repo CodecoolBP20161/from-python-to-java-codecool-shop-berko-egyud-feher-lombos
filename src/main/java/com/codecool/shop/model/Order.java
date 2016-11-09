@@ -2,6 +2,7 @@ package com.codecool.shop.model;
 
 import com.codecool.shop.dao.OrderDao;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -19,7 +20,6 @@ public class Order implements Orderable {
 
     {
         this.id = idCount++;
-        System.out.println(this.id);
     }
 
     public Order() {
@@ -46,17 +46,42 @@ public class Order implements Orderable {
         this.status = status;
     }
 
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     public HashSet<LineItem> getItemsToBuy() {
         return itemsToBuy;
     }
 
-    public void add(Product item){
+    public void add(Product item) {
         LineItem newItem = new LineItem(item);
-        if (this.itemsToBuy.contains(newItem)) {
-            newItem.setQuantity(newItem.getQuantity() + 1);
-        } else {
+        boolean contains = false;
+        for (LineItem k : itemsToBuy) {
+            if (newItem.id == k.id) {
+                contains = true;
+                k.setQuantity(k.getQuantity() + 1);
+                break;
+            }
+        }
+        if (!contains) {
             this.itemsToBuy.add(newItem);
         }
+        this.setTotal(this.getTotal() + item.getDefaultPrice());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %1$d,\n" +
+                        "status: %2$s, \n" +
+                        "total: %3$f, \n" +
+                        "itemsToBuy: %4$s\n",
+                this.id,
+                this.status,
+                this.total,
+                this.itemsToBuy);
+
+
     }
 }
 

@@ -4,10 +4,11 @@ import java.util.Currency;
 
 public class Product extends BaseModel {
 
-    private float defaultPrice;
-    private Currency defaultCurrency;
-    private ProductCategory productCategory;
-    private Supplier supplier;
+    protected float defaultPrice;
+    protected Currency defaultCurrency;
+    protected ProductCategory productCategory;
+    protected Supplier supplier;
+    private int idCount = 1;
 
 
     public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
@@ -18,6 +19,7 @@ public class Product extends BaseModel {
     }
 
     public Product() {
+        this.id = idCount++;
     }
 
 

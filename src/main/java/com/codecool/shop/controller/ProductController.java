@@ -37,14 +37,16 @@ public class ProductController {
         Orderable cart;
         OrderDao orderDataStore = OrderDaoMem.getInstance();
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        if (orderDataStore.getBy(Status.CART).size() == 0) {
+        if (req.session().attribute("Cart") == null) {
             cart = new Order();
+            req.session().attribute("Cart", cart);
         } else {
-            cart = orderDataStore.getBy(Status.CART).get(0);
+            cart = req.session().attribute("Cart");
         }
         cart.add(productDataStore.find(id));
+        req.session().attribute("Cart", cart);
         System.out.println(cart);
-        String url = req.session().attribute("url");
+        //String url = req.session().attribute("url");
         res.redirect("/");
         return null;
     }
