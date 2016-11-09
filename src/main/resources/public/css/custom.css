@@ -73,7 +73,6 @@
     width: 100px;
 }
 
-
 #products-container  {
     float: left;
 }
@@ -82,4 +81,10 @@
     clear: both;
     display: table;
     content: "";
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
 }
