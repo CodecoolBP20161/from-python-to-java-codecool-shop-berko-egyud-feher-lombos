@@ -60,3 +60,21 @@
 {
     margin: 0 0 11px;
 }
+
+#main {
+    margin: auto;
+}
+
+#sidebar    {
+    float: left;
+}
+
+#products-container  {
+    float: left;
+}
+
+.clear:after {
+    clear: both;
+    display: table;
+    content: "";
+}
