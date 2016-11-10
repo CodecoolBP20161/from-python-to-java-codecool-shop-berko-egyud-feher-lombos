@@ -5,7 +5,11 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 
 # Preview 
 
-!["preview"](src/main/resources/public/img/preview.png)
+!["preview"](src/main/resources/public/img/preview_home.png)
+
+
+!["preview"](src/main/resources/public/img/preview_cart.png)
+
 
 # User Stories
 
