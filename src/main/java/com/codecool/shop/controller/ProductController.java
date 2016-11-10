@@ -25,7 +25,7 @@ public class ProductController {
     static Integer supplierId = 1;
 
     // Handle the content of the params HashMap
-    public static Map setParams(Request req) {
+    public static Map setRenderParams(Request req) {
         Map params = new HashMap<>();
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
         params.put("categories", productCategoryDataStore.getAll());
@@ -53,7 +53,7 @@ public class ProductController {
 
     // Action for display all or filtered products
     public static ModelAndView renderProducts(Request req, Response res) {
-        Map params = setParams(req);
+        Map params = setRenderParams(req);
         if ( req.params(":categoryid") != null ) {
             params.put("category", productCategoryDataStore.find(categoryId));
         }
@@ -65,9 +65,10 @@ public class ProductController {
 
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) {
-        Map params = setParams(req);
+        Map params = setRenderParams(req);
         return new ModelAndView(params, "product/cart");
     }
+
 
     // Handle the content of the session and set the variables of Order object
     public static String addToCart(Request req, Response res) {
