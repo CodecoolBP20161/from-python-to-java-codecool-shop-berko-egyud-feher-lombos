@@ -1,9 +1,5 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.OrderDao;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static com.codecool.shop.model.Status.*;
