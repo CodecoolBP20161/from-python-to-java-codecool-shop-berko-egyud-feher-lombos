@@ -7,10 +7,11 @@ import static com.codecool.shop.model.Status.*;
 
 public class Order implements Orderable {
     private int id;
-    private int totalQuantity = 0;
     private Status status;
     private double totalPrice;
+    private int totalQuantity = 0;
     private static int idCount = 1;
+    // contains all the LineItems in the shopping cart (order)
     private HashSet<LineItem> itemsToBuy = new HashSet<>();
 
     {
@@ -53,6 +54,7 @@ public class Order implements Orderable {
         return itemsToBuy;
     }
 
+    // creates a line item, and add it to itemsToBuy, and increments the quantity of the lineitem if it exists.
     public void add(Product item) {
         LineItem newItem = new LineItem(item);
         totalQuantity += 1;
