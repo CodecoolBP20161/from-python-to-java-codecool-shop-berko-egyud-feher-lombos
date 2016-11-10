@@ -1,12 +1,10 @@
 package com.codecool.shop.model;
 
-/**
- * Created by david on 11/8/16.
- */
+
 public class LineItem extends Product {
     private int quantity;
 
-
+    // constructor that takes a product as argument, and construct a line item for display
     public LineItem(Product product) {
         this.setId(product.getId());
         this.setName(product.getName());

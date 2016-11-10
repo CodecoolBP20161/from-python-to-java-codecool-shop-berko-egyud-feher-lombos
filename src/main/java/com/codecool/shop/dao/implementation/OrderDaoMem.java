@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by david on 11/9/16.
- */
+// Creating a data storing structure for storing the orders
 public class OrderDaoMem implements OrderDao{
 
     private static List<Order> DATA = new ArrayList<>();
@@ -18,7 +16,7 @@ public class OrderDaoMem implements OrderDao{
 
     private OrderDaoMem() {
     }
-
+    // Using the Singleton pattern, prevent it from  instantiating multiple times
     public static OrderDaoMem getInstance() {
         if (instance == null) {
             instance = new OrderDaoMem();

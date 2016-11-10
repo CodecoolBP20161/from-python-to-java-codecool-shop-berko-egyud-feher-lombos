@@ -17,8 +17,6 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.codecool.shop.model.Status.*;
-import static spark.Spark.halt;
 
 public class ProductController {
 
@@ -64,20 +62,18 @@ public class ProductController {
     }
 
     public static String addToCart(Request req, Response res) {
+        ProductDao productDataStore = ProductDaoMem.getInstance();
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
-        OrderDao orderDataStore = OrderDaoMem.getInstance();
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+
         if (req.session().attribute("Cart") == null) {
             cart = new Order();
-            req.session().attribute("Cart", cart);
         } else {
             cart = req.session().attribute("Cart");
         }
+
         cart.add(productDataStore.find(id));
         req.session().attribute("Cart", cart);
-        System.out.println(cart);
-        //String url = req.session().attribute("url");
         res.redirect("/");
         return null;
     }
