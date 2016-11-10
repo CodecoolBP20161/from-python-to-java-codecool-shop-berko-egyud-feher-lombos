@@ -25,7 +25,7 @@
                                 <td th:text="${prod.defaultCurrency}"></td>
                                 <td th:text="${prod.getQuantity()}"></td>
                                 <td><a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getId()}">+</a></td>
-                                <td>-</td>
+                                <td><a class="btn btn-success" th:attr="href='/remove' + '/' + ${prod.getId()}">-</a></td>
                             </tr>
                         </tbody>
                     </table>
