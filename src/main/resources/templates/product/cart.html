@@ -30,9 +30,9 @@
 </head>
 
 <body>
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
-</div>
+    <div class="jumbotron text-center">
+        <h1>Codecool Shop</h1>
+    </div>
 
     <div id="main" class="clear">
         <div th:replace="sidebar :: sidebar"></div>
@@ -41,7 +41,7 @@
                 <div th:replace="navbar :: navbar"></div>
                 <div th:replace="shoppingcartbtn :: shoppingcartbtn"></div>
             </div>
-            <div th:replace="product :: product"></div>
+            <div th:replace="cartcontent :: cartcontent"></div>
         </div>
     </div>
     <div th:replace="footer :: footer"></div>

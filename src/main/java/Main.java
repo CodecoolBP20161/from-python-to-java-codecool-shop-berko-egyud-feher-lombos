@@ -22,6 +22,7 @@ public class Main {
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/cartcontent", ProductController::renderCartContent, new ThymeleafTemplateEngine());
     }
 
     public static void populateData() {
