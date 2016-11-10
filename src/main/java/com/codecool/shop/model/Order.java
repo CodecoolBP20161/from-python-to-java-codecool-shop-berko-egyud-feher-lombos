@@ -59,10 +59,10 @@ public class Order implements Orderable {
         LineItem newItem = new LineItem(item);
         totalQuantity += 1;
         boolean contains = false;
-        for (LineItem k : itemsToBuy) {
-            if (newItem.id == k.id) {
+        for (LineItem lineitem : itemsToBuy) {
+            if (newItem.id == lineitem.id) {
                 contains = true;
-                k.setQuantity(k.getQuantity() + 1);
+                lineitem.setQuantity(lineitem.getQuantity() + 1);
                 break;
             }
         }

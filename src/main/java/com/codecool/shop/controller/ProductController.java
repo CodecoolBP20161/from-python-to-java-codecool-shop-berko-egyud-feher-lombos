@@ -24,6 +24,7 @@ public class ProductController {
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
+    // Handle the content of the params HashMap
     public static Map setParams(Request req) {
         Map params = new HashMap<>();
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
@@ -47,6 +48,7 @@ public class ProductController {
         return params;
     }
 
+    // Action for display all or filtered products
     public static ModelAndView renderProducts(Request req, Response res) {
         Map params = setParams(req);
         if ( req.params(":categoryid") != null ) {
@@ -58,13 +60,14 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+    // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) {
         Map params = setParams(req);
         return new ModelAndView(params, "product/cart");
     }
 
+    // Handle the content of the session and set the variables of Order object
     public static String addToCart(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
 
@@ -79,6 +82,4 @@ public class ProductController {
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
-
-
 }
