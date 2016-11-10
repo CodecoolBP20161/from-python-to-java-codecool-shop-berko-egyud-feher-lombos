@@ -1,4 +1,5 @@
 import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
@@ -25,6 +26,11 @@ public class Main {
         get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductController::renderCartContent, new ThymeleafTemplateEngine());
+        get("*", (req, res) -> {
+            throw new Exception("Exceptions everywhere!");
+        });
+        // Add this line to your project to enable the debug screen
+        enableDebugScreen();
     }
 
 }
