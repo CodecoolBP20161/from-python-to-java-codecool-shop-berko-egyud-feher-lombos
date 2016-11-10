@@ -135,3 +135,7 @@
 .cart-description {
     display: inline-flex;
 }
+
+.prod-name{
+    text-align: left;
+}
