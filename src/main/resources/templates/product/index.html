@@ -34,54 +34,17 @@
     <h1>Codecool Shop</h1>
 </div>
 
-<div id="main" class="clear">
-
-    <div th:replace="layout :: sidebar"></div>
-
-    <div id="products-container" class="container">
-        <div class="row">
-            <div th:replace="layout :: navbar"></div>
-
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <a class="btn btn-info cart-btn" href="#">
-                    <div class="cart-description">
-                        <img class="cart-img" th:attr="src='/img/shopping-cart-white.png'" alt=""/>
-                        <p class="cart-text">Shopping-Cart</p>
-                    </div>
-                    <div class="cart-content-number">
-                        <p class="cart-text" th:text="${cart} ? '('+ ${cart.totalQuantity} + ')' : '(0)'"></p>
-                    </div>
-
-                </a>
+    <div id="main" class="clear">
+        <div th:replace="sidebar :: sidebar"></div>
+        <div id="products-container" class="container">
+            <div class="row">
+                <div th:replace="navbar :: navbar"></div>
+                <div th:replace="shoppingcartbtn :: shoppingcartbtn"></div>
             </div>
+            <div th:replace="product :: product"></div>
         </div>
-
-
-        <div id="products" class="row list-group">
-
-            <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
-                <div class="thumbnail">
-                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="" />
-                    <div class="caption">
-                        <h4 class="group inner list-group-item-heading" th:text="${prod.name}">Product name</h4>
-                        <p class="group inner list-group-item-text" th:text="${prod.description}">Product description... </p>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getId()}">Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
-
-<div th:replace="layout :: footer"></div>
+    <div th:replace="footer :: footer"></div>
 
 </body>
 </html>
