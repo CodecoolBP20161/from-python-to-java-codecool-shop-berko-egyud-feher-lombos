@@ -65,6 +65,18 @@
     margin: auto;
 }
 
+.navbar-default {
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../img/header_luftballoons.png');
+    background-size:cover;
+    /* Workaround for some mobile browsers */
+    min-height:100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 #sidebar    {
     float: left;
 }
@@ -139,3 +151,4 @@
 .prod-name{
     text-align: left;
 }
+
