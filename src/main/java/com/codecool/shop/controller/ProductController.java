@@ -43,6 +43,9 @@ public class ProductController {
             params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
+        else if ( req.url() == "http://localhost:8888/cartcontent") {
+            req.session().attribute("currentUrl", "/cartcontent");
+        }
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
         return params;
@@ -78,6 +81,21 @@ public class ProductController {
         }
 
         cart.add(productDataStore.find(id));
+        req.session().attribute("Cart", cart);
+        res.redirect(req.session().attribute("currentUrl"));
+        return null;
+    }
+    // Handle the content of the session and set the variables of Order object
+    public static String removeFromCart(Request req, Response res) {
+        int id = Integer.parseInt(req.params(":id"));
+        Orderable cart;
+
+        if (req.session().attribute("Cart") == null) {
+            cart = new Order();
+        } else {
+            cart = req.session().attribute("Cart");
+        }
+        cart.remove(productDataStore.find(id));
         req.session().attribute("Cart", cart);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
