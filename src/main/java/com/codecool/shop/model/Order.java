@@ -68,18 +68,23 @@ public class Order implements Orderable {
         }
         if (!contains) {
             this.itemsToBuy.add(newItem);
+            System.out.println(itemsToBuy);
         } this.setTotal(this.getTotal() + item.getDefaultPrice());
     }
 
     // creates a line item, and remove it from itemsToBuy, and decrease the quantity of the lineitem if it exists.
     public void remove(Product item) {
         LineItem newItem = new LineItem(item);
+        System.out.println(itemsToBuy);
         totalQuantity -= 1;
         boolean contains = false;
+
         for (LineItem lineitem : itemsToBuy) {
             if (newItem.id == lineitem.id) {
                 contains = true;
                 lineitem.setQuantity(lineitem.getQuantity() - 1);
+                itemsToBuy.remove(lineitem);
+                System.out.println(itemsToBuy);
                 break;
             }
         }
