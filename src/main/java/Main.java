@@ -19,6 +19,7 @@ public class Main {
         TestData.populateData();
 
         get("/add/:id", ProductController::addToCart);
+        get("/remove/:id", ProductController :: removeFromCart);
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
