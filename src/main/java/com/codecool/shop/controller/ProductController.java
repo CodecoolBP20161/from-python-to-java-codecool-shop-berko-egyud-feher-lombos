@@ -1,10 +1,8 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
@@ -32,13 +30,17 @@ public class ProductController {
         params.put("categories", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
+        req.session().attribute("currentUrl", "/");
         if ( req.params(":categoryid") != null ) {
             categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryId)));
+            req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
+
         }
-        if ( req.params(":supplierid") != null ) {
+        else if ( req.params(":supplierid") != null ) {
             supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
+            req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
@@ -74,7 +76,7 @@ public class ProductController {
 
         cart.add(productDataStore.find(id));
         req.session().attribute("Cart", cart);
-        res.redirect("/");
+        res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
 
