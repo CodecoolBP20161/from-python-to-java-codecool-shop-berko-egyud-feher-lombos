@@ -82,6 +82,7 @@ public class ProductController {
 
         cart.add(productDataStore.find(id));
         req.session().attribute("Cart", cart);
+
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
