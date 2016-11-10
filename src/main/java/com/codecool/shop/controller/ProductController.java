@@ -30,6 +30,7 @@ public class ProductController {
         Map params = new HashMap<>();
         Integer categoryId = 1;
         Integer supplierId = 1;
+
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
 
         if ( req.params(":categoryid") != null ) {
@@ -40,25 +41,48 @@ public class ProductController {
             supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("supplier", productSupplierDataStore.find(supplierId));
         }
-
         params.put("categories", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
-        Order cart = req.session().attribute("Cart");
-        params.put("cart", cart);
-
         if ( req.params(":categoryid") != null ) {
             params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryId)));
         }
-
         if ( req.params(":supplierid") != null ) {
             params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
         }
+        Order cart = req.session().attribute("Cart");
+        params.put("cart", cart);
 
         return new ModelAndView(params, "product/index");
     }
 
-    public static String addToCart(Request req, Response res) {
+    public static ModelAndView renderCartContent(Request req, Response res) {
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+
+
+        Map params = new HashMap<>();
+        Integer categoryId = 1;
+        Integer supplierId = 1;
+
+        params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
+        params.put("categories", productCategoryDataStore.getAll());
+        params.put("products", productDataStore.getAll());
+        params.put("suppliers", productSupplierDataStore.getAll());
+        if ( req.params(":categoryid") != null ) {
+            params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryId)));
+        }
+        if ( req.params(":supplierid") != null ) {
+            params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
+        }
+        Order cart = req.session().attribute("Cart");
+        params.put("cart", cart);
+
+        return new ModelAndView(params, "product/cart");
+    }
+
+        public static String addToCart(Request req, Response res) {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
         OrderDao orderDataStore = OrderDaoMem.getInstance();
