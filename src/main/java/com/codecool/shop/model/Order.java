@@ -1,24 +1,17 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.OrderDao;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashSet;
-
 import static com.codecool.shop.model.Status.*;
 
-/**
- * Created by david on 11/8/16.
- */
+
 public class Order implements Orderable {
     private int id;
     private int totalQuantity = 0;
     private Status status;
-    private double total;
+    private double totalPrice;
     private static int idCount = 1;
     private HashSet<LineItem> itemsToBuy = new HashSet<>();
-
 
     {
         this.id = idCount++;
@@ -37,7 +30,7 @@ public class Order implements Orderable {
     }
 
     public double getTotal() {
-        return total;
+        return totalPrice;
     }
 
     public static int getIdCount() {
@@ -49,13 +42,12 @@ public class Order implements Orderable {
     }
 
     public void setTotal(double total) {
-        this.total = total;
+        this.totalPrice = total;
     }
 
     public int getTotalQuantity() {
         return totalQuantity;
     }
-
 
     public HashSet<LineItem> getItemsToBuy() {
         return itemsToBuy;
@@ -81,11 +73,14 @@ public class Order implements Orderable {
     public String toString() {
         return String.format("id: %1$d,\n" +
                         "status: %2$s, \n" +
-                        "total: %3$f, \n" +
-                        "itemsToBuy: %4$s\n",
+                        "totalPrice: %3$f, \n" +
+                        "totalQuantity: %4$f, \n" +
+                        "itemsToBuy: %5$s\n",
+
                 this.id,
                 this.status,
-                this.total,
+                this.totalPrice,
+                this.totalQuantity,
                 this.itemsToBuy);
 
 
