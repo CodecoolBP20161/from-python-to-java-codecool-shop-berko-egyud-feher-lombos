@@ -43,7 +43,7 @@ public class ProductController {
             params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
-        else if ( req.url() == "http://localhost:8888/cartcontent") {
+        else if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
         }
         Order cart = req.session().attribute("Cart");
