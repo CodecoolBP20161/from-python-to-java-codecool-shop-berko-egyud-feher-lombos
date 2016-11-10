@@ -22,40 +22,45 @@ import static spark.Spark.halt;
 
 public class ProductController {
 
-    public static ModelAndView renderProducts(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+    private static ProductDao productDataStore = ProductDaoMem.getInstance();
+    private static ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+    private static SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+    static Integer categoryId = 1;
+    static Integer supplierId = 1;
 
+    public static Map setParams(Request req) {
         Map params = new HashMap<>();
-        Integer categoryId = 1;
-        Integer supplierId = 1;
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
-
-        if ( req.params(":categoryid") != null ) {
-            categoryId = Integer.parseInt(req.params(":categoryid"));
-            params.put("category", productCategoryDataStore.find(categoryId));
-        }
-        if ( req.params(":supplierid") != null ) {
-            supplierId = Integer.parseInt(req.params(":supplierid"));
-            params.put("supplier", productSupplierDataStore.find(supplierId));
-        }
-
         params.put("categories", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
         params.put("suppliers", productSupplierDataStore.getAll());
-        Order cart = req.session().attribute("Cart");
-        params.put("cart", cart);
-
         if ( req.params(":categoryid") != null ) {
+            categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", productDataStore.getBy(productCategoryDataStore.find(categoryId)));
         }
-
         if ( req.params(":supplierid") != null ) {
+            supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", productDataStore.getBy(productSupplierDataStore.find(supplierId)));
         }
+        Order cart = req.session().attribute("Cart");
+        params.put("cart", cart);
+        return params;
+    }
 
+    public static ModelAndView renderProducts(Request req, Response res) {
+        Map params = setParams(req);
+        if ( req.params(":categoryid") != null ) {
+            params.put("category", productCategoryDataStore.find(categoryId));
+        }
+        if ( req.params(":supplierid") != null ) {
+            params.put("supplier", productSupplierDataStore.find(supplierId));
+        }
         return new ModelAndView(params, "product/index");
+    }
+
+    public static ModelAndView renderCartContent(Request req, Response res) {
+        Map params = setParams(req);
+        return new ModelAndView(params, "product/cart");
     }
 
     public static String addToCart(Request req, Response res) {
@@ -76,4 +81,6 @@ public class ProductController {
         res.redirect("/");
         return null;
     }
+
+
 }

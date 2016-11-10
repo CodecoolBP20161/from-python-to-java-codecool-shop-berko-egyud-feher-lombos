@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="cartcontent">
+        <h1>Product list</h1>
+        <div th:if="${cart}">
+            <table>
+                <tr>
+                    <th>name</th>
+                    <th>default price</th>
+                    <th>currency</th>
+                </tr>
+                <tr th:each="prod, iterStat : ${cart.getItemsToBuy()}">
+                    <td th:text="${prod.name}"></td>
+                    <td th:text="${prod.defaultPrice}"></td>
+                    <td th:text="${prod.defaultCurrency}"></td>
+                </tr>
+            </table>
+        </div>
+        <div th:unless="${cart}">
+            <p>Your cart is empty!</p>
+        </div>
+    </div>
+</body>
+</html>
