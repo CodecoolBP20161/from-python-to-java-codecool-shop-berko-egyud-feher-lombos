@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
+<!--Display the cart content in table-->
     <div th:fragment="cartcontent">
         <div th:if="${cart}">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">Product list</div>
                 <div class="panel-body">
+                    <!--Table content-->
                     <table class="table table-hover text-center">
                         <thead>
                             <th>Name</th>
@@ -28,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <!--In case of the cart is empty-->
         <div th:unless="${cart}">
             <p>Your cart is empty!</p>
         </div>
