@@ -60,3 +60,95 @@
 {
     margin: 0 0 11px;
 }
+
+#main {
+    margin: auto;
+}
+
+.navbar-default {
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../img/header_luftballoons.png');
+    background-size:cover;
+    /* Workaround for some mobile browsers */
+    min-height:100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#sidebar    {
+    float: left;
+}
+
+.sidebtn {
+    width: 100px;
+}
+
+.sidebtn span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.sidebtn span:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.sidebtn:hover span {
+    padding-right: 25px;
+}
+
+.sidebtn:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+#products-container  {
+    float: left;
+}
+
+.clear:after {
+    clear: both;
+    display: table;
+    content: "";
+}
+
+.cart-img {
+    width: 18px;
+    height: 18px;
+    margin:5px;
+}
+
+.cart-text{
+    margin:5px;
+}
+
+
+.cart-btn {
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.cart-description {
+    display: inline-flex;
+}
+
+.prod-name{
+    text-align: left;
+}
+

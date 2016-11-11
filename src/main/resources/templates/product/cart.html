@@ -3,7 +3,7 @@
 <head th:replace="head :: head">
 </head>
 <body>
-    <!--layout template is called  in case of home page or sidebar's buttons are clicked-->
-    <div th:include="layout ::frag ('product')"></div>
+    <!--layout template is called if shopping cart button is clicked-->
+    <div th:include="layout ::frag ('cartcontent')"></div>
 </body>
 </html>
