@@ -1,10 +1,6 @@
 import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.model.*;
 import com.codecool.shop.testdata.TestData;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -30,7 +26,6 @@ public class Main {
             throw new Exception("Exceptions everywhere!");
         });
         // Add this line to your project to enable the debug screen
-        enableDebugScreen();
     }
 
 }
