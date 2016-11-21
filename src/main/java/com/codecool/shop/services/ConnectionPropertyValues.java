@@ -8,11 +8,11 @@ import java.util.Properties;
 
 
 public class ConnectionPropertyValues {
-    private HashMap<String, String> result = new HashMap<>();
+    private HashMap<String, String> connectionProperties = new HashMap<>();
     private InputStream inputStream;
 
+    // get the database connection properties from connection/connection.properties config file
     public HashMap<String, String> getPropValues() throws IOException {
-
         try {
             Properties prop = new Properties();
             String propFileName = "connection/connection.properties";
@@ -24,12 +24,18 @@ public class ConnectionPropertyValues {
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
+
+            connectionProperties.put("url", prop.getProperty("url"));
+            connectionProperties.put("database", prop.getProperty("database"));
+            connectionProperties.put("user", prop.getProperty("user"));
+            connectionProperties.put("password", prop.getProperty("password"));
+
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         } finally {
             inputStream.close();
         }
-        return result;
+        return connectionProperties;
     }
 
 }
