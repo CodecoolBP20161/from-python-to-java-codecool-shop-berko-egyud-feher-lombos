@@ -1,8 +1,13 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.db.OrderDaoDB;
+import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
+import com.codecool.shop.dao.implementation.db.ProductDaoDB;
+import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
 import com.codecool.shop.dao.implementation.mem.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.mem.ProductDaoMem;
 import com.codecool.shop.dao.implementation.mem.SupplierDaoMem;
@@ -21,6 +26,10 @@ public class ProductController {
     private static ProductDao productDataStore = ProductDaoMem.getInstance();
     private static ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
     private static SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
+    private static OrderDao orderDaoDB = new OrderDaoDB();
+    private static ProductCategoryDao productCategoryDaoDB = new ProductCategoryDaoDB();
+    private static ProductDao productDaoDB = new ProductDaoDB();
+    private static SupplierDao supplierDaoDB = new SupplierDaoDB();
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
