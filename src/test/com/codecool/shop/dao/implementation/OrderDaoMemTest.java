@@ -16,26 +16,32 @@ public class OrderDaoMemTest {
     OrderDao orderDao;
 
     @Mock
-    Order order;
+    Order order =  new Order();
+    Order order2 = new Order();
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        order = new Order();
         orderDao = OrderDaoMem.getInstance();
         orderDao.add(order);
         System.out.println("Setting up...");
     }
+
     @Test
     public void add_Order_To_OrderDaoMem() throws Exception {
-        assertEquals(order.getId() ,orderDao.getAll().get(0).getId());
+        assertEquals(order.getId(), orderDao.getAll().get(0).getId());
         System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Order() throws Exception {
-        assertEquals(order, orderDao.find(order.getId()));
+        assertEquals(order.toString(), orderDao.find(order.getId()).toString());
         System.out.println("Test find_Should_Return_Order passed ...");
+    }
+
+    @Test
+    public void find_Should_Return_Null() throws Exception {
+        assertEquals(null, orderDao.find(order2.getId()));
     }
 
     @Test
@@ -57,8 +63,8 @@ public class OrderDaoMemTest {
     @After
     public void tearDown() throws Exception {
         order = null;
+        order2 = null;
         orderDao = null;
         System.out.println("Tearing down to cleaning garbage collection");
-
     }
 }
