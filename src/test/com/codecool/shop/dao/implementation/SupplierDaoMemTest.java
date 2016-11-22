@@ -23,12 +23,14 @@ public class SupplierDaoMemTest {
         MockitoAnnotations.initMocks(this);
         supplier = new Supplier("name", "description");
         supplierDao = SupplierDaoMem.getInstance();
+        System.out.println("Setting up...");
     }
 
     @Test
     public void add_Supplier_To_SupplierDaoMem() throws Exception {
         supplierDao.add(supplier);
         assertEquals(supplier.getId(), supplierDao.getAll().get(0).getId());
+        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
@@ -50,5 +52,6 @@ public class SupplierDaoMemTest {
     public void tearDown() throws Exception {
         supplier = null;
         supplierDao = null;
+        System.out.println("Tearing down to cleaning garbage collection");
     }
 }
