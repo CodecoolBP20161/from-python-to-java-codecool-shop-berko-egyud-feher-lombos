@@ -31,12 +31,13 @@ public class ProductDaoMemTest {
     @Test
     public void add_Product_To_ProductDaoMem() throws Exception {
         assertEquals(product.getId(), productDao.getAll().get(0).getId());
-        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
+        System.out.println("Test add_Product_To_ProductDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Product() throws Exception {
         assertEquals(product, productDao.find(product.getId()));
+        System.out.println("Test find_Should_Return_Product passed ...");
     }
 
     @Test

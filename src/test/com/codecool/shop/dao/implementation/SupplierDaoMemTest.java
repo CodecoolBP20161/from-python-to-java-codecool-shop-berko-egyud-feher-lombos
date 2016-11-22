@@ -30,12 +30,13 @@ public class SupplierDaoMemTest {
     @Test
     public void add_Supplier_To_SupplierDaoMem() throws Exception {
         assertEquals(supplier.getId(), supplierDao.getAll().get(0).getId());
-        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
+        System.out.println("Test add_Supplier_To_SupplierDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Supplier() throws Exception {
         assertEquals(supplier, supplierDao.find(supplier.getId()));
+        System.out.println("Test find_Should_Return_Supplier passed ...");
     }
 
     @Test
