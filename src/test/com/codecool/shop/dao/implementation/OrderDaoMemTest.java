@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 
 public class OrderDaoMemTest {
@@ -23,6 +25,7 @@ public class OrderDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         orderDaoMem = OrderDaoMem.getInstance();
+        when(order.getStatus()).thenReturn(Status.CART);
         System.out.println("Setting up...");
     }
 
@@ -54,8 +57,12 @@ public class OrderDaoMemTest {
     }
 
     @Test
-    public void getBy() throws Exception {
+    public void getBy_Should_Return_OrderList_By_Status() throws Exception {
+        orderDaoMem.add(order);
+        order.setStatus(Status.CART);
+        assertEquals(Arrays.asList(order), orderDaoMem.getBy(Status.CART));
 
+        assertEquals(Status.CART, order.getStatus());
     }
 
     @After
