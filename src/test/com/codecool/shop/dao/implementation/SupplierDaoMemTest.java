@@ -23,7 +23,6 @@ public class SupplierDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         supplierDaoMem = SupplierDaoMem.getInstance();
-        supplierDaoMem.add(supplier);
         System.out.println("Setting up...");
     }
 
