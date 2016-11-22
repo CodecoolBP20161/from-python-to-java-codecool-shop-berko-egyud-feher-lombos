@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 
-public class DaoMemRemoveTest {
+public class DaoMemRemoveMethodTest {
 
     OrderDaoMem orderDaoMem;
     ProductCategoryDaoMem productCategoryDaoMem;
