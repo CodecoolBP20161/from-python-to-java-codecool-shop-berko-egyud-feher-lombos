@@ -2,10 +2,7 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.dao.*;
-import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.model.*;
-import com.codecool.shop.testdata.TestData;
+import com.codecool.shop.testdata.TestDataMem;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
@@ -17,7 +14,7 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
-        TestData.populateData();
+        TestDataMem.populateData();
 
         get("/add/:id", ProductController::addToCart);
         get("/remove/:id", ProductController :: removeFromCart);
