@@ -5,6 +5,7 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.services.ConnectionPropertyValues;
 
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,22 +18,34 @@ public class SupplierDaoDB implements SupplierDao {
     private static final String DB_PASSWORD = String.valueOf(DBprops.get("password"));
 
     @Override
-    public void add(Supplier category) {
-
+    public void add(Supplier supplier) {
+            try {
+                PreparedStatement stmt;
+                stmt = getConnection().prepareStatement("INSERT INTO \"supplier\" VALUES (?, ?, ?)");
+                stmt.setString(1, Integer.toString(supplier.getId()));
+                stmt.setString(2, supplier.getName());
+                stmt.setString(3, supplier.getDescription());
+                stmt.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public Supplier find(int id) {
-        return null;
-    }
+        @Override
+        public Supplier find ( int id){
+            return null;
+        }
 
-    @Override
-    public void remove(int id) {
+        @Override
+        public void remove ( int id){
 
-    }
+        }
 
-    @Override
-    public List<Supplier> getAll() {
-        return null;
-    }
+        @Override
+        public List<Supplier> getAll () {
+            return null;
+        }
+        private Connection getConnection() throws SQLException {
+            return DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
+        }
 }
