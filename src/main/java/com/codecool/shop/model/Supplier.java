@@ -5,9 +5,14 @@ import java.util.ArrayList;
 
 public class Supplier extends BaseModel {
     private ArrayList<Product> products;
+    private int idCount = 1;
+
+    {
+        this.id = idCount++;
+    }
 
     public Supplier(String name, String description) {
-        super(name);
+        super(name, description);
         this.products = new ArrayList<>();
     }
 
