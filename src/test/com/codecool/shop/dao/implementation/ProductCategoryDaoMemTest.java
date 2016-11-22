@@ -43,6 +43,7 @@ public class ProductCategoryDaoMemTest {
     @Test
     public void find_Should_Return_Null() throws Exception {
         assertEquals(null, productCategoryDao.find(productCategory2.getId()));
+        System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test

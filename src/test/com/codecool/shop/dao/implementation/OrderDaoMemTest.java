@@ -42,6 +42,7 @@ public class OrderDaoMemTest {
     @Test
     public void find_Should_Return_Null() throws Exception {
         assertEquals(null, orderDao.find(order2.getId()));
+        System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test
