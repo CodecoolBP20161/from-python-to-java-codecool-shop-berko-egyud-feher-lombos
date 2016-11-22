@@ -16,12 +16,13 @@ public class ProductDaoMemTest {
     ProductDao productDao;
 
     @Mock
-    Product product;
+    Product product = new Product();
+    Product product2 = new Product();
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        product = new Product();
         productDao = ProductDaoMem.getInstance();
         productDao.add(product);
         System.out.println("Setting up...");
@@ -36,8 +37,14 @@ public class ProductDaoMemTest {
 
     @Test
     public void find_Should_Return_Product() throws Exception {
-        assertEquals(product, productDao.find(product.getId()));
+        assertEquals(product.toString(), productDao.find(product.getId()).toString());
         System.out.println("Test find_Should_Return_Product passed ...");
+    }
+
+    @Test
+    public void find_Should_Return_Null() throws Exception {
+        assertEquals(null, productDao.find(product2.getId()));
+        System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test
