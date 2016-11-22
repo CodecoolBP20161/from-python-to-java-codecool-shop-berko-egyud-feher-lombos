@@ -1,6 +1,5 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
 import org.junit.After;
 import org.junit.Before;
@@ -8,61 +7,57 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 
 
 public class ProductCategoryDaoMemTest {
 
-    ProductCategoryDao productCategoryDao;
+    ProductCategoryDaoMem productCategoryDaoMem;
 
     @Mock
     ProductCategory productCategory = new ProductCategory("TestName", "TestDepartment", "TestDescription");
-    ProductCategory productCategory2 = new ProductCategory("TestName2", "TestDepartment2", "TestDescription2");
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        productCategoryDao = ProductCategoryDaoMem.getInstance();
+        productCategoryDaoMem = ProductCategoryDaoMem.getInstance();
+        System.out.println(productCategoryDaoMem.getAll());
         System.out.println("Setting up...");
     }
 
     @Test
     public void add_ProductCategory_To_ProductCategoryDaoMem() throws Exception {
-        productCategoryDao.add(productCategory);
-        assertEquals(productCategory.getId(), productCategoryDao.getAll().get(0).getId());
+        productCategoryDaoMem.add(productCategory);
+        assertEquals(productCategory.getId(), productCategoryDaoMem.getAll().get(0).getId());
         System.out.println("Test add_ProductCategory_To_ProductCategoryDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_ProductCategory() throws Exception {
-        productCategoryDao.add(productCategory);
-        assertEquals(productCategory.toString(), productCategoryDao.find(productCategory.getId()).toString());
+        productCategoryDaoMem.add(productCategory);
+        assertEquals(productCategory.toString(), productCategoryDaoMem.find(productCategory.getId()).toString());
         System.out.println("Test find_Should_Return_ProductCategory passed ...");
     }
 
     @Test
     public void find_Should_Return_Null() throws Exception {
-        assertEquals(null, productCategoryDao.find(productCategory2.getId()));
+        assertEquals(null, productCategoryDaoMem.find(productCategory.getId()));
         System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test
-    public void remove_ProductCategory_From_ProductCategoryDaoMem() throws Exception {
-        productCategoryDao.add(productCategory);
-        productCategoryDao.remove(productCategory.getId());
-        assertEquals(null, productCategoryDao.find(productCategory.getId()));
-    }
-
-    @Test
-    public void getAll() throws Exception {
-
+    public void getAll_Should_Return_ProductCategoryList() throws Exception {
+        productCategoryDaoMem.add(productCategory);
+        assertEquals(Arrays.asList(productCategory), productCategoryDaoMem.getAll());
+        System.out.println("Test getAll_Should_Return_ProductCategoryList passed ...");
     }
 
     @After
     public void tearDown() throws Exception {
+        productCategoryDaoMem.remove(productCategory.getId());
         productCategory = null;
-        productCategory2 = null;
-        productCategoryDao = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }
 }
