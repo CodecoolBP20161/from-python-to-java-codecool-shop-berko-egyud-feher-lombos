@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 
 public class ProductDaoMemTest {
@@ -56,8 +58,17 @@ public class ProductDaoMemTest {
     }
 
     @Test
-    public void getBy() throws Exception {
+    public void getBy_Should_Return_OrderList_By_Category() throws Exception {
+        productDaoMem.add(product);
 
+        ProductCategory productCategory = new ProductCategory("ProductCategoryName", "ProductCategoryDepartment", "ProductCategoryDescription");
+        product.setProductCategory(productCategory);
+        when(product.getProductCategory()).thenReturn(productCategory);
+        assertEquals(productCategory, product.getProductCategory());
+
+        assertEquals(Arrays.asList(product), productDaoMem.getBy(productCategory));
+
+        System.out.println("Test getBy_Should_Return_OrderList_By_Category passed ...");
     }
 
     @Test
