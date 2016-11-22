@@ -23,18 +23,19 @@ public class OrderDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         orderDao = OrderDaoMem.getInstance();
-        orderDao.add(order);
         System.out.println("Setting up...");
     }
 
     @Test
     public void add_Order_To_OrderDaoMem() throws Exception {
+        orderDao.add(order);
         assertEquals(order.getId(), orderDao.getAll().get(0).getId());
         System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Order() throws Exception {
+        orderDao.add(order);
         assertEquals(order.toString(), orderDao.find(order.getId()).toString());
         System.out.println("Test find_Should_Return_Order passed ...");
     }
@@ -46,8 +47,10 @@ public class OrderDaoMemTest {
     }
 
     @Test
-    public void remove() throws Exception {
-
+    public void remove_Order_From_OrderDaoMem() throws Exception {
+        orderDao.add(order);
+        orderDao.remove(order.getId());
+        assertEquals(null, orderDao.find(order.getId()));
     }
 
     @Test
