@@ -23,20 +23,20 @@ public class ProductDaoMemTest {
         MockitoAnnotations.initMocks(this);
         product = new Product();
         productDao = ProductDaoMem.getInstance();
+        productDao.add(product);
         System.out.println("Setting up...");
     }
 
 
     @Test
     public void add_Product_To_ProductDaoMem() throws Exception {
-        productDao.add(product);
         assertEquals(product.getId(), productDao.getAll().get(0).getId());
         System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
-    public void find() throws Exception {
-
+    public void find_Should_Return_Product() throws Exception {
+        assertEquals(product, productDao.find(product.getId()));
     }
 
     @Test
