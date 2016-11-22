@@ -17,39 +17,42 @@ public class ProductDaoMemTest {
 
     @Mock
     Product product = new Product();
-    Product product2 = new Product();
 
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         productDao = ProductDaoMem.getInstance();
-        productDao.add(product);
         System.out.println("Setting up...");
     }
 
 
     @Test
     public void add_Product_To_ProductDaoMem() throws Exception {
+        productDao.add(product);
         assertEquals(product.getId(), productDao.getAll().get(0).getId());
         System.out.println("Test add_Product_To_ProductDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Product() throws Exception {
+        productDao.add(product);
         assertEquals(product.toString(), productDao.find(product.getId()).toString());
         System.out.println("Test find_Should_Return_Product passed ...");
     }
 
     @Test
     public void find_Should_Return_Null() throws Exception {
-        assertEquals(null, productDao.find(product2.getId()));
+        assertEquals(null, productDao.find(product.getId()));
         System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test
-    public void remove() throws Exception {
-
+    public void remove_Product_From_ProductDao() throws Exception {
+        productDao.add(product);
+        productDao.remove(product.getId());
+        assertEquals(null, productDao.find(product.getId()));
+        System.out.println("Test remove_Product_From_ProductDao passed ...");
     }
 
     @Test
