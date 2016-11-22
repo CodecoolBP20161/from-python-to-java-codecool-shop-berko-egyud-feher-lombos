@@ -23,18 +23,18 @@ public class OrderDaoMemTest {
         MockitoAnnotations.initMocks(this);
         order = new Order();
         orderDao = OrderDaoMem.getInstance();
+        orderDao.add(order);
         System.out.println("Setting up...");
     }
     @Test
     public void add_Order_To_OrderDaoMem() throws Exception {
-        orderDao.add(order);
         assertEquals(order.getId() ,orderDao.getAll().get(0).getId());
         System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
-    public void find() throws Exception {
-
+    public void find_Should_Return_Order() throws Exception {
+        assertEquals(order, orderDao.find(order.getId()));
     }
 
     @Test
