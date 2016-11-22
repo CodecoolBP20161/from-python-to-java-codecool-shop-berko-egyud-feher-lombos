@@ -16,12 +16,12 @@ public class SupplierDaoMemTest {
     SupplierDao supplierDao;
 
     @Mock
-    Supplier supplier;
+    Supplier supplier = new Supplier("name", "description");
+    Supplier supplier2 = new Supplier("name", "description");
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        supplier = new Supplier("name", "description");
         supplierDao = SupplierDaoMem.getInstance();
         supplierDao.add(supplier);
         System.out.println("Setting up...");
@@ -35,8 +35,14 @@ public class SupplierDaoMemTest {
 
     @Test
     public void find_Should_Return_Supplier() throws Exception {
-        assertEquals(supplier, supplierDao.find(supplier.getId()));
+        assertEquals(supplier.toString(), supplierDao.find(supplier.getId()).toString());
         System.out.println("Test find_Should_Return_Supplier passed ...");
+    }
+
+    @Test
+    public void find_Should_Return_Null() throws Exception {
+        assertEquals(null, supplierDao.find(supplier2.getId()));
+        System.out.println("Test find_Should_Return_Null passed ...");
     }
 
     @Test
