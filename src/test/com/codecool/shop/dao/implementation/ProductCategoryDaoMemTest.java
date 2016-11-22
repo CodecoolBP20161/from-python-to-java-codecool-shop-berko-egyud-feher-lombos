@@ -23,19 +23,19 @@ public class ProductCategoryDaoMemTest {
         MockitoAnnotations.initMocks(this);
         productCategory = new ProductCategory("TestName", "TestDepartment", "TestDescription");
         productCategoryDao = ProductCategoryDaoMem.getInstance();
+        productCategoryDao.add(productCategory);
         System.out.println("Setting up...");
     }
 
     @Test
     public void add_ProductCategory_To_ProductCategoryDaoMem() throws Exception {
-        productCategoryDao.add(productCategory);
         assertEquals(productCategory.getId(), productCategoryDao.getAll().get(0).getId());
         System.out.println("Test add_ProductCategory_To_ProductCategoryDaoMem passed ...");
     }
 
     @Test
-    public void find() throws Exception {
-
+    public void find_Should_Return_ProductCategory() throws Exception {
+        assertEquals(productCategory, productCategoryDao.find(productCategory.getId()));
     }
 
     @Test
