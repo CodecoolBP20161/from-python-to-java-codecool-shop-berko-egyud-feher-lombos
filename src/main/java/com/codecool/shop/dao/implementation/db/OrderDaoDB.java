@@ -5,10 +5,8 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Status;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,12 +34,31 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
     @Override
     public void remove(int id) {
-
+        String query = "DELETE FROM \"order\" WHERE id = '" + id +"';";
+        executeQuery(query);
     }
 
     @Override
     public List<Order> getAll() {
-        return null;
+        String query = "SELECT * FROM \"order\";";
+
+        List<Order> resultList = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             Statement statement =connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+        ){
+            while (resultSet.next()){
+                Order order = new Order();
+                resultList.add(order);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultList;
     }
 
     @Override

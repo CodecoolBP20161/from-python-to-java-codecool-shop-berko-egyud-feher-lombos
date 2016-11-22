@@ -16,10 +16,10 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
             try {
                 PreparedStatement stmt;
                 stmt = getConnection().prepareStatement("INSERT INTO \"supplier\" VALUES (?, ?, ?)");
-                stmt.setString(1, Integer.toString(supplier.getId()));
+                stmt.setInt(1, supplier.getId());
                 stmt.setString(2, supplier.getName());
                 stmt.setString(3, supplier.getDescription());
-                stmt.executeQuery();
+                stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,14 +32,13 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
 
         @Override
         public void remove ( int id){
-
+            String query = "DELETE FROM supplier WHERE id = '" + id +"';";
+            executeQuery(query);
         }
 
         @Override
         public List<Supplier> getAll () {
+
             return null;
-        }
-        private Connection getConnection() throws SQLException {
-            return DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
         }
 }
