@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +59,20 @@ public class ProductDaoMemTest {
     }
 
     @Test
+    public void getBy_Should_Return_OrderList_By_Supplier() throws Exception {
+        productDaoMem.add(product);
+
+        Supplier supplier = new Supplier("SupplierName", "SupplierDescription");
+        product.setSupplier(supplier);
+        when(product.getSupplier()).thenReturn(supplier);
+        assertEquals(supplier, product.getSupplier());
+
+        assertEquals(Arrays.asList(product), productDaoMem.getBy(supplier));
+
+        System.out.println("Test getBy_Should_Return_OrderList_By_Supplier passed ...");
+    }
+
+    @Test
     public void getBy_Should_Return_OrderList_By_Category() throws Exception {
         productDaoMem.add(product);
 
@@ -69,11 +84,6 @@ public class ProductDaoMemTest {
         assertEquals(Arrays.asList(product), productDaoMem.getBy(productCategory));
 
         System.out.println("Test getBy_Should_Return_OrderList_By_Category passed ...");
-    }
-
-    @Test
-    public void getBy1() throws Exception {
-
     }
 
     @After
