@@ -21,13 +21,13 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         try {
             PreparedStatement stmt;
             stmt = getConnection().prepareStatement("INSERT INTO \"product\" VALUES (?, ?, ?, ?, ?, ?, ?)");
-            stmt.setString(1, Integer.toString(product.getId()));
+            stmt.setInt(1, product.getId());
             stmt.setString(2, product.getName());
             stmt.setString(3, product.getDescription());
-            stmt.setString(4, (Float.toString(product.getDefaultPrice())));
+            stmt.setFloat(4, product.getDefaultPrice());
             stmt.setString(5, product.getDefaultCurrency().toString());
-            stmt.setString(6, Integer.toString(product.getProductCategory().getId()));
-            stmt.setString(7, Integer.toString(product.getSupplier().getId()));
+            stmt.setInt(6, product.getProductCategory().getId());
+            stmt.setInt(7, product.getSupplier().getId());
             stmt.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +42,8 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public void remove(int id) {
-
+        String query = "DELETE FROM product WHERE id = '" + id +"';";
+        executeQuery(query);
     }
 
     @Override
