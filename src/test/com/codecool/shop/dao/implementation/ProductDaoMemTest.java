@@ -23,6 +23,7 @@ public class ProductDaoMemTest {
         MockitoAnnotations.initMocks(this);
         product = new Product();
         productDao = ProductDaoMem.getInstance();
+        System.out.println("Setting up...");
     }
 
 
@@ -30,6 +31,7 @@ public class ProductDaoMemTest {
     public void add_Product_To_ProductDaoMem() throws Exception {
         productDao.add(product);
         assertEquals(product.getId(), productDao.getAll().get(0).getId());
+        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
@@ -61,6 +63,7 @@ public class ProductDaoMemTest {
     public void tearDown() throws Exception {
         product = null;
         productDao = null;
+        System.out.println("Tearing down to cleaning garbage collection");
     }
 
 }
