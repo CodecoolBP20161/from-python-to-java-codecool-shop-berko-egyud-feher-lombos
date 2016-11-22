@@ -60,7 +60,4 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         return null;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
-    }
 }

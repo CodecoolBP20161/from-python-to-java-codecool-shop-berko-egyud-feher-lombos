@@ -49,7 +49,4 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
         return null;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
-    }
 }

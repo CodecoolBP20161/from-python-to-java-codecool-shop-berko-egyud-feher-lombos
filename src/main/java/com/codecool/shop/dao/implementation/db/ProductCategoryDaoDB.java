@@ -45,7 +45,4 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
         return null;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
-    }
 }

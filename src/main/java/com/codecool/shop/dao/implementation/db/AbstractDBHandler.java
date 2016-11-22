@@ -7,9 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-/**
- * Created by david on 11/22/16.
- */
+
 public abstract class AbstractDBHandler {
     protected static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
     protected static HashMap DBprops = configReader.getPropValues();
