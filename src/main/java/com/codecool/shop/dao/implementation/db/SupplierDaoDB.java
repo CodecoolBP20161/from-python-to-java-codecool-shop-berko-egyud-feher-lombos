@@ -9,13 +9,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
-public class SupplierDaoDB implements SupplierDao {
-    private static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
-    private static HashMap DBprops = configReader.getPropValues();
-
-    private static final String DATABASE = "jdbc:postgresql://" + DBprops.get("url") + "/" + DBprops.get("database");
-    private static final String DB_USER = String.valueOf(DBprops.get("user"));
-    private static final String DB_PASSWORD = String.valueOf(DBprops.get("password"));
+public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {

@@ -10,6 +10,9 @@ public class Product extends BaseModel {
     protected Supplier supplier;
     private int idCount = 1;
 
+    {
+        this.id = idCount++;
+    }
 
     public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description);
@@ -19,9 +22,7 @@ public class Product extends BaseModel {
     }
 
     public Product() {
-        this.id = idCount++;
     }
-
 
     public float getDefaultPrice() {
         return defaultPrice;
