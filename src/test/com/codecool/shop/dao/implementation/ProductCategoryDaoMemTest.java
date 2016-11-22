@@ -23,12 +23,14 @@ public class ProductCategoryDaoMemTest {
         MockitoAnnotations.initMocks(this);
         productCategory = new ProductCategory("TestName", "TestDepartment", "TestDescription");
         productCategoryDao = ProductCategoryDaoMem.getInstance();
+        System.out.println("Setting up...");
     }
 
     @Test
     public void add_ProductCategory_To_ProductCategoryDaoMem() throws Exception {
         productCategoryDao.add(productCategory);
         assertEquals(productCategory.getId(), productCategoryDao.getAll().get(0).getId());
+        System.out.println("Test add_ProductCategory_To_ProductCategoryDaoMem passed ...");
     }
 
     @Test
@@ -50,5 +52,6 @@ public class ProductCategoryDaoMemTest {
     public void tearDown() throws Exception {
         productCategory = null;
         productCategoryDao = null;
+        System.out.println("Tearing down to cleaning garbage collection");
     }
 }
