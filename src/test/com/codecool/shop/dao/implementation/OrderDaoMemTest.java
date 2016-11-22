@@ -23,11 +23,13 @@ public class OrderDaoMemTest {
         MockitoAnnotations.initMocks(this);
         order = new Order();
         orderDao = OrderDaoMem.getInstance();
+        System.out.println("Setting up...");
     }
     @Test
     public void add_Order_To_OrderDaoMem() throws Exception {
         orderDao.add(order);
         assertEquals(order.getId() ,orderDao.getAll().get(0).getId());
+        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
     }
 
     @Test
@@ -55,5 +57,7 @@ public class OrderDaoMemTest {
     public void tearDown() throws Exception {
         order = null;
         orderDao = null;
+        System.out.println("Tearing down to cleaning garbage collection");
+
     }
 }
