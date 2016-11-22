@@ -35,6 +35,7 @@ public class OrderDaoMemTest {
     @Test
     public void find_Should_Return_Order() throws Exception {
         assertEquals(order, orderDao.find(order.getId()));
+        System.out.println("Test find_Should_Return_Order passed ...");
     }
 
     @Test

@@ -36,6 +36,7 @@ public class ProductCategoryDaoMemTest {
     @Test
     public void find_Should_Return_ProductCategory() throws Exception {
         assertEquals(productCategory, productCategoryDao.find(productCategory.getId()));
+        System.out.println("Test find_Should_Return_ProductCategory passed ...");
     }
 
     @Test
