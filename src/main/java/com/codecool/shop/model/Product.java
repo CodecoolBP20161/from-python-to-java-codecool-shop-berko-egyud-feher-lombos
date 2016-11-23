@@ -9,12 +9,25 @@ public class Product extends BaseModel {
     ProductCategory productCategory;
     protected Supplier supplier;
 
-    public Product( String name,
+    public Product(int id, String name,
                    float defaultPrice,
                    String currencyString,
                    String description,
                    ProductCategory Category,
                    Supplier supplier) {
+
+        super(name, description);
+        this.setId(id);
+        this.setPrice(defaultPrice, currencyString);
+        this.setSupplier(supplier);
+        this.setProductCategory(Category);
+    }
+    public Product( String name,
+                    float defaultPrice,
+                    String currencyString,
+                    String description,
+                    ProductCategory Category,
+                    Supplier supplier) {
 
         super(name, description);
         this.setPrice(defaultPrice, currencyString);
