@@ -61,53 +61,24 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
     }
 
     @Override
-    public List<Product> getAll() {
-        throw new NotImplementedException();
+    public List<Product> getAll() throws NotFoundException {
+        String query = "SELECT * FROM product;";
+        return convertManyDBResultToObject(query);
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
-        Product product;
-        List<Product> resultList = new ArrayList<>();
-
         String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
-
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
-        ) {
-            while (resultSet.next()) {
-                product = this.createFromResultSet(resultSet);
-                resultList.add(product);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultList;
+        return convertManyDBResultToObject(query);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) throws NotFoundException {
-        Product product;
-        List<Product> resultList = new ArrayList<>();
-
         String query = "SELECT * FROM product WHERE PRODUCT_CATEGORY='" + productCategory.getId() + "';";
-
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
-        ) {
-            while (resultSet.next()) {
-                product = this.createFromResultSet(resultSet);
-                resultList.add(product);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultList;
+        return convertManyDBResultToObject(query);
     }
 
-    public Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
+    private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
 
         ProductCategoryDaoDB categoryDB = new ProductCategoryDaoDB();
         SupplierDaoDB supplierDB = new SupplierDaoDB();
@@ -119,5 +90,21 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
                 resultSet.getString("CURRENCY"),
                 categoryDB.find(resultSet.getInt("PRODUCT_CATEGORY")),
                 supplierDB.find(resultSet.getInt("PRODUCT_SUPPLIER")));
+    }
+    private ArrayList<Product> convertManyDBResultToObject(String query) throws NotFoundException {
+        ArrayList<Product> objectList = new ArrayList<>();
+        Product product;
+        try (Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query)
+        ) {
+            while (resultSet.next()) {
+                product = this.createFromResultSet(resultSet);
+                objectList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return objectList;
     }
 }
