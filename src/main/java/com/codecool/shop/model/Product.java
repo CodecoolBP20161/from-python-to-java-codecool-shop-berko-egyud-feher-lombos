@@ -9,17 +9,17 @@ public class Product extends BaseModel {
     protected ProductCategory productCategory;
     protected Supplier supplier;
 
-    public Product(int id, String name,
+    public Product( String name,
                    float defaultPrice,
-                   String currencyString, String description,
-                   ProductCategory productCategory,
+                   String currencyString,
+                   String description,
+                   ProductCategory Category,
                    Supplier supplier) {
 
         super(name, description);
-        this.setId(id);
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
-        this.setProductCategory(productCategory);
+        this.setProductCategory(Category);
     }
 
     public Product() {
@@ -42,7 +42,7 @@ public class Product extends BaseModel {
     }
 
     public String getPrice() {
-        return String.valueOf(this.defaultPrice) + " " + this.defaultCurrency.toString();
+        return this.defaultPrice + " " + this.defaultCurrency;
     }
 
     public void setPrice(float price, String currency) {
@@ -67,22 +67,6 @@ public class Product extends BaseModel {
         this.supplier = supplier;
         this.supplier.addProduct(this);
     }
-// old method
-//    @Override
-//    public String toString() {
-//        return String.format("id: %1$d, " +
-//                        "name: %2$s, " +
-//                        "defaultPrice: %3$f, " +
-//                        "defaultCurrency: %4$s, " +
-//                        "productCategory: %5$s, " +
-//                        "supplier: %6$s",
-//                this.id,
-//                this.name,
-//                this.defaultPrice,
-//                this.defaultCurrency.toString(),
-//                this.productCategory.getName(),
-//                this.supplier.getName());
-//    }
 
     @Override
     public String toString() {
