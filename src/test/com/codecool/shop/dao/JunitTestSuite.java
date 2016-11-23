@@ -13,7 +13,6 @@ import org.junit.runners.Suite;
         ProductCategoryDaoMemTest.class,
         ProductDaoMemTest.class,
         SupplierDaoMemTest.class,
-        DaoMemRemoveMethodTest.class
 })
 
 public class JunitTestSuite {

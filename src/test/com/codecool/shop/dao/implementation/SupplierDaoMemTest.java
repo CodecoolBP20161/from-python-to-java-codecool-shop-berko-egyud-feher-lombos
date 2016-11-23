@@ -23,6 +23,7 @@ public class SupplierDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         supplierDaoMem = SupplierDaoMem.getInstance();
+        supplierDaoMem.clear();
         System.out.println("Setting up...");
     }
 
@@ -51,9 +52,17 @@ public class SupplierDaoMemTest {
         System.out.println("Test getAll_Should_Return_SupplierList passed ...");
     }
 
+    @Test
+    public void remove_Supplier_From_SupplierDao() throws Exception {
+        supplierDaoMem.add(supplier);
+        supplierDaoMem.remove(supplier.getId());
+        assertEquals(null, supplierDaoMem.find(supplier.getId()));
+        System.out.println("Test remove_Supplier_From_SupplierDao passed ...");
+    }
+
     @After
     public void tearDown() throws Exception {
-        supplierDaoMem.remove(supplier.getId());
+        supplierDaoMem = null;
         supplier = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }

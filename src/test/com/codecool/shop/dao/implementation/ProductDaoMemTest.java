@@ -27,6 +27,7 @@ public class ProductDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         productDaoMem = ProductDaoMem.getInstance();
+        productDaoMem.clear();
         System.out.println("Setting up...");
     }
 
@@ -86,9 +87,17 @@ public class ProductDaoMemTest {
         System.out.println("Test getBy_Should_Return_OrderList_By_Category passed ...");
     }
 
+    @Test
+    public void remove_Product_From_ProductDao() throws Exception {
+        productDaoMem.add(product);
+        productDaoMem.remove(product.getId());
+        assertEquals(null, productDaoMem.find(product.getId()));
+        System.out.println("Test remove_Product_From_ProductDao passed ...");
+    }
+
     @After
     public void tearDown() throws Exception {
-        productDaoMem.remove(product.getId());
+        productDaoMem = null;
         product = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }

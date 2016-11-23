@@ -25,6 +25,7 @@ public class OrderDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         orderDaoMem = OrderDaoMem.getInstance();
+        orderDaoMem.clear();
         when(order.getStatus()).thenReturn(Status.CART);
         System.out.println("Setting up...");
     }
@@ -34,6 +35,7 @@ public class OrderDaoMemTest {
         orderDaoMem.add(order);
         assertEquals(order.getId(), orderDaoMem.getAll().get(0).getId());
         System.out.println("Test add_Order_To_OrderDaoMem passed ...");
+        System.out.println(orderDaoMem.getAll());
     }
 
     @Test
@@ -47,6 +49,7 @@ public class OrderDaoMemTest {
     public void find_Should_Return_Null() throws Exception {
         assertEquals(null, orderDaoMem.find(order.getId()));
         System.out.println("Test find_Should_Return_Null passed ...");
+        System.out.println(orderDaoMem.getAll());
     }
 
     @Test
@@ -65,10 +68,18 @@ public class OrderDaoMemTest {
         assertEquals(Status.CART, order.getStatus());
     }
 
+    @Test
+    public void remove_Order_From_OrderDaoMem() throws Exception {
+        orderDaoMem.add(order);
+        orderDaoMem.remove(order.getId());
+        assertEquals(null, orderDaoMem.find(order.getId()));
+        System.out.println("Test remove_Order_From_OrderDaoMem passed ...");
+    }
+
     @After
     public void tearDown() throws Exception {
-        orderDaoMem.remove(order.getId());
         order = null;
+        orderDaoMem = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }
 }
