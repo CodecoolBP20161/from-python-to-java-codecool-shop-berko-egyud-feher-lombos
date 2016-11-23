@@ -54,6 +54,14 @@ public class ProductCategoryDaoMemTest {
         System.out.println("Test getAll_Should_Return_ProductCategoryList passed ...");
     }
 
+    @Test
+    public void remove_ProductCategory_From_ProductCategoryDaoMem() throws Exception {
+        productCategoryDaoMem.add(productCategory);
+        productCategoryDaoMem.remove(productCategory.getId());
+        assertEquals(null, productCategoryDaoMem.find(productCategory.getId()));
+        System.out.println("Test remove_ProductCategory_From_ProductCategoryDaoMem passed ...");
+    }
+
     @After
     public void tearDown() throws Exception {
         productCategoryDaoMem = null;

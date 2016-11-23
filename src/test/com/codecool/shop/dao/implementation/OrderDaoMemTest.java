@@ -68,6 +68,14 @@ public class OrderDaoMemTest {
         assertEquals(Status.CART, order.getStatus());
     }
 
+    @Test
+    public void remove_Order_From_OrderDaoMem() throws Exception {
+        orderDaoMem.add(order);
+        orderDaoMem.remove(order.getId());
+        assertEquals(null, orderDaoMem.find(order.getId()));
+        System.out.println("Test remove_Order_From_OrderDaoMem passed ...");
+    }
+
     @After
     public void tearDown() throws Exception {
         order = null;
