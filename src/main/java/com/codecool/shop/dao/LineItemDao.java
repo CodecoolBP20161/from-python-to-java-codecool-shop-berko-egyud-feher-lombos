@@ -12,7 +12,7 @@ public interface LineItemDao {
         void add(LineItem lineitem);
         void remove(int id);
 
-        List<LineItem> getAll();
+        List<LineItem> getAll() throws NotFoundException;
         List<LineItem> getBy(int orderId) throws NotFoundException;
 
 }
