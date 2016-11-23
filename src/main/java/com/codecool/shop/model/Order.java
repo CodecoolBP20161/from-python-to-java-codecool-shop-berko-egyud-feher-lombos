@@ -89,11 +89,11 @@ public class Order implements Orderable {
 
     @Override
     public String toString() {
-        return String.format("id: %1$d,\n" +
-                        "status: %2$s, \n" +
-                        "totalPrice: %3$f, \n" +
-                        "totalQuantity: %4$f, \n" +
-                        "itemsToBuy: %5$s\n",
+        return String.format("id: %1$d, " +
+                        "status: %2$s, " +
+                        "totalPrice: %3$f, " +
+                        "totalQuantity: %4$d, " +
+                        "itemsToBuy: %5$s",
 
                 this.id,
                 this.status,
