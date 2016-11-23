@@ -1,10 +1,13 @@
 package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.model.Order;
 import com.codecool.shop.model.ProductCategory;
+
 import javassist.NotFoundException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCategoryDao {
@@ -56,6 +59,31 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     }
 
     @Override
-    public List<ProductCategory> getAll() {throw new NotImplementedException();}
+    public List<ProductCategory> getAll() throws SQLException, NotFoundException {
+        ProductCategory productCategory;
+        ProductDaoDB productDB = new ProductDaoDB();
+        List<ProductCategory> resultList = new ArrayList<>();
+        String query = "SELECT * FROM category;";
+
+
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query)
+
+        ){
+            while (resultSet.next()) {
+                productCategory = new ProductCategory(resultSet.getInt("ID"),
+                        resultSet.getString("NAME"),
+                        resultSet.getString("DESCRIPTION"),
+                        resultSet.getString("DEPARTMENT"));
+                productDB.getBy(productCategory).forEach(productCategory::addProduct);
+                resultList.add(productCategory);
+            }
+            return resultList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
