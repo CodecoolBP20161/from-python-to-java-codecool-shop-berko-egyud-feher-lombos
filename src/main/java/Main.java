@@ -2,6 +2,8 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.controller.ProductControllerDB;
+import com.codecool.shop.testdata.TestDataDB;
 import com.codecool.shop.testdata.TestDataMem;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -14,15 +16,15 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
-        TestDataMem.populateData();
+        TestDataDB.populateData();
 
-        get("/add/:id", ProductController::addToCart);
-        get("/remove/:id", ProductController :: removeFromCart);
-        get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        get("/add/:id", ProductControllerDB::addToCart);
+        get("/remove/:id", ProductControllerDB :: removeFromCart);
+        get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
-        get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
-        get("/supplier/:supplierid", ProductController::renderProducts, new ThymeleafTemplateEngine());
-        get("/cartcontent", ProductController::renderCartContent, new ThymeleafTemplateEngine());
+        get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+        get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+        get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });
