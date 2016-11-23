@@ -13,6 +13,7 @@ import com.codecool.shop.dao.implementation.mem.ProductDaoMem;
 import com.codecool.shop.dao.implementation.mem.SupplierDaoMem;
 import com.codecool.shop.model.*;
 
+import javassist.NotFoundException;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -26,15 +27,12 @@ public class ProductController {
     private static ProductDao productDataStore = ProductDaoMem.getInstance();
     private static ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
     private static SupplierDao productSupplierDataStore = SupplierDaoMem.getInstance();
-    private static OrderDao orderDaoDB = new OrderDaoDB();
-    private static ProductCategoryDao productCategoryDaoDB = new ProductCategoryDaoDB();
-    private static ProductDao productDaoDB = new ProductDaoDB();
-    private static SupplierDao supplierDaoDB = new SupplierDaoDB();
+
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
     // Handle the content of the params HashMap
-    public static Map setParams(Request req) {
+    public static Map setParams(Request req) throws NotFoundException {
         Map params = new HashMap<>();
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
         params.put("categories", productCategoryDataStore.getAll());
@@ -61,7 +59,7 @@ public class ProductController {
     }
 
     // Action for display all or filtered products
-    public static ModelAndView renderProducts(Request req, Response res) {
+    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException {
         Map params = setParams(req);
         if ( req.params(":categoryid") != null ) {
             params.put("category", productCategoryDataStore.find(categoryId));
@@ -73,14 +71,14 @@ public class ProductController {
     }
 
     // Action for display cart content
-    public static ModelAndView renderCartContent(Request req, Response res) {
+    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException {
         Map params = setParams(req);
         return new ModelAndView(params, "product/cart");
     }
 
 
     // Handle the content of the session and set the variables of Order object
-    public static String addToCart(Request req, Response res) {
+    public static String addToCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
 
@@ -97,7 +95,7 @@ public class ProductController {
         return null;
     }
     // Handle the content of the session and set the variables of Order object
-    public static String removeFromCart(Request req, Response res) {
+    public static String removeFromCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
 
