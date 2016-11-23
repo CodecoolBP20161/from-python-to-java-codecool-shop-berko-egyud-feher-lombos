@@ -63,8 +63,8 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     @Override
-    public void remove(Order order) {
-        String query = "DELETE FROM \"order\" WHERE ID = '" + order.getId() +"';";
+    public void remove(int id) {
+        String query = "DELETE FROM \"order\" WHERE ID = '" + id +"';";
         executeQuery(query);
     }
 

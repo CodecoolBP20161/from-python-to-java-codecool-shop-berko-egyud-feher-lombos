@@ -50,8 +50,8 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     }
 
     @Override
-    public void remove(ProductCategory category) {
-        String query = "DELETE FROM \"category\" WHERE id = '" + category.getId() +"';";
+    public void remove(int id) {
+        String query = "DELETE FROM \"category\" WHERE id = '" + id +"';";
         executeQuery(query);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface LineItemDao {
         void add(LineItem lineitem);
-        void remove(LineItem lineItem);
+        void remove(int id);
 
         List<LineItem> getAll();
         List<LineItem> getBy(int orderId) throws NotFoundException;

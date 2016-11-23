@@ -3,7 +3,6 @@ package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
-import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import javassist.NotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -12,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
+ class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
     @Override
     public void add(LineItem lineitem) {
         try {
@@ -29,8 +28,8 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
     }
 
     @Override
-    public void remove(LineItem lineitem) {
-        String query = "DELETE FROM lineitem WHERE id = '" + lineitem.getId() +"';";
+    public void remove(int id) {
+        String query = "DELETE FROM lineitem WHERE id = '" + id +"';";
         executeQuery(query);
     }
 
@@ -53,7 +52,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
                 LineItem lineItem = new LineItem(ParentProduct, orderId);
                 resultList.add(lineItem);
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderDao {
     void add(Order order);
     Order find(int id) throws NotFoundException;
-    void remove(Order order);
+    void remove(int id);
 
     List<Order> getAll();
     List<Order> getBy(Status status) throws NotFoundException;

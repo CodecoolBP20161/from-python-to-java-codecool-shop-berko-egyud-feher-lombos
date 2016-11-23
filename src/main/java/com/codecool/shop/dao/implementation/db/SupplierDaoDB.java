@@ -33,8 +33,8 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
         }
 
         @Override
-        public void remove ( Supplier supplier){
-            String query = "DELETE FROM supplier WHERE id = '" + supplier.getId() +"';";
+        public void remove (int id){
+            String query = "DELETE FROM supplier WHERE id = '" + id +"';";
             executeQuery(query);
         }
 

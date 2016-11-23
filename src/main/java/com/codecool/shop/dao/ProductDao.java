@@ -11,7 +11,7 @@ public interface ProductDao {
 
     void add(Product product);
     Product find(int id) throws NotFoundException;
-    void remove(Product product);
+    void remove(int id);
 
     List<Product> getAll();
     List<Product> getBy(Supplier supplier) throws NotFoundException;
