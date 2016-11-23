@@ -8,14 +8,15 @@ public class Product extends BaseModel {
     protected Currency defaultCurrency;
     protected ProductCategory productCategory;
     protected Supplier supplier;
-    private int idCount = 1;
 
-    {
-        this.id = idCount++;
-    }
+    public Product(int id, String name,
+                   float defaultPrice,
+                   String currencyString, String description,
+                   ProductCategory productCategory,
+                   Supplier supplier) {
 
-    public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description);
+        this.setId(id);
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);

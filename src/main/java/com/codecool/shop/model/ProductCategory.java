@@ -5,15 +5,13 @@ import java.util.ArrayList;
 public class ProductCategory extends BaseModel {
     private String department;
     private ArrayList<Product> products;
-    private int idCount = 1;
 
-    {
-        this.id = idCount++;
-    }
 
-    public ProductCategory(String name, String department, String description) {
+    public ProductCategory(int id, String name, String department, String description) {
         super(name);
+        this.setId(id);
         this.department = department;
+        this.description = description;
         this.products = new ArrayList<>();
     }
 

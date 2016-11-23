@@ -22,7 +22,7 @@ public class BuildTable {
             String createProduct =  "DROP TABLE IF EXISTS product;" +
                                     "CREATE TABLE product" +
                                     "(" +
-                                    "ID int PRIMARY KEY," +
+                                    "ID SERIAL PRIMARY KEY ON DELETE CASCADE," +
                                     "NAME varchar(255)," +
                                     "DESCRIPTION varchar(255)," +
                                     "PRICE varchar(255)," +
@@ -34,7 +34,7 @@ public class BuildTable {
             String createCategory = "DROP TABLE IF EXISTS category;" +
                                     "CREATE TABLE category" +
                                     "(" +
-                                    "ID int PRIMARY KEY," +
+                                    "ID SERIAL PRIMARY KEY ON DELETE CASCADE," +
                                     "NAME varchar(255)," +
                                     "DESCRIPTION varchar(255)," +
                                     "DEPARTMENT varchar(255)" +
@@ -43,15 +43,15 @@ public class BuildTable {
             String createOrder = "DROP TABLE IF EXISTS \"order\";" +
                                  "CREATE TABLE \"order\"" +
                                  "(" +
-                                 "ID int PRIMARY KEY," +
+                                 "ID SERIAL PRIMARY KEY ON DELETE CASCADE," +
                                  "STATUS varchar(255)," +
-                                 "TOTALPRICE varchar(255)" +
+                                 "TOTAL_PRICE varchar(255)" +
                                  ");";
 
             String createSupplier = "DROP TABLE IF EXISTS supplier;" +
                                     "CREATE TABLE supplier" +
                                     "(" +
-                                    "ID int PRIMARY KEY," +
+                                    "ID SERIAL PRIMARY KEY ON DELETE CASCADE," +
                                     "NAME varchar(255)," +
                                     "DESCRIPTION varchar(255)" +
                                     ");";
@@ -59,9 +59,9 @@ public class BuildTable {
             String createLineItem = "DROP TABLE IF EXISTS lineitem;" +
                                     "CREATE TABLE lineitem" +
                                     "(" +
-                                    "ID int PRIMARY KEY," +
-                                    "quantity int," +
-                                    "PRODUCT int references product(ID)," +
+                                    "ID SERIAL PRIMARY KEY," +
+                                    "QUANTITY int," +
+                                    "PRODUCT int REFERENCES product(ID)," +
                                     "\"ORDER\" int REFERENCES \"order\"(ID)" +
                                     ");";
         statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);

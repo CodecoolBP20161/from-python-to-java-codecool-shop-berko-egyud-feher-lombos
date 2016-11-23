@@ -48,4 +48,8 @@ public class OrderDaoMem implements OrderDao{
     public List<Order> getBy(Status status) {
         return DATA.stream().filter(t -> t.getStatus().equals(status)).collect(Collectors.toList());
     }
+
+    void clear(){
+        DATA = new ArrayList<>();
+    }
 }
