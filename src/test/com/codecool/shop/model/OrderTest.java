@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class OrderTest {
@@ -31,6 +33,13 @@ public class OrderTest {
         order.add(product);
         String result = "[id: 0, name: tv, defaultPrice: 123.500000, defaultCurrency: USD, productCategory: TestName, supplier: name, quantity: 1]";
         assertEquals(result, order.getItemsToBuy().toString());
+    }
+
+    @Test
+    public void add_Existing_Product_To_Order() throws Exception {
+        for(int i = 0; i < 5; i++)
+            order.add(product);
+        assertThat(order.getItemsToBuy().toString(), containsString("quantity: 5"));
     }
 
 
