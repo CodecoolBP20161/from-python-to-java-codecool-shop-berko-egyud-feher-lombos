@@ -27,6 +27,7 @@ public class ProductDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         productDaoMem = ProductDaoMem.getInstance();
+        productDaoMem.clear();
         System.out.println("Setting up...");
     }
 
@@ -88,7 +89,7 @@ public class ProductDaoMemTest {
 
     @After
     public void tearDown() throws Exception {
-        productDaoMem.remove(product.getId());
+        productDaoMem = null;
         product = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }

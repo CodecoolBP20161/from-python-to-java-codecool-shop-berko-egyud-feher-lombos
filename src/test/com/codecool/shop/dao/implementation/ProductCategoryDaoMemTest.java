@@ -23,6 +23,7 @@ public class ProductCategoryDaoMemTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         productCategoryDaoMem = ProductCategoryDaoMem.getInstance();
+        productCategoryDaoMem.clear();
         System.out.println("Setting up...");
     }
 
@@ -55,7 +56,7 @@ public class ProductCategoryDaoMemTest {
 
     @After
     public void tearDown() throws Exception {
-        productCategoryDaoMem.remove(productCategory.getId());
+        productCategoryDaoMem = null;
         productCategory = null;
         System.out.println("Tearing down to cleaning garbage collection");
     }
