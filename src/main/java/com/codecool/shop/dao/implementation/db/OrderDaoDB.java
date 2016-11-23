@@ -34,28 +34,20 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
     @Override
     public Order find(int id) throws NotFoundException {
-        Order order;
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
-        ProductDaoDB productDB = new ProductDaoDB();
         String query = "SELECT * FROM \"order\" WHERE ID = '" + id + "';";
-
         try(Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query)
         ){
-
             if (resultSet.next()) {
 
-                order = new Order(Status.valueOf(resultSet.getString("STATUS")), resultSet.getInt("id"));
-                List<LineItem> lineItems = lineItemDB.getBy(order.getId());
+                return fillWithLineItem(
+                        new Order(
+                                Status.valueOf(resultSet.getString("STATUS")),
+                                resultSet.getInt("ID")
+                        )
+                );
 
-                // For each lineItem, add a product times the quantity to the order.
-                for (LineItem lineItem : lineItems) {
-                    Product parentProduct = productDB.find(lineItem.getProductId());
-                    for(int i = 0; i < lineItem.getQuantity(); i++) order.add(parentProduct);
-
-                }
-                return order;
             } else {
                 throw new NotFoundException("Order not found");
             }
@@ -73,65 +65,54 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
     @Override
     public List<Order> getAll() throws NotFoundException {
-        Order order;
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
-        ProductDaoDB productDB = new ProductDaoDB();
-        List<Order> resultList = new ArrayList<>();
         String query = "SELECT * FROM \"order\";";
-
-        try(Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-        ){
-            while (resultSet.next()) {
-
-                order = new Order(Status.valueOf(resultSet.getString("STATUS")), resultSet.getInt("id"));
-                List<LineItem> lineItems = lineItemDB.getBy(order.getId());
-
-                // For each lineItem, add a product times the quantity to the order.
-                for (LineItem lineItem : lineItems) {
-                    Product parentProduct = productDB.find(lineItem.getProductId());
-                    for (int i = 0; i < lineItem.getQuantity(); i++) order.add(parentProduct);
-                    resultList.add(order);
-                }
-            }
-            return resultList;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return convertManyDBResultToObject(query);
     }
 
     @Override
     public List<Order> getBy(Status status) throws NotFoundException {
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
-        ProductDaoDB productDB = new ProductDaoDB();
         String query = "SELECT * FROM \"order\" WHERE STATUS='" + status.toString() + "';";
-        List<Order> resultList = new ArrayList<>();
+        return convertManyDBResultToObject(query);
+    }
+
+    private List<Order> convertManyDBResultToObject(String query) throws NotFoundException {
+
+        List<Order> objectList = new ArrayList<>();
+
         try (Connection connection = getConnection();
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()){
-                Order order = new Order(Status.valueOf(resultSet.getString("STATUS")), resultSet.getInt("id"));
-                List<LineItem> lineItems = lineItemDB.getBy(order.getId());
-                // For each lineItem, add a product times the quantity, to the order.
-                for (LineItem lineItem : lineItems) {
-                    for(int quantity = 0; quantity < lineItem.getQuantity(); quantity++) {
-                        order.add(productDB.find(lineItem.getProductId()));
-                    }
-                }
-                resultList.add(order);
+                Order order = fillWithLineItem(
+                        new Order(
+                                Status.valueOf(resultSet.getString("STATUS")),
+                                resultSet.getInt("ID")
+                        )
+                );
+                objectList.add(order);
             }
-            return resultList;
+            return objectList;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
+
+    private Order fillWithLineItem(Order order) throws NotFoundException {
+        LineItemDaoDB lineItemDB = new LineItemDaoDB();
+        ProductDaoDB productDB = new ProductDaoDB();
+        List<LineItem> lineItems = lineItemDB.getBy(order.getId());
+
+        // For each lineItem, add a product times the quantity, to the order
+        for (LineItem lineItem : lineItems) {
+            for(int i = 0; i < lineItem.getQuantity(); i++) {
+                Product parentProduct = productDB.find(lineItem.getProductId());
+                order.add(parentProduct);
+            }
+        }
+        return order;
+    };
 
 }
