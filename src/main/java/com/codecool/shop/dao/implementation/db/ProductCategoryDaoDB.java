@@ -1,7 +1,6 @@
 package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.model.Order;
 import com.codecool.shop.model.ProductCategory;
 
 import javassist.NotFoundException;
