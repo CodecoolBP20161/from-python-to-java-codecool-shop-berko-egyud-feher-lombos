@@ -1,11 +1,9 @@
 package com.codecool.shop.dao.implementation.db;
 
-
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Product;
 import javassist.NotFoundException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,12 +27,33 @@ import java.util.List;
 
     @Override
     public void remove(int id) {
-        String query = "DELETE FROM lineitem WHERE id = '" + id +"';";
+        String query = "DELETE FROM lineitem WHERE id = '" + id + "';";
         executeQuery(query);
     }
 
     @Override
-    public List<LineItem> getAll() {throw new NotImplementedException();}
+    public List<LineItem> getAll() throws NotFoundException {
+        ProductDaoDB prodDB = new ProductDaoDB();
+        String query = "SELECT * FROM lineitem;";
+        List<LineItem> resultList = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             Statement statement =connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)
+        ){
+            while (resultSet.next()){
+                int parentProductId = resultSet.getInt("PRODUCT");
+                int orderId = resultSet.getInt("ORDER");
+                Product ParentProduct = prodDB.find(parentProductId);
+                LineItem lineItem = new LineItem(ParentProduct, orderId);
+                resultList.add(lineItem);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
 
     @Override
     public List<LineItem> getBy(int orderId) throws NotFoundException {
