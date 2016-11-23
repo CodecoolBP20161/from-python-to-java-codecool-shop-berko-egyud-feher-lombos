@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface LineItemDao {
         void add(LineItem lineitem);
-        LineItem find(int id);
         void remove(LineItem lineItem);
 
         List<LineItem> getAll();
