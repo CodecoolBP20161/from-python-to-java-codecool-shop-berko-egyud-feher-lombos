@@ -13,6 +13,13 @@ public class ProductCategory extends BaseModel {
         this.description = description;
         this.products = new ArrayList<>();
     }
+    public ProductCategory(int id, String name, String department, String description) {
+        super(name);
+        this.setId(id);
+        this.department = department;
+        this.description = description;
+        this.products = new ArrayList<>();
+    }
 
     public String getDepartment() {
         return department;
