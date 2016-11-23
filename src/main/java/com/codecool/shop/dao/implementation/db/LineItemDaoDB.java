@@ -4,6 +4,7 @@ package com.codecool.shop.dao.implementation.db;
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Product;
 import javassist.NotFoundException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -28,9 +29,6 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
     }
 
     @Override
-    public LineItem find(int id) {throw new NotImplementedException();}
-
-    @Override
     public void remove(LineItem lineitem) {
         String query = "DELETE FROM lineitem WHERE id = '" + lineitem.getId() +"';";
         executeQuery(query);
@@ -50,11 +48,12 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()){
-                LineItem lineItem = new LineItem(prodDB.find(resultSet.getInt("PRODUCT")), orderId);
+                int parentProductId = resultSet.getInt("PRODUCT");
+                Product ParentProduct = prodDB.find(parentProductId);
+                LineItem lineItem = new LineItem(ParentProduct, orderId);
                 resultList.add(lineItem);
             }
-
-
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
