@@ -15,7 +15,7 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 public class TestDataDB {
-    public static void populateData(String[] args) {
+    public static void populateData() {
         ProductDaoDB productDB = new ProductDaoDB();
         ProductCategoryDaoDB CategoryDB = new ProductCategoryDaoDB();
         SupplierDaoDB supplierDB = new SupplierDaoDB();
