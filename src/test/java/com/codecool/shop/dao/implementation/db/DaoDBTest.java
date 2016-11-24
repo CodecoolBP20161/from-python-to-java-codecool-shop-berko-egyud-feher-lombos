@@ -15,11 +15,11 @@ import java.io.File;
 import java.io.FileInputStream;
 
 
-public class LineItemDaoDBTest extends DBTestCase {
+public class DaoDBTest extends DBTestCase {
 
 
     // Extend a DBTestCase class
-    public LineItemDaoDBTest(String name)
+    public DaoDBTest(String name)
     {
         super( name );
         System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.postgresql.Driver" );
