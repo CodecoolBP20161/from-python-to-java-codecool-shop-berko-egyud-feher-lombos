@@ -15,6 +15,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,13 +27,17 @@ public class ProductControllerDB {
     private static SupplierDaoDB supplierDB = new SupplierDaoDB();
 
     // Handle the content of the params HashMap
-    private static Map setParams(Request req) throws NotFoundException {
+    private static Map setParams(Request req) throws NotFoundException, SQLException {
+
         Map params = new HashMap<>();
+
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
         params.put("categories", ProductCategoryDB.getAll());
         params.put("products", ProductDB.getAll());
         params.put("suppliers", supplierDB.getAll());
+
         req.session().attribute("currentUrl", "/");
+
         if ( req.params(":categoryid") != null ) {
             int categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
@@ -47,27 +52,29 @@ public class ProductControllerDB {
         else if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
         }
+
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
         return params;
     }
 
     // Action for display all or filtered products
-    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException {
+    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
+
         int categoryId = Integer.valueOf(req.params(":categoryid"));
         int supplierId = Integer.valueOf(req.params(":supplierid"));
         if ( req.params(":categoryid") != null ) {
-            params.put("category", ProductCategoryDB.find(Integer.valueOf(req.params(":categoryid"))));
+            params.put("category", ProductCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
-            params.put("supplier", supplierDB.find(Integer.valueOf(req.params(":supplierid"))));
+            params.put("supplier", supplierDB.find(supplierId));
         }
         return new ModelAndView(params, "product/index");
     }
 
     // Action for display cart content
-    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException {
+    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         return new ModelAndView(params, "product/cart");
     }
@@ -94,11 +101,13 @@ public class ProductControllerDB {
     public static String removeFromCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
+
         if (req.session().attribute("Cart") == null) {
             cart = new Order();
         } else {
             cart = req.session().attribute("Cart");
         }
+
         cart.remove(ProductDB.find(id));
         req.session().attribute("Cart", cart);
         res.redirect(req.session().attribute("currentUrl"));
