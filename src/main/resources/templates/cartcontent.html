@@ -22,8 +22,8 @@
                                 <td th:text="${prod.defaultPrice} + ${prod.defaultCurrency}" ></td>
                                 <td th:text="${#numbers.formatDecimal(prod.defaultPrice*prod.getQuantity(), 0, 1)} + ${prod.defaultCurrency}"></td>
                                 <td th:text="${prod.getQuantity()}"></td>
-                                <td><a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getId()}">+</a></td>
-                                <td><a class="btn btn-success" th:attr="href='/remove' + '/' + ${prod.getId()}">-</a></td>
+                                <td><a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getProductId()}">+</a></td>
+                                <td><a class="btn btn-success" th:attr="href='/remove' + '/' + ${prod.getProductId()}">-</a></td>
                             </tr>
                         </tbody>
                     </table>
