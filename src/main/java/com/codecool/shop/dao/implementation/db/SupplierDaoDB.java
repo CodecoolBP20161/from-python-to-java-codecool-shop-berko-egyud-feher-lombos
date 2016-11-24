@@ -17,7 +17,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
     public void add(Supplier supplier) {
             try {
                 PreparedStatement stmt;
-                stmt = getConnection().prepareStatement("INSERT INTO \"supplier\" (\"NAME\", DESCRIPTION) VALUES (?, ?)");
+                stmt = getConnection().prepareStatement("INSERT INTO \"supplier\" (NAME, DESCRIPTION) VALUES (?, ?)");
                 stmt.setString(1, supplier.getName());
                 stmt.setString(2, supplier.getDescription());
                 stmt.executeUpdate();
@@ -31,17 +31,15 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
             Supplier supplier;
             String query = "SELECT * FROM supplier WHERE ID='" + id + "';";
 
-            try (Connection connection = getConnection();
+            try (
                  Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query);
             ) {
                 if (resultSet.next()) {
 
                     ProductDaoDB productDB = new ProductDaoDB();
-                    supplier = new Supplier(resultSet.getString("NAME"), resultSet.getString("DESCRIPTION"));
+                    supplier = new Supplier(resultSet.getInt("ID"), resultSet.getString("NAME"), resultSet.getString("DESCRIPTION"));
 
-                    // Iterating through the products queried by supplier, and adding them to the suppliers 'products' field
-                    productDB.getBy(supplier).forEach(supplier::addProduct);
                     return supplier;
 
                 } else {
@@ -66,7 +64,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
             String query = "SELECT * FROM supplier;";
 
 
-            try(Connection connection = getConnection();
+            try(
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query)
 
@@ -78,7 +76,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
                             resultSet.getString("NAME"),
                             resultSet.getString("DESCRIPTION"));
 
-                    productDB.getBy(supplier).forEach(supplier::addProduct);
+                    fillWithProducts(supplier);
                     resultList.add(supplier);
                 }
                 return resultList;
@@ -86,5 +84,12 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        public Supplier fillWithProducts(Supplier supplier) throws NotFoundException {
+            ProductDaoDB productDB = new ProductDaoDB();
+            // Iterating through the products queried by category, and adding them to the suppliers 'category' field
+            productDB.getBy(supplier).forEach(supplier::addProduct);
+            return supplier;
         }
 }

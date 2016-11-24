@@ -14,7 +14,7 @@ import java.util.List;
     public void add(LineItem lineitem) {
         try {
             PreparedStatement stmt;
-            stmt = getConnection().prepareStatement("INSERT INTO lineitem (QUANTITY, PRODUCT, \"ORDER\") VALUES (?, ?, ?)");
+            stmt = connection.prepareStatement("INSERT INTO lineitem (QUANTITY, PROdUCT, \"ORDER\") VALUES (?, ?, ?)");
             stmt.setInt(1, lineitem.getQuantity());
             stmt.setInt(2, lineitem.getProductId());
             stmt.setInt(3, lineitem.getOrderId());
@@ -37,7 +37,7 @@ import java.util.List;
         String query = "SELECT * FROM lineitem;";
         List<LineItem> resultList = new ArrayList<>();
 
-        try (Connection connection = getConnection();
+        try (
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)
         ){
@@ -61,12 +61,12 @@ import java.util.List;
         String query = "SELECT * FROM lineitem WHERE \"ORDER\"='" + orderId + "';";
         List<LineItem> resultList = new ArrayList<>();
 
-        try (Connection connection = getConnection();
+        try (
              Statement statement =connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()){
-                int parentProductId = resultSet.getInt("PRODUCT");
+                int parentProductId = resultSet.getInt("PROdUCT");
                 Product ParentProduct = prodDB.find(parentProductId);
                 LineItem lineItem = new LineItem(ParentProduct, orderId);
                 resultList.add(lineItem);

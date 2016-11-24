@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.*;
 import com.codecool.shop.services.ConnectionPropertyValues;
 import javassist.NotFoundException;
+import spark.Spark;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
@@ -16,16 +17,17 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public void add(Product product) {
+        ProductCategoryDaoDB productDB = new ProductCategoryDaoDB();
         try {
             PreparedStatement stmt;
-            stmt = getConnection().prepareStatement("INSERT INTO \"product\"(\"NAME\", DESCRIPTION, PRICE, CURRENCY, PRODUCT_CATEGORY, PRODUCT_SUPPLIER) VALUES (?, ?, ?, ?, ?, ?)");
+            stmt = getConnection().prepareStatement("INSERT INTO \"product\"(NAME, DESCRIPTION, PRICE, CURRENCY, PRODUCT_CATEGORY, PRODUCT_SUPPLIER) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, product.getName());
             stmt.setString(2, product.getDescription());
             stmt.setFloat(3, product.getDefaultPrice());
             stmt.setString(4, product.getDefaultCurrency().toString());
             stmt.setInt(5, product.getProductCategory().getId());
             stmt.setInt(6, product.getSupplier().getId());
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,7 +40,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
         String query = "SELECT * FROM product WHERE ID = '" + id + "';";
 
-        try (Connection connection = getConnection();
+        try (
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query);
         ) {
@@ -86,15 +88,15 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         return new Product(resultSet.getInt("ID"),
                 resultSet.getString("NAME"),
                 resultSet.getFloat("PRICE"),
-                resultSet.getString("DESCRIPTION"),
                 resultSet.getString("CURRENCY"),
+                resultSet.getString("DESCRIPTION"),
                 categoryDB.find(resultSet.getInt("PRODUCT_CATEGORY")),
                 supplierDB.find(resultSet.getInt("PRODUCT_SUPPLIER")));
     }
     private ArrayList<Product> convertManyDBResultToObject(String query) throws NotFoundException {
         ArrayList<Product> objectList = new ArrayList<>();
         Product product;
-        try (Connection connection = getConnection();
+        try (
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query)
         ) {
@@ -107,4 +109,5 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         }
         return objectList;
     }
+
 }

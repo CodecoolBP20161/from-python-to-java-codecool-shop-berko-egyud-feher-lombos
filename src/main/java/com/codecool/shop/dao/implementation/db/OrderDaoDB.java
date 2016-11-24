@@ -22,7 +22,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
         try {
 
             PreparedStatement stmt;
-            stmt = getConnection().prepareStatement("INSERT INTO \"order\" (STATUS, TOTAL_PRICE) VALUES (?, ?)");
+            stmt = connection.prepareStatement("INSERT INTO \"order\" (STATUS, TOTAL_PRICE) VALUES (?, ?)");
             stmt.setString(1, order.getStatus().toString());
             stmt.setDouble(2, order.getTotalPrice());
             stmt.executeQuery();
@@ -35,7 +35,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     @Override
     public Order find(int id) throws NotFoundException {
         String query = "SELECT * FROM \"order\" WHERE ID = '" + id + "';";
-        try(Connection connection = getConnection();
+        try(
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query)
         ){
@@ -79,8 +79,8 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
         List<Order> objectList = new ArrayList<>();
 
-        try (Connection connection = getConnection();
-             Statement statement =connection.createStatement();
+        try (
+             Statement statement =getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()){

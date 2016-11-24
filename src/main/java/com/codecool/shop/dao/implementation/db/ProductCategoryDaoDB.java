@@ -7,7 +7,9 @@ import javassist.NotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCategoryDao {
 
@@ -15,11 +17,11 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     public void add(ProductCategory category) {
         try {
             PreparedStatement stmt;
-            stmt = getConnection().prepareStatement("INSERT INTO \"category\" (\"NAME\", DESCRIPTION, DEPARTMENT) VALUES ( ?, ?, ?)");
+            stmt = connection.prepareStatement("INSERT INTO \"category\" (NAME, DESCRIPTION, DEPARTMENT) VALUES ( ?, ?, ?)");
             stmt.setString(1, category.getName());
             stmt.setString(2, category.getDescription());
             stmt.setString(3, category.getDepartment());
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,10 +30,10 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     @Override
     public ProductCategory find(int id) throws NotFoundException {
         ProductCategory category;
-        ProductDaoDB productDB = new ProductDaoDB();
+
         String query = "SELECT * FROM category WHERE ID = '" + id + "';";
 
-        try(Connection connection = getConnection();
+        try(
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query)
         ){
@@ -40,9 +42,6 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
                                       resultSet.getString("NAME"),
                                       resultSet.getString("DESCRIPTION"),
                                       resultSet.getString("DEPARTMENT"));
-
-                // Iterating through the products queried by category, and adding them to the suppliers 'category' field
-                productDB.getBy(category).forEach(category::addProduct);
                 return category;
             } else {
                 throw new NotFoundException("Category not found");
@@ -62,12 +61,11 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     @Override
     public List<ProductCategory> getAll() throws SQLException, NotFoundException {
         ProductCategory productCategory;
-        ProductDaoDB productDB = new ProductDaoDB();
         List<ProductCategory> resultList = new ArrayList<>();
         String query = "SELECT * FROM category;";
 
 
-        try(Connection connection = getConnection();
+        try(
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query)
 
@@ -77,7 +75,7 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
                         resultSet.getString("NAME"),
                         resultSet.getString("DESCRIPTION"),
                         resultSet.getString("DEPARTMENT"));
-                productDB.getBy(productCategory).forEach(productCategory::addProduct);
+                productCategory = fillWithProducts(productCategory);
                 resultList.add(productCategory);
             }
             return resultList;
@@ -85,6 +83,13 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ProductCategory fillWithProducts(ProductCategory category) throws NotFoundException {
+        ProductDaoDB productDB = new ProductDaoDB();
+        // Iterating through the products queried by category, and adding them to the suppliers 'category' field
+        productDB.getBy(category).forEach(category::addProduct);
+        return category;
     }
 
 }
