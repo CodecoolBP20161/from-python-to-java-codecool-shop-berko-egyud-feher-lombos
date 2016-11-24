@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--Display the toggle side-menu bar button-->
+<div th:fragment="togglesidemenubarbtn">
+    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <a class="btn btn-info cart-btn" href="#menu-toggle" id="menu-toggle">Toggle Menu</a>
+            <!--<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>-->
+            <!--<div class="cart-description">-->
+                <!--<img class="cart-img" th:attr="src='/img/shopping-cart-white.png'" alt=""/>-->
+                <!--<p class="cart-text">Shopping-Cart</p>-->
+            <!--</div>-->
+            <!--<div class="cart-content-number">-->
+                <!--<p class="cart-text" th:text="${cart} ? '('+ ${cart.totalQuantity} + ')' : '(0)'"></p>-->
+            <!--</div>-->
+        <!--</a>-->
+    </div>
+</div>
+</body>
+</html>
