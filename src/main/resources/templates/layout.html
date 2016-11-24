@@ -6,14 +6,19 @@
     <div th:fragment="frag (templateName)">
         <div th:replace="header :: header"></div>
         <div id="main" class="clear">
-            <div th:replace="sidebar :: sidebar"></div>
-            <div id="products-container" class="container">
-                <div class="row">
-                    <div th:replace="navbar :: navbar"></div>
-                    <div th:replace="shoppingcartbtn :: shoppingcartbtn"></div>
+            <div id="wrapper">
+                <div th:replace="sidebar :: sidebar"></div>
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+                    <div class="container-fluid">
+                        <div class="row">
+                                <div th:replace="navbar :: navbar"></div>
+                                <div th:replace="shoppingcartbtn :: shoppingcartbtn"></div>
+                            <div th:if="${templateName == 'product'}" th:include="${templateName} :: ${templateName}"></div>
+                            <div th:if="${templateName == 'cartcontent'}" th:include="${templateName} :: ${templateName}"></div>
+                        </div>
+                    </div>
                 </div>
-                <div th:if="${templateName == 'product'}" th:include="${templateName} :: ${templateName}"></div>
-                <div th:if="${templateName == 'cartcontent'}" th:include="${templateName} :: ${templateName}"></div>
             </div>
         </div>
         <div th:replace="footer :: footer"></div>
