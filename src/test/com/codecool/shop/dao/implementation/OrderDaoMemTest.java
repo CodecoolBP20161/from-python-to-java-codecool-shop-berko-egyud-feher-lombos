@@ -1,0 +1,85 @@
+package com.codecool.shop.dao.implementation;
+
+import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Status;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+
+public class OrderDaoMemTest {
+
+    OrderDaoMem orderDaoMem;
+
+    @Mock
+    Order order =  new Order();
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        orderDaoMem = OrderDaoMem.getInstance();
+        orderDaoMem.clear();
+        when(order.getStatus()).thenReturn(Status.CART);
+        System.out.println("Setting up...");
+    }
+
+    @Test
+    public void add_Order_To_OrderDaoMem() throws Exception {
+        orderDaoMem.add(order);
+        assertEquals(order.getId(), orderDaoMem.getAll().get(0).getId());
+        System.out.println("Test add_Order_To_OrderDaoMem passed ...");
+        System.out.println(orderDaoMem.getAll());
+    }
+
+    @Test
+    public void find_Should_Return_Order() throws Exception {
+        orderDaoMem.add(order);
+        assertEquals(order.toString(), orderDaoMem.find(order.getId()).toString());
+        System.out.println("Test find_Should_Return_Order passed ...");
+    }
+
+    @Test
+    public void find_Should_Return_Null() throws Exception {
+        assertEquals(null, orderDaoMem.find(order.getId()));
+        System.out.println("Test find_Should_Return_Null passed ...");
+        System.out.println(orderDaoMem.getAll());
+    }
+
+    @Test
+    public void getAll_Should_Return_OrderList() throws Exception {
+        orderDaoMem.add(order);
+        assertEquals(Arrays.asList(order), orderDaoMem.getAll());
+        System.out.println("Test getAll_Should_Return_OrderList passed ...");
+    }
+
+    @Test
+    public void getBy_Should_Return_OrderList_By_Status() throws Exception {
+        orderDaoMem.add(order);
+        order.setStatus(Status.CART);
+        assertEquals(Arrays.asList(order), orderDaoMem.getBy(Status.CART));
+
+        assertEquals(Status.CART, order.getStatus());
+    }
+
+    @Test
+    public void remove_Order_From_OrderDaoMem() throws Exception {
+        orderDaoMem.add(order);
+        orderDaoMem.remove(order.getId());
+        assertEquals(null, orderDaoMem.find(order.getId()));
+        System.out.println("Test remove_Order_From_OrderDaoMem passed ...");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        order = null;
+        orderDaoMem = null;
+        System.out.println("Tearing down to cleaning garbage collection");
+    }
+}
