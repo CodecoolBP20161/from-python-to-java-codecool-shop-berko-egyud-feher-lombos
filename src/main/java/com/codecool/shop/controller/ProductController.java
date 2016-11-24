@@ -18,6 +18,7 @@ import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class ProductController {
     static Integer supplierId = 1;
 
     // Handle the content of the params HashMap
-    public static Map setParams(Request req) throws NotFoundException {
+    public static Map setParams(Request req) throws NotFoundException, SQLException {
         Map params = new HashMap<>();
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
         params.put("categories", productCategoryDataStore.getAll());
@@ -59,7 +60,7 @@ public class ProductController {
     }
 
     // Action for display all or filtered products
-    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException {
+    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         if ( req.params(":categoryid") != null ) {
             params.put("category", productCategoryDataStore.find(categoryId));
@@ -71,7 +72,7 @@ public class ProductController {
     }
 
     // Action for display cart content
-    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException {
+    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         return new ModelAndView(params, "product/cart");
     }
