@@ -57,8 +57,4 @@ public class LineItem extends Product {
     public int getOrderId() {
         return orderId;
     }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
 }
