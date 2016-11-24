@@ -1,7 +1,10 @@
 package com.codecool.shop.dao;
 
 
-import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.dao.implementation.mem.OrderDaoMemTest;
+import com.codecool.shop.dao.implementation.mem.ProductCategoryDaoMemTest;
+import com.codecool.shop.dao.implementation.mem.ProductDaoMemTest;
+import com.codecool.shop.dao.implementation.mem.SupplierDaoMemTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
