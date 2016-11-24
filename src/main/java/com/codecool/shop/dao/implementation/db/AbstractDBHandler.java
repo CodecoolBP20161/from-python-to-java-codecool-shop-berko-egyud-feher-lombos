@@ -10,23 +10,27 @@ import java.util.HashMap;
 
 
 public abstract class AbstractDBHandler {
-    protected static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
-    protected static HashMap DBprops = configReader.getPropValues();
+    private static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
+    private static HashMap DBprops = configReader.getPropValues();
 
-    protected static final String DATABASE = "jdbc:postgresql://" + DBprops.get("url") + "/" + DBprops.get("database");
-    protected static final String DB_USER = String.valueOf(DBprops.get("user"));
-    protected static final String DB_PASSWORD = String.valueOf(DBprops.get("password"));
+    private static final String DATABASE = "jdbc:postgresql://" + DBprops.get("url") + "/" + DBprops.get("database");
+    private static final String DB_USER = String.valueOf(DBprops.get("user"));
+    private static final String DB_PASSWORD = String.valueOf(DBprops.get("password"));
+    protected static Connection connection = null;
 
-    Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                DATABASE,
-                DB_USER,
-                DB_PASSWORD);
-    }
+    public static Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = DriverManager.getConnection(
+                    DATABASE,
+                    DB_USER,
+                    DB_PASSWORD);
+        }
+        return connection;
+        }
 
      void executeQuery(String query) {
-        try (Connection connection = getConnection();
-             Statement statement =connection.createStatement();
+        try (
+             Statement statement = connection.createStatement()
         ){
             statement.execute(query);
 
