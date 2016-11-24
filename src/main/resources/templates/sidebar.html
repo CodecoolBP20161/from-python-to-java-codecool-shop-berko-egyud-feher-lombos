@@ -3,19 +3,43 @@
 <body>
 <!--Display the filter sidebar-->
     <div th:fragment="sidebar">
-        <div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">
-            <div>
-                <a th:attr="href='/'" th:class="${category.name == 'All Products'} ? (${supplier == null} ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'"><span>Home</span></a>
-            </div>
-            <br/>
-            <div th:each="cat,iterStat : ${categories}">
-                <a th:class="${cat.id == category.id} ? 'btn btn-warning sidebtn' : 'btn btn-success sidebtn'" th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Test1</span></a>
-            </div>
-            <br/>
-            <div th:each="supp,iterStat : ${suppliers}">
-                <a th:class="(${supplier != null}) ? ((${supp.id == supplier.id}) ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'" th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Test2</span></a>
-            </div>
+        <!--<div id="sidebar" class="btn-group-vertical" role="group" aria-label="...">-->
+            <!--<div>-->
+                <!--<a th:attr="href='/'" th:class="${category.name == 'All Products'} ? (${supplier == null} ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'"><span>Home</span></a>-->
+            <!--</div>-->
+            <!--<br/>-->
+            <!--<div th:each="cat,iterStat : ${categories}">-->
+                <!--<a th:class="${cat.id == category.id} ? 'btn btn-warning sidebtn' : 'btn btn-success sidebtn'" th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Test1</span></a>-->
+            <!--</div>-->
+            <!--<br/>-->
+            <!--<div th:each="supp,iterStat : ${suppliers}">-->
+                <!--<a th:class="(${supplier != null}) ? ((${supp.id == supplier.id}) ? 'btn btn-warning sidebtn': 'btn btn-success sidebtn') : 'btn btn-success sidebtn'" th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Test2</span></a>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a th:attr="href='/'" >
+                        <span>Home</span>
+                    </a>
+                </li>
+                <br/>
+                <div th:each="cat,iterStat : ${categories}">
+                    <li>
+                        <a th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Dashboard</span></a>
+                    </li>
+                </div>
+                <br/>
+                <div th:each="supp,iterStat : ${suppliers}">
+                    <li>
+                        <a th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Dashboard</span></a>
+                    </li>
+                </div>
+            </ul>
         </div>
+        <!-- /#sidebar-wrapper -->
     </div>
 </body>
 </html>
