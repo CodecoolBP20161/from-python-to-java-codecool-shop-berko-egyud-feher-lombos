@@ -74,7 +74,7 @@ public class Order implements Orderable {
         totalQuantity += 1;
         boolean contains = false;
         for (LineItem lineitem : itemsToBuy) {
-            if (newItem.id == lineitem.id) {
+            if (newItem.getProductId() == lineitem.getProductId()) {
                 contains = true;
                 lineitem.setQuantity(lineitem.getQuantity() + 1);
                 break;
