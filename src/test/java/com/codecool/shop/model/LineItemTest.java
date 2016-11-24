@@ -18,7 +18,7 @@ public class LineItemTest {
 
     @Before
     public void setUp() throws Exception {
-        lineItem = new LineItem(product);
+        lineItem = new LineItem(product, 0);
     }
 
     @After
