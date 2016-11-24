@@ -3,13 +3,15 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.controller.ProductControllerDB;
+import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import com.codecool.shop.testdata.TestDataMem;
+import javassist.NotFoundException;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NotFoundException {
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -17,6 +19,8 @@ public class Main {
         port(8888);
 
         TestDataDB.populateData();
+
+        before((request, response) -> AbstractDBHandler.getConnection());
 
         get("/add/:id", ProductControllerDB::addToCart);
         get("/remove/:id", ProductControllerDB :: removeFromCart);
