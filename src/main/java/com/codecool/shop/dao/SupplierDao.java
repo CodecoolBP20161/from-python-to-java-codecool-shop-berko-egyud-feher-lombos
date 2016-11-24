@@ -11,5 +11,5 @@ public interface SupplierDao {
     Supplier find(int id) throws NotFoundException;
     void remove(int id);
 
-    List<Supplier> getAll();
+    List<Supplier> getAll() throws NotFoundException;
 }
