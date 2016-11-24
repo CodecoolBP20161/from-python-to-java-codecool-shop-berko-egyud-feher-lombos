@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.mem;
 
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
@@ -47,5 +47,9 @@ public class OrderDaoMem implements OrderDao{
     @Override
     public List<Order> getBy(Status status) {
         return DATA.stream().filter(t -> t.getStatus().equals(status)).collect(Collectors.toList());
+    }
+
+    void clear(){
+        DATA = new ArrayList<>();
     }
 }

@@ -1,27 +1,31 @@
 import static spark.Spark.*;
 
-import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.testdata.TestData;
+import com.codecool.shop.controller.ProductControllerDB;
+import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
+import com.codecool.shop.testdata.TestDataDB;
+import javassist.NotFoundException;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NotFoundException {
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
 
-        TestData.populateData();
+        TestDataDB.populateData();
 
-        get("/add/:id", ProductController::addToCart);
-        get("/remove/:id", ProductController :: removeFromCart);
-        get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
+        before((request, response) -> AbstractDBHandler.getConnection());
+
+        get("/add/:id", ProductControllerDB::addToCart);
+        get("/remove/:id", ProductControllerDB :: removeFromCart);
+        get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
-        get("/category/:categoryid", ProductController::renderProducts, new ThymeleafTemplateEngine());
-        get("/supplier/:supplierid", ProductController::renderProducts, new ThymeleafTemplateEngine());
-        get("/cartcontent", ProductController::renderCartContent, new ThymeleafTemplateEngine());
+        get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+        get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+        get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });

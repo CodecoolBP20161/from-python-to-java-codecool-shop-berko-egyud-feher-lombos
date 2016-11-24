@@ -3,10 +3,14 @@ package com.codecool.shop.model;
 
 public class LineItem extends Product {
     private int quantity;
+    private int productId;
+    private int orderId;
+
 
     // constructor that takes a product as argument, and construct a line item for display
-    public LineItem(Product product) {
-        this.setId(product.getId());
+    public LineItem(Product product, int orderId) {
+        this.orderId = orderId;
+        this.setProductId(product.getId());
         this.setName(product.getName());
         this.setDefaultPrice(product.getDefaultPrice());
         this.setDefaultCurrency(product.getDefaultCurrency());
@@ -40,5 +44,17 @@ public class LineItem extends Product {
             this.productCategory.getName(),
             this.supplier.getName(),
             this.getQuantity());
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getOrderId() {
+        return orderId;
     }
 }

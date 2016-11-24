@@ -12,7 +12,7 @@ public class ConnectionPropertyValues {
     private InputStream inputStream;
 
     // get the database connection properties from connection/connection.properties config file
-    public HashMap<String, String> getPropValues() throws IOException {
+    public HashMap<String, String> getPropValues() {
         try {
             Properties prop = new Properties();
             String propFileName = "connection/connection.properties";
@@ -21,10 +21,7 @@ public class ConnectionPropertyValues {
 
             if (inputStream != null) {
                 prop.load(inputStream);
-            } else {
-                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
-
             connectionProperties.put("url", prop.getProperty("url"));
             connectionProperties.put("database", prop.getProperty("database"));
             connectionProperties.put("user", prop.getProperty("user"));
@@ -33,7 +30,11 @@ public class ConnectionPropertyValues {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         } finally {
-            inputStream.close();
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return connectionProperties;
     }

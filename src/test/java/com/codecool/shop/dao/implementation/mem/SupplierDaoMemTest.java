@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.dao.implementation.mem;
 
 import com.codecool.shop.model.Supplier;
 import org.junit.After;
@@ -29,12 +29,14 @@ public class SupplierDaoMemTest {
 
     @Test
     public void add_Supplier_To_SupplierDaoMem() throws Exception {
+        supplierDaoMem.add(supplier);
         assertEquals(supplier.getId(), supplierDaoMem.getAll().get(0).getId());
         System.out.println("Test add_Supplier_To_SupplierDaoMem passed ...");
     }
 
     @Test
     public void find_Should_Return_Supplier() throws Exception {
+        supplierDaoMem.add(supplier);
         assertEquals(supplier.toString(), supplierDaoMem.find(supplier.getId()).toString());
         System.out.println("Test find_Should_Return_Supplier passed ...");
     }
