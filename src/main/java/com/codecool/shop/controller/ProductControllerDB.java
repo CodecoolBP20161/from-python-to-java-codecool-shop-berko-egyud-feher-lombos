@@ -26,6 +26,9 @@ public class ProductControllerDB {
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB supplierDB = new SupplierDaoDB();
 
+    static Integer categoryId = 1;
+    static Integer supplierId = 1;
+
     // Handle the content of the params HashMap
     private static Map setParams(Request req) throws NotFoundException, SQLException {
 
@@ -39,13 +42,13 @@ public class ProductControllerDB {
         req.session().attribute("currentUrl", "/");
 
         if ( req.params(":categoryid") != null ) {
-            int categoryId = Integer.parseInt(req.params(":categoryid"));
+            categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
 
         }
         else if ( req.params(":supplierid") != null ) {
-            int supplierId = Integer.parseInt(req.params(":supplierid"));
+            supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", ProductDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
@@ -56,14 +59,13 @@ public class ProductControllerDB {
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
         return params;
+
     }
 
     // Action for display all or filtered products
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
 
-        int categoryId = Integer.valueOf(req.params(":categoryid"));
-        int supplierId = Integer.valueOf(req.params(":supplierid"));
         if ( req.params(":categoryid") != null ) {
             params.put("category", ProductCategoryDB.find(categoryId));
         }
