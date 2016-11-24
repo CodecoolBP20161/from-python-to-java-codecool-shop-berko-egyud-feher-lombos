@@ -67,7 +67,7 @@ public class Product extends BaseModel {
         return productCategory;
     }
 
-    void setProductCategory(ProductCategory productCategory) {
+    public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
         this.productCategory.addProduct(this);
     }

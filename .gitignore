@@ -23,3 +23,10 @@ hs_err_pid*
 # target folder
 target/*
 /src/main/resources/connection/connection.properties
+/target/
+target/
+/src/test/java/com/codecool/shop/dao/implementation/db/partial.xml
+sample.log
+sample.properties
+
+src/test/java/com/codecool/shop/dao/implementation/db/partial.xml

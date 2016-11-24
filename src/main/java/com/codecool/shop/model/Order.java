@@ -73,13 +73,12 @@ public class Order implements Orderable {
         LineItem newItem = new LineItem(item, this.getId());
         totalQuantity += 1;
         boolean contains = false;
-        for (LineItem lineitem : itemsToBuy) {
+        for (LineItem lineitem : itemsToBuy)
             if (newItem.getProductId() == lineitem.getProductId()) {
                 contains = true;
                 lineitem.setQuantity(lineitem.getQuantity() + 1);
                 break;
             }
-        }
         if (!contains) {
             this.itemsToBuy.add(newItem);
         } this.setTotalPrice(this.getTotalPrice() + item.getDefaultPrice());
@@ -89,7 +88,7 @@ public class Order implements Orderable {
     public void remove(Product item) {
         LineItem newItem = new LineItem(item, this.getId());
         totalQuantity -= 1;
-        for (LineItem lineitem : itemsToBuy) {
+        for (LineItem lineitem : itemsToBuy)
             if (newItem.id == lineitem.id) {
                 lineitem.setQuantity(lineitem.getQuantity() - 1);
                 itemsToBuy.remove(newItem);
@@ -98,7 +97,6 @@ public class Order implements Orderable {
                 }
                 break;
             }
-        }
     }
 
     @Override
