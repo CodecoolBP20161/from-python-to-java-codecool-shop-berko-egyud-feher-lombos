@@ -40,10 +40,12 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
                                       resultSet.getString("NAME"),
                                       resultSet.getString("DESCRIPTION"),
                                       resultSet.getString("DEPARTMENT"));
+
+                // Iterating through the products queried by category, and adding them to the suppliers 'category' field
                 productDB.getBy(category).forEach(category::addProduct);
                 return category;
             } else {
-                throw new NotFoundException("Product not found");
+                throw new NotFoundException("Category not found");
             }
         } catch (SQLException e) {
             e.printStackTrace();
