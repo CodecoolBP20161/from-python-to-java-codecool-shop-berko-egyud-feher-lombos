@@ -7,10 +7,11 @@
             <p class="lead" th:text="(${supplier != null}) ? ${supplier.name} : ${category.name}">Shop Name</p>
             <div class="list-group" >
                 <div th:each="cat,iterStat : ${categories}">
-                    <a class="list-group-item list-group-item-success" th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Category</span></a>
+                    <a th:class="${cat.id == category.id} ? 'list-group-item active list-group-item-success' : 'list-group-item list-group-item-info'" th:attr="href='/category/' + ${cat.id}"><span th:text="${cat.name}">Category</span></a>
                 </div>
+                <br></br>
                 <div th:each="supp,iterStat : ${suppliers}">
-                    <a class="list-group-item list-group-item-success" th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Supplier</span></a>
+                    <a th:class="(${supplier != null}) and (${supp.id == supplier.id}) ? 'list-group-item active list-group-item-success': 'list-group-item list-group-item-info'" th:attr="href='/supplier/' + ${supp.id}"><span th:text="${supp.name}">Supplier</span></a>
                 </div>
             </div>
         </div>
