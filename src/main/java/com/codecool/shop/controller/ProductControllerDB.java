@@ -81,6 +81,11 @@ public class ProductControllerDB {
         return new ModelAndView(params, "product/cart");
     }
 
+    // Action for display about us page
+    public static ModelAndView renderAboutUs(Request req, Response res) throws NotFoundException, SQLException {
+        Map params = setParams(req);
+        return new ModelAndView(params, "product/aboutus");
+    }
 
     // Handle the content of the session and set the variables of Order object
     public static String addToCart(Request req, Response res) throws NotFoundException {
