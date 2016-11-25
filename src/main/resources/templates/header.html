@@ -22,7 +22,7 @@
                     </li>
 
                     <li>
-                        <a href="#">About Us</a>
+                        <a th:href="'/aboutus'" >About Us</a>
                     </li>
                     <li>
                         <a th:href="'/cartcontent'" th:text="${cart} ? 'Cart ('+ ${cart.totalQuantity} + ')' : 'Cart (0)'">
