@@ -1,10 +1,10 @@
-import static spark.Spark.*;
-
 import com.codecool.shop.controller.ProductControllerDB;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import javassist.NotFoundException;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import static spark.Spark.*;
 
 public class Main {
 
@@ -26,6 +26,7 @@ public class Main {
         get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
+        get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });
