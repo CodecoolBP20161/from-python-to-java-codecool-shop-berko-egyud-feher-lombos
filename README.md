@@ -8,6 +8,7 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 !["preview"](src/main/resources/public/img/preview_home.png)
 
 
+
 !["preview"](src/main/resources/public/img/preview_cart.png)
 
 
@@ -24,13 +25,13 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 9. Shopping Cart / Payment
 10. Shopping Cart / Confirmation
 11. Admin log
-12. Products / DB
-13. Products / memory DAO testing
-14. Product / DB / Testing 
+12. Products / DB  :white_check_mark:
+13. Products / memory DAO testing  :white_check_mark:
+14. Product / DB / Testing  :white_check_mark:
 15. Database / Config :white_check_mark:
-16. Products / List / Unit Test
-17. Products / by Product Category / Unit test
-18. Products / by Supplier / Unit test
+16. Products / List / Unit Test :white_check_mark:
+17. Products / by Product Category / Unit test :white_check_mark:
+18. Products / by Supplier / Unit test :white_check_mark:
 19. Shopping Cart / add to Cart / Unit test
 20. Shopping Cart / Review / Unit test
 21. Shopping Cart / Edit / Unit test
@@ -66,12 +67,20 @@ We had to take consideration the following requirements:
 - Implement at least one Interface
 - It's not required to integrate real payment services 
 
-# Install
+# Install & Usage the App
 
 1. Import this project to IntelliJ as a Maven project. (IntelliJ can auto-install the dependencies from the pom.xml)
 2. Fill resources/connection/connection.properties config file with your database's properties
 3. `run Main.java`
 4. In your browser, type `localhost:8888`
+
+#  Usage the Test
+
+In test/java/com/codecool/shop there are two different folders. 
+You can just simply `run JunitTestRunner`
+
+
+
 
 
 
