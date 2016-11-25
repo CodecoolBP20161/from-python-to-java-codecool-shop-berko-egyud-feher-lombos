@@ -11,21 +11,31 @@ import static org.junit.Assert.assertEquals;
 
 public class OrderTest {
 
-    Order order;
+    private Order order;
+    private Order order2;
 
-    @Mock
-    Supplier supplier = new Supplier("name", "description");
-    ProductCategory productCategory = new ProductCategory("TestName", "TestDepartment", "TestDescription");
-    Product product = new Product("tv", 123.5f, "USD", "description", productCategory, supplier);
+    @Mock Supplier supplier = new Supplier("name", "description");
+    @Mock ProductCategory productCategory = new ProductCategory("TestName", "TestDepartment", "TestDescription");
+    @Mock Product product = new Product("tv", 123.5f, "USD", "description", productCategory, supplier);
 
     @Before
     public void setUp() throws Exception {
         order = new Order();
+        order2 = new Order(Status.CART, 0);
+        System.out.println("Setting up...");
     }
 
     @After
     public void tearDown() throws Exception {
         order.remove(product);
+        System.out.println("Tearing down to cleaning garbage collection");
+    }
+
+    @Test
+    public void getStatus_Should_Return_Order_Status() throws Exception {
+        Status result = Status.CART;
+        assertEquals(result, order.getStatus());
+        System.out.println("Test getStatus_Should_Return_Order_Status passed...");
     }
 
     @Test
@@ -33,6 +43,7 @@ public class OrderTest {
         order.add(product);
         String result = "[id: 0, name: tv, defaultPrice: 123.500000, defaultCurrency: USD, productCategory: TestName, supplier: name, quantity: 1]";
         assertEquals(result, order.getItemsToBuy().toString());
+        System.out.println("Test add_New_Product_To_Order passed...");
     }
 
     @Test
@@ -40,14 +51,16 @@ public class OrderTest {
         for(int i = 0; i < 5; i++)
             order.add(product);
         assertThat(order.getItemsToBuy().toString(), containsString("quantity: 5"));
+        System.out.println("Test add_Existing_Product_To_Order passed...");
     }
 
 
     @Test
-    public void remove() throws Exception {
+    public void remove_Product_From_Order() throws Exception {
         order.add(product);
         order.remove(product);
         assertEquals(0, order.getTotalQuantity());
+        System.out.println("Test remove_Product_From_Order passed...");
     }
 
     @Test
@@ -59,6 +72,7 @@ public class OrderTest {
                 "totalQuantity: 1, " +
                 "itemsToBuy: [id: 0, name: tv, defaultPrice: 123.500000, defaultCurrency: USD, productCategory: TestName, supplier: name, quantity: 1]";
         assertEquals(result, order.toString());
+        System.out.println("Test toString_Should_Print_Order_Properties passed...");
     }
 
 }
