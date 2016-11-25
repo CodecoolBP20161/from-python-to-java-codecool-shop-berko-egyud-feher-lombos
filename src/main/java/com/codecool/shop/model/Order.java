@@ -86,10 +86,10 @@ public class Order implements Orderable {
 
     // creates a line item, and remove it from itemsToBuy, and decrease the quantity of the lineitem if it exists.
     public void remove(Product item) {
-        LineItem newItem = new LineItem(item, this.getId());
+        LineItem newItem = new LineItem(item, item.getId());
         totalQuantity -= 1;
         for (LineItem lineitem : itemsToBuy)
-            if (newItem.id == lineitem.id) {
+            if (item.id == lineitem.getProductId()) {
                 lineitem.setQuantity(lineitem.getQuantity() - 1);
                 itemsToBuy.remove(newItem);
                 if (lineitem.getQuantity() == 0) {
