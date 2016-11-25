@@ -4,30 +4,45 @@ import java.util.Currency;
 
 public class Product extends BaseModel {
 
-    protected float defaultPrice;
-    protected Currency defaultCurrency;
-    protected ProductCategory productCategory;
+    float defaultPrice;
+    Currency defaultCurrency;
+    ProductCategory productCategory;
     protected Supplier supplier;
-    private int idCount = 1;
 
+    public Product(int id, String name,
+                   float defaultPrice,
+                   String currencyString,
+                   String description,
+                   ProductCategory Category,
+                   Supplier supplier) {
 
-    public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
+        super(name, description);
+        this.setId(id);
+        this.setPrice(defaultPrice, currencyString);
+        this.setSupplier(supplier);
+        this.setProductCategory(Category);
+    }
+    public Product( String name,
+                    float defaultPrice,
+                    String currencyString,
+                    String description,
+                    ProductCategory Category,
+                    Supplier supplier) {
+
         super(name, description);
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
-        this.setProductCategory(productCategory);
+        this.setProductCategory(Category);
     }
 
     public Product() {
-        this.id = idCount++;
     }
-
 
     public float getDefaultPrice() {
         return defaultPrice;
     }
 
-    public void setDefaultPrice(float defaultPrice) {
+    void setDefaultPrice(float defaultPrice) {
         this.defaultPrice = defaultPrice;
     }
 
@@ -35,15 +50,15 @@ public class Product extends BaseModel {
         return defaultCurrency;
     }
 
-    public void setDefaultCurrency(Currency defaultCurrency) {
+    void setDefaultCurrency(Currency defaultCurrency) {
         this.defaultCurrency = defaultCurrency;
     }
 
     public String getPrice() {
-        return String.valueOf(this.defaultPrice) + " " + this.defaultCurrency.toString();
+        return this.defaultPrice + " " + this.defaultCurrency;
     }
 
-    public void setPrice(float price, String currency) {
+    void setPrice(float price, String currency) {
         this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance(currency);
     }
@@ -68,12 +83,7 @@ public class Product extends BaseModel {
 
     @Override
     public String toString() {
-        return String.format("id: %1$d, " +
-                        "name: %2$s, " +
-                        "defaultPrice: %3$f, " +
-                        "defaultCurrency: %4$s, " +
-                        "productCategory: %5$s, " +
-                        "supplier: %6$s",
+        return String.format("id: %1$d, name: %2$s, defaultPrice: %3$f, defaultCurrency: %4$s, productCategory: %5$s, supplier: %6$s",
                 this.id,
                 this.name,
                 this.defaultPrice,
