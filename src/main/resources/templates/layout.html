@@ -4,27 +4,24 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
     <div th:fragment="frag (templateName)">
-        <div th:replace="header :: header"></div>
-        <div id="main" class="clear">
-            <div id="wrapper">
-                <div th:replace="sidebar :: sidebar"></div>
-                <!-- Page Content -->
-                <div id="page-content-wrapper">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div th:replace="shoppingcartbtn :: shoppingcartbtn"></div>
-                            <div th:replace="togglesidemenubarbtn :: togglesidemenubarbtn"></div>
 
-                            <div th:replace="navbar :: navbar"></div>
-                            <div th:if="${templateName == 'product'}" th:include="${templateName} :: ${templateName}"></div>
-                            <div th:if="${templateName == 'cartcontent'}" th:include="${templateName} :: ${templateName}"></div>
-                        </div>
-                    </div>
+        <div th:replace="header :: header"></div>
+
+        <div class="container">
+            <div class="row">
+
+                <div th:replace="sidebar :: sidebar"></div>
+
+                <div class="col-md-9">
+
+                    <div th:if="${templateName == 'product'}" th:include="${templateName} :: ${templateName}"></div>
+                    <div th:if="${templateName == 'cartcontent'}" th:include="${templateName} :: ${templateName}"></div>
                 </div>
             </div>
         </div>
-        <div th:replace="footer :: footer"></div>
-    </div>
 
+        <div th:replace="footer :: footer"></div>
+
+    </div>
 </body>
 </html>

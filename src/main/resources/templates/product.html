@@ -3,21 +3,27 @@
 <body>
 <!--Display the selected products-->
     <div th:fragment="product">
-        <div id="products" class="row list-group">
-            <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
+        <div class="row">
+
+            <div class="col-sm-4 col-lg-4 col-md-4" th:each="prod,iterStat : ${products}">
                 <div class="thumbnail">
                     <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="" />
                     <div class="caption">
-                        <h4 class="group inner list-group-item-heading" th:text="${prod.name}">Product name</h4>
-                        <p class="group inner list-group-item-text" th:text="${prod.description}">Product description... </p>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getId()}">Add to cart</a>
-                            </div>
+                        <h4 class="pull-right" th:text="${prod.getPrice()}">Porduct Price</h4>
+                        <h4><a th:text="${prod.name}">Product Name</a></h4>
+                        <p th:text="${prod.description}">Product description <a target="_blank" href="#"></a>.</p>
+                    </div>
+                    <div class="ratings">
+                        <div class="pull-right">
+                            <a class="btn btn-success btn-xs" th:attr="href='/add' + '/' + ${prod.getId()}">Add to cart</a>
                         </div>
+                        <p>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        </p>
                     </div>
                 </div>
             </div>
