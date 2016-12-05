@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 
+import com.codecool.shop.dao.implementation.db.OrderDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class ProductControllerDB {
 
     private static ProductDaoDB ProductDB = new ProductDaoDB();
+    private static OrderDaoDB OrderDaoDB = new OrderDaoDB();
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB supplierDB = new SupplierDaoDB();
 
@@ -90,17 +92,18 @@ public class ProductControllerDB {
     // Handle the content of the session and set the variables of Order object
     public static String addToCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
-        Orderable cart;
+        Orderable order;
 
         if (req.session().attribute("Cart") == null) {
-            cart = new Order();
+            order = new Order();
+            System.out.println(req.session().id());
         } else {
-            cart = req.session().attribute("Cart");
+            order = req.session().attribute("Cart");
         }
 
-        cart.add(ProductDB.find(id));
-        req.session().attribute("Cart", cart);
-
+        order.add(ProductDB.find(id));
+        req.session().attribute("Cart", order);
+        OrderDaoDB.add((Order) order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
@@ -119,5 +122,17 @@ public class ProductControllerDB {
         req.session().attribute("Cart", cart);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
+    }
+
+    public static ModelAndView renderCheckoutProcess(Request req, Response res) throws NotFoundException, SQLException {
+        Map params = setParams(req);
+
+        Order order = req.session().attribute("Cart");
+        System.out.println(req.session().attribute("Cart") + " Cartcontent");
+
+        // it's operate weirdly
+        OrderDaoDB.add(order);
+
+        return new ModelAndView(params, "product/checkout");
     }
 }

@@ -29,6 +29,10 @@
                     </table>
                 </div>
                 <div class="panel-footer text-right" th:text="'Total Price: ' + ${#numbers.formatDecimal(cart.getTotalPrice(), 0, 1)} + ' USD'">Product list</div>
+
+            </div>
+            <div class="text-right">
+                <a class="btn btn-success "  href="/checkout"><span>Checkout</span></a>
             </div>
         </div>
         <!--In case of the cart is empty-->
