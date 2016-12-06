@@ -45,7 +45,8 @@ public class BuildTable {
                                  "(" +
                                  "ID SERIAL PRIMARY KEY," +
                                  "STATUS varchar(255)," +
-                                 "TOTAL_PRICE varchar(255)" +
+                                 "TOTAL_PRICE varchar(255)," +
+                                 "USER_ID varchar(255)" +
                                  ");";
 
             String createSupplier = "DROP TABLE IF EXISTS supplier CASCADE;" +
