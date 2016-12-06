@@ -115,6 +115,12 @@ public class Order implements Orderable {
 
 
     }
+
+//    // it set the Order's status to "CHECKED"
+//    public boolean checkout(){
+//        this.setStatus(Status);
+//        return true;
+//    }
 }
 
 
