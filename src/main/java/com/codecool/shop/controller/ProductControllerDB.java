@@ -125,6 +125,10 @@ public class ProductControllerDB {
 
         Order order = req.session().attribute("Cart");
 
+        // set userId to order
+        // temporary UserId, because the registration form isn't yet ready
+        order.setUserSessionId(req.session().id());
+
         // HOW TO DELETE FROM SESSION ORDER? THERE IS THE METHOD TO DELETE, SET ORDER NEW !! :)
 //        req.session().attribute("Cart", order);
 

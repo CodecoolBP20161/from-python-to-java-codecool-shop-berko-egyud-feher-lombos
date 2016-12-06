@@ -16,4 +16,5 @@ public interface OrderDao {
     List<Order> getAll() throws NotFoundException, SQLException;
     List<Order> getBy(Status status) throws NotFoundException;
 
+
 }
