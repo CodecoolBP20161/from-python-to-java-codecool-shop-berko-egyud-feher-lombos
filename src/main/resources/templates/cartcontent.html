@@ -4,9 +4,12 @@
 <!--Display the cart content in table-->
     <div th:fragment="cartcontent">
         <div th:if="${cart}">
-            <div class="panel panel-default">
+            <div class="panel panel-default container-fluid">
                 <!-- Default panel contents -->
-                <div class="panel-heading" th:text="'Cart content'">Product list</div>
+                <div class="panel-heading row">
+                    <h4 class="col-xs-9">Cart Content</h4>
+                    <a class="col-xs-3  btn btn-warning"  href="#"><span>Delete Cart Content</span></a>
+                </div>
                 <div class="panel-body">
                     <!--Table content-->
                     <table class="table table-hover text-center">
@@ -22,13 +25,13 @@
                                 <td th:text="${prod.defaultPrice} + ${prod.defaultCurrency}" ></td>
                                 <td th:text="${#numbers.formatDecimal(prod.defaultPrice*prod.getQuantity(), 0, 1)} + ${prod.defaultCurrency}"></td>
                                 <td th:text="${prod.getQuantity()}"></td>
-                                <td><a class="btn btn-success" th:attr="href='/add' + '/' + ${prod.getProductId()}">+</a></td>
-                                <td><a class="btn btn-success" th:attr="href='/remove' + '/' + ${prod.getProductId()}">-</a></td>
+                                <td><a class="btn btn-info-xs glyphicon glyphicon-plus" th:attr="href='/add' + '/' + ${prod.getProductId()}"></a></td>
+                                <td><a class="btn btn-info-xs glyphicon glyphicon-minus" th:attr="href='/remove' + '/' + ${prod.getProductId()}"></a></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer text-right" th:text="'Total Price: ' + ${#numbers.formatDecimal(cart.getTotalPrice(), 0, 1)} + ' USD'">Product list</div>
+                <div class="panel-footer text-right row" th:text="'Total Price: ' + ${#numbers.formatDecimal(cart.getTotalPrice(), 0, 1)} + ' USD'">Product list</div>
 
             </div>
             <div class="text-right">
