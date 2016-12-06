@@ -1,17 +1,13 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.dao.implementation.db.OrderDaoDB;
-import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
-import com.codecool.shop.dao.implementation.db.ProductDaoDB;
-import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
-
+import com.codecool.shop.dao.implementation.db.*;
+import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
 import com.codecool.shop.model.ProductCategory;
-
+import com.codecool.shop.model.process.CheckoutProcess;
 import javassist.NotFoundException;
-
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -25,6 +21,7 @@ public class ProductControllerDB {
 
     private static ProductDaoDB ProductDB = new ProductDaoDB();
     private static OrderDaoDB OrderDaoDB = new OrderDaoDB();
+    private static LineItemDaoDB LineItemDaoDB = new LineItemDaoDB();
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB supplierDB = new SupplierDaoDB();
 
@@ -96,30 +93,29 @@ public class ProductControllerDB {
 
         if (req.session().attribute("Cart") == null) {
             order = new Order();
-            System.out.println(req.session().id());
+//            System.out.println(req.session().id());
         } else {
             order = req.session().attribute("Cart");
         }
 
         order.add(ProductDB.find(id));
         req.session().attribute("Cart", order);
-        OrderDaoDB.add((Order) order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
     // Handle the content of the session and set the variables of Order object
     public static String removeFromCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
-        Orderable cart;
+        Orderable order;
 
         if (req.session().attribute("Cart") == null) {
-            cart = new Order();
+            order = new Order();
         } else {
-            cart = req.session().attribute("Cart");
+            order = req.session().attribute("Cart");
         }
 
-        cart.remove(ProductDB.find(id));
-        req.session().attribute("Cart", cart);
+        order.remove(ProductDB.find(id));
+        req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
@@ -128,10 +124,22 @@ public class ProductControllerDB {
         Map params = setParams(req);
 
         Order order = req.session().attribute("Cart");
-        System.out.println(req.session().attribute("Cart") + " Cartcontent");
 
-        // it's operate weirdly
+        // HOW TO DELETE FROM SESSION ORDER? THERE IS THE METHOD TO DELETE, SET ORDER NEW !! :)
+//        req.session().attribute("Cart", order);
+
+        // set order's status to "CHECKED"
+        CheckoutProcess checkoutProcess = new CheckoutProcess();
+        checkoutProcess.process(order);
+
+        // add order to order's table & set the order id according to the database
         OrderDaoDB.add(order);
+
+        for (LineItem lineItem : order.getItemsToBuy()) {
+            lineItem.setOrderId(order.getId());
+            LineItemDaoDB.add(lineItem);
+            System.out.println(lineItem + "lineitem");
+        }
 
         return new ModelAndView(params, "product/checkout");
     }
