@@ -13,6 +13,8 @@ import spark.Request;
 import spark.Response;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +29,8 @@ public class ProductControllerDB {
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
+    static ArrayList<String> savedOrderExamine;
+    private static String STATUS_CHECKED_CART;
 
     // Handle the content of the params HashMap
     private static Map setParams(Request req) throws NotFoundException, SQLException {
@@ -122,8 +126,11 @@ public class ProductControllerDB {
 
     public static ModelAndView renderCheckoutProcess(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
-
         Order order = req.session().attribute("Cart");
+
+        // set the examining list pareters the default (default = user don't push the checkout button yet)
+        STATUS_CHECKED_CART = "UNCHECKED";
+        savedOrderExamine = new ArrayList<>(Arrays.asList(req.session().id(), STATUS_CHECKED_CART));
 
         // set userId to order
         // temporary UserId, because the registration form isn't yet ready
@@ -132,18 +139,29 @@ public class ProductControllerDB {
         // HOW TO DELETE FROM SESSION ORDER? THERE IS THE METHOD TO DELETE, SET ORDER NEW !! :)
 //        req.session().attribute("Cart", order);
 
-        // set order's status to "CHECKED"
-        CheckoutProcess checkoutProcess = new CheckoutProcess();
-        checkoutProcess.process(order);
+        if (savedOrderExamine.get(0).equals(req.session().id()) && savedOrderExamine.get(1).equals(STATUS_CHECKED_CART)) {
+            // add order to order's table & set the order id according to the database
+            OrderDaoDB.add(order);
 
-        // add order to order's table & set the order id according to the database
-        OrderDaoDB.add(order);
+//            System.out.println(order.getId());
 
-        for (LineItem lineItem : order.getItemsToBuy()) {
-            lineItem.setOrderId(order.getId());
-            LineItemDaoDB.add(lineItem);
-            System.out.println(lineItem + "lineitem");
+            // set order's status to "CHECKED"
+            CheckoutProcess checkoutProcess = new CheckoutProcess();
+            checkoutProcess.process(order);
+
+            for (LineItem lineItem : order.getItemsToBuy()) {
+                lineItem.setOrderId(order.getId());
+                LineItemDaoDB.add(lineItem);
+            }
+            savedOrderExamine.set(1, "CHECKED");
+        } else if (savedOrderExamine.get(1).equals(STATUS_CHECKED_CART)){
+            // update order in order's table
+            // update should have to examine the differences between the saved order totalprice and the current total price and the userid and the status
+            // i have to make a new list for the new lineitem and with this i have to update the lineitems
+//            OrderDaoDB.update(order);
+//            LineItemDaoDB.update(lineItem);
         }
+
 
         return new ModelAndView(params, "product/checkout");
     }
