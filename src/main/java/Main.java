@@ -27,6 +27,7 @@ public class Main {
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
+        get("/signin", ProductControllerDB::renderSignIn, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });

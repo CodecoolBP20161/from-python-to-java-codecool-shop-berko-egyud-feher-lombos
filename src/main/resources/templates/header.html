@@ -7,7 +7,8 @@
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -18,16 +19,25 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a class="navbar-brand" th:attr="href='/'" >Codecool Shop</a>
+                        <a class="navbar-brand" th:attr="href='/'">Codecool Shop</a>
                     </li>
 
                     <li>
-                        <a th:href="'/aboutus'" >About Us</a>
+                        <a th:href="'/aboutus'">About Us</a>
                     </li>
                     <li>
-                        <a th:href="'/cartcontent'" th:text="${cart} ? 'Cart ('+ ${cart.totalQuantity} + ')' : 'Cart (0)'">
+                        <a th:href="'/cartcontent'"
+                           th:text="${cart} ? 'Cart ('+ ${cart.totalQuantity} + ')' : 'Cart (0)'">
                             Cart
                         </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-btn signButtons">
+                        <button class="btn btn-default"><a class="anchorButton" th:href="'/signin'" ><b>Sign In</b></a></button>
+                    </li>
+                    <li class="navbar-btn signButtons">
+                        <button class="btn btn-success"><a class="anchorButton"  th:href="'/signUp'" ><b>Sign Up</b></a></button>
                     </li>
                 </ul>
             </div>
