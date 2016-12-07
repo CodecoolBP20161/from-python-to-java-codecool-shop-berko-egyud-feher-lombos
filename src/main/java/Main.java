@@ -29,6 +29,8 @@ public class Main {
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
         get("/checkout", ProductControllerDB::renderCheckoutProcess, new ThymeleafTemplateEngine());
+        post("/checkout", ProductControllerDB::saveShippingInfo);
+
 
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
