@@ -1,3 +1,5 @@
+import com.codecool.shop.controller.Controller;
+import com.codecool.shop.controller.OrderControllerDB;
 import com.codecool.shop.controller.ProductControllerDB;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
@@ -19,18 +21,21 @@ public class Main {
 
         before((request, response) -> AbstractDBHandler.getConnection());
 
-        get("/add/:id", ProductControllerDB::addToCart);
-        get("/remove/:id", ProductControllerDB :: removeFromCart);
-        get("/removeall", ProductControllerDB :: removeAllFromCart);
+        get("/add/:id", Controller::addToCart);
+        get("/remove/:id", Controller :: removeFromCart);
+        get("/removeall", Controller :: removeAllFromCart);
 
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
-        get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
-        get("/checkout", ProductControllerDB::renderCheckoutProcess, new ThymeleafTemplateEngine());
-        post("/checkout", ProductControllerDB::saveShippingInfoToSession);
+        get("/cartcontent", OrderControllerDB::renderCartContent, new ThymeleafTemplateEngine());
 
+        get("/checkout", OrderControllerDB::renderCheckoutPage, new ThymeleafTemplateEngine());
+        post("/checkout", OrderControllerDB::saveShippingInfoToSession);
+
+        get("/pay", OrderControllerDB::renderPaymentPage, new ThymeleafTemplateEngine());
+        post("/pay", OrderControllerDB::saveBankCardData);
 
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
