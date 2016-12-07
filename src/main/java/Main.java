@@ -21,11 +21,17 @@ public class Main {
 
         get("/add/:id", ProductControllerDB::addToCart);
         get("/remove/:id", ProductControllerDB :: removeFromCart);
+        get("/removeall", ProductControllerDB :: removeAllFromCart);
+
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
+        get("/checkout", ProductControllerDB::renderCheckoutProcess, new ThymeleafTemplateEngine());
+        post("/checkout", ProductControllerDB::saveShippingInfoToSession);
+
+
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");

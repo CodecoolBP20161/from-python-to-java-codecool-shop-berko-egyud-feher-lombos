@@ -45,7 +45,8 @@ public class BuildTable {
                                  "(" +
                                  "ID SERIAL PRIMARY KEY," +
                                  "STATUS varchar(255)," +
-                                 "TOTAL_PRICE varchar(255)" +
+                                 "TOTAL_PRICE varchar(255)," +
+                                 "USER_ID varchar(255)" +
                                  ");";
 
             String createSupplier = "DROP TABLE IF EXISTS supplier CASCADE;" +
@@ -64,7 +65,25 @@ public class BuildTable {
                                     "PRODUCT int REFERENCES product(ID) ON DELETE CASCADE," +
                                     "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                                     ");";
-        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);
+
+            String createShippingData = "DROP TABLE IF EXISTS shippingdata CASCADE;" +
+                    "CREATE TABLE shippingdata" +
+                    "(" +
+                    "ID SERIAL PRIMARY KEY," +
+                    "FIRST_NAME varchar(255)," +
+                    "LAST_NAME varchar(255)," +
+                    "EMAIL varchar(255)," +
+                    "PHONE varchar(255)," +
+                    "ADRESS varchar(255)," +
+                    "CITY varchar(255)," +
+                    "STATE varchar(255)," +
+                    "ZIP_CODE int," +
+                    "COMMENT varchar(255)," +
+                    "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
+                    ");";
+
+
+        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createShippingData);
 
         } catch (SQLException e){
             e.printStackTrace();

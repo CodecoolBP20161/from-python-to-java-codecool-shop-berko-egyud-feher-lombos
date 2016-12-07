@@ -2,7 +2,8 @@ package com.codecool.shop.model;
 
 
 import java.util.HashSet;
-import static com.codecool.shop.model.Status.*;
+
+import static com.codecool.shop.model.Status.CART;
 
 
 public class Order implements Orderable {
@@ -10,6 +11,8 @@ public class Order implements Orderable {
     private Status status;
     private double totalPrice = 0;
     private int totalQuantity = 0;
+    private String userSessionId;
+
     // contains all the LineItems in the shopping cart (order)
     private HashSet<LineItem> itemsToBuy = new HashSet<>();
 
@@ -52,7 +55,7 @@ public class Order implements Orderable {
     }
 
 
-    public void setStatus(Status status) {
+    private void setStatus(Status status) {
         this.status = status;
     }
 
@@ -68,6 +71,14 @@ public class Order implements Orderable {
         return itemsToBuy;
     }
 
+    public String getUserSessionId() {
+        return userSessionId;
+    }
+
+    public void setUserSessionId(String userSessionId) {
+        this.userSessionId = userSessionId;
+    }
+
     // creates a line item, and add it to itemsToBuy, and increments the quantity of the lineitem if it exists.
     public void add(Product item) {
         LineItem newItem = new LineItem(item, this.getId());
@@ -81,7 +92,8 @@ public class Order implements Orderable {
             }
         if (!contains) {
             this.itemsToBuy.add(newItem);
-        } this.setTotalPrice(this.getTotalPrice() + item.getDefaultPrice());
+        }
+        this.setTotalPrice(this.getTotalPrice() + item.getDefaultPrice());
     }
 
     // creates a line item, and remove it from itemsToBuy, and decrease the quantity of the lineitem if it exists.
@@ -97,6 +109,7 @@ public class Order implements Orderable {
                 }
                 break;
             }
+        this.setTotalPrice(this.getTotalPrice() - item.getDefaultPrice());
     }
 
     @Override
@@ -112,8 +125,12 @@ public class Order implements Orderable {
                 this.totalPrice,
                 this.totalQuantity,
                 this.itemsToBuy);
+    }
 
-
+    // it set the Order's status to "CHECKED"
+    public boolean checkout() {
+        this.setStatus(Status.CHECKED);
+        return true;
     }
 }
 
