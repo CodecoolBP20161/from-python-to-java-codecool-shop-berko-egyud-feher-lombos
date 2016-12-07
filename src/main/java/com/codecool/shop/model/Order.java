@@ -55,7 +55,7 @@ public class Order implements Orderable {
     }
 
 
-    private void setStatus(Status status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
