@@ -21,6 +21,8 @@ public class Main {
 
         get("/add/:id", ProductControllerDB::addToCart);
         get("/remove/:id", ProductControllerDB :: removeFromCart);
+        get("/removeall", ProductControllerDB :: removeAllFromCart);
+
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
