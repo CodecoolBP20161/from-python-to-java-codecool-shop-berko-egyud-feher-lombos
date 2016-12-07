@@ -11,6 +11,8 @@ import spark.Request;
 import spark.Response;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -21,6 +23,7 @@ public class ProductControllerDB {
     private static LineItemDaoDB LineItemDaoDB = new LineItemDaoDB();
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB supplierDB = new SupplierDaoDB();
+    private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
@@ -54,6 +57,27 @@ public class ProductControllerDB {
         checkoutProcess.process(order);
 
         return new ModelAndView(params, "product/checkout");
+
+    }
+
+    // shipping data saved to session
+    public static String saveShippingInfoToSession(Request req, Response res) {
+
+        String first_name = req.queryParams("first_name");
+        String last_name = req.queryParams("last_name");
+        String email = req.queryParams("email");
+        String phone = req.queryParams("phone");
+        String adress = req.queryParams("adress");
+        String city = req.queryParams("city");
+        String state = req.queryParams("state");
+        String zip = req.queryParams("zip");
+        String comment = req.queryParams("comment");
+
+        ArrayList<String> shippingDataList =new ArrayList(Arrays.asList(first_name, last_name, email, phone, adress, city,state, zip, comment));
+        req.session().attribute("ShippingDataList", shippingDataList);
+
+        res.redirect("/cartcontent");
+        return null;
     }
 
     // Action for display about us page
