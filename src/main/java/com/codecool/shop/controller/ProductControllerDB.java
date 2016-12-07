@@ -126,6 +126,7 @@ public class ProductControllerDB {
         return null;
     }
 
+    // rendered the checkout page & set order's status to CHECKED
     public static ModelAndView renderCheckoutProcess(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         Order order = req.session().attribute("Cart");
