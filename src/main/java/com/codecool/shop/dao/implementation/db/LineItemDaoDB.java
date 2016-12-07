@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
+import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import javassist.NotFoundException;
 
@@ -9,21 +10,40 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
- class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
+public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
+
     @Override
     public void add(LineItem lineitem) {
-        try {
-            PreparedStatement stmt;
-            stmt = connection.prepareStatement("INSERT INTO lineitem (QUANTITY, PROdUCT, \"ORDER\") VALUES (?, ?, ?)");
-            stmt.setInt(1, lineitem.getQuantity());
-            stmt.setInt(2, lineitem.getProductId());
-            stmt.setInt(3, lineitem.getOrderId());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
 
+        String query = "INSERT INTO lineitem (QUANTITY, PRODUCT, \"ORDER\") VALUES (?, ?, ?)");
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query,
+                        Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setInt(1, lineitem.getQuantity());
+            statement.setInt(2, lineitem.getProductId());
+            statement.setInt(3, lineitem.getOrderId());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    System.out.println(generatedKeys.getInt(1));
+                    lineitem.setId(generatedKeys.);
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
 
     @Override
     public void remove(int id) {
@@ -38,10 +58,10 @@ import java.util.List;
         List<LineItem> resultList = new ArrayList<>();
 
         try (
-             Statement statement =connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
-        ){
-            while (resultSet.next()){
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)
+        ) {
+            while (resultSet.next()) {
                 int parentProductId = resultSet.getInt("PRODUCT");
                 int orderId = resultSet.getInt("ORDER");
                 Product ParentProduct = prodDB.find(parentProductId);
@@ -62,10 +82,10 @@ import java.util.List;
         List<LineItem> resultList = new ArrayList<>();
 
         try (
-             Statement statement =connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)
-        ){
-            while (resultSet.next()){
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)
+        ) {
+            while (resultSet.next()) {
                 int parentProductId = resultSet.getInt("PROdUCT");
                 Product ParentProduct = prodDB.find(parentProductId);
                 LineItem lineItem = new LineItem(ParentProduct, orderId);
