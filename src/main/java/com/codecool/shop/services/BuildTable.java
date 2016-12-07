@@ -72,9 +72,13 @@ public class BuildTable {
                     "ID SERIAL PRIMARY KEY," +
                     "FIRST_NAME varchar(255)," +
                     "LAST_NAME varchar(255)," +
+                    "EMAIL varchar(255)," +
+                    "PHONE varchar(255)," +
+                    "ADRESS varchar(255)," +
+                    "CITY varchar(255)," +
+                    "STATE varchar(255)," +
                     "ZIP_CODE int," +
-                    "COUNTRY varchar(255)," +
-                    "STREET varchar(255)," +
+                    "COMMENT varchar(255)," +
                     "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                     ");";
 
