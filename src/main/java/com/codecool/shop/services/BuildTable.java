@@ -65,7 +65,21 @@ public class BuildTable {
                                     "PRODUCT int REFERENCES product(ID) ON DELETE CASCADE," +
                                     "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                                     ");";
-        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);
+
+            String createShippingData = "DROP TABLE IF EXISTS shippingdata CASCADE;" +
+                    "CREATE TABLE shippingdata" +
+                    "(" +
+                    "ID SERIAL PRIMARY KEY," +
+                    "FIRST_NAME varchar(255)," +
+                    "LAST_NAME varchar(255)," +
+                    "ZIP_CODE int," +
+                    "COUNTRY varchar(255)," +
+                    "STREET varchar(255)," +
+                    "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
+                    ");";
+
+
+        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createShippingData);
 
         } catch (SQLException e){
             e.printStackTrace();
