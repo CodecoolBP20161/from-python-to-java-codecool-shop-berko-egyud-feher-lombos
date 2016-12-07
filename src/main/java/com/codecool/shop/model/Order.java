@@ -109,6 +109,7 @@ public class Order implements Orderable {
                 }
                 break;
             }
+        this.setTotalPrice(this.getTotalPrice() - item.getDefaultPrice());
     }
 
     @Override
