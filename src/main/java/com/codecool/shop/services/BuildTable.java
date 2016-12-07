@@ -64,6 +64,16 @@ public class BuildTable {
                                     "PRODUCT int REFERENCES product(ID) ON DELETE CASCADE," +
                                     "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                                     ");";
+
+            String createLoginTable = "DROP TABLE IF EXISTS logintable CASCADE;" +
+                                      "CREATE TABLE logintable" +
+                                      "(" +
+                                      "ID SERIAL PRIMARY KEY," +
+                                      "USERNAME varchar(255) UNIQUE," +
+                                      "EMAIL int," +
+                                      "PASSWORD int NOT NULL UNIQUE," +
+                                      ");";
+
         statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);
 
         } catch (SQLException e){
