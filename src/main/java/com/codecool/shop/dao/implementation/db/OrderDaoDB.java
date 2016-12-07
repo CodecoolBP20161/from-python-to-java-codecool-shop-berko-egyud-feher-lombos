@@ -37,7 +37,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
                     System.out.println(generatedKeys.getInt(1));
                     order.setId(generatedKeys.getInt(1));
                 } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
+                    throw new SQLException("Creating order failed, no ID obtained.");
                 }
             }
         } catch (SQLException e) {
@@ -128,4 +128,16 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
         return order;
     }
 
+    public void update(Order order){
+        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?";
+        try {
+            PreparedStatement stmt;
+            stmt = connection.prepareStatement(query);
+            stmt.setDouble(1, order.getTotalPrice());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("buggggg");
+        }
+    }
 }
