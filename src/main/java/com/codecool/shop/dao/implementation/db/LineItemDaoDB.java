@@ -2,11 +2,13 @@ package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.LineItemDao;
 import com.codecool.shop.model.LineItem;
-import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import javassist.NotFoundException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
     @Override
     public void add(LineItem lineitem) {
 
-        String query = "INSERT INTO lineitem (QUANTITY, PRODUCT, \"ORDER\") VALUES (?, ?, ?)");
+        String query = "INSERT INTO lineitem (QUANTITY, PRODUCT, \"ORDER\") VALUES (?, ?, ?)";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(query,
@@ -33,8 +35,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    System.out.println(generatedKeys.getInt(1));
-                    lineitem.setId(generatedKeys.);
+                    lineitem.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
