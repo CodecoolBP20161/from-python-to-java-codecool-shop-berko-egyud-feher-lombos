@@ -2,7 +2,6 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.dao.implementation.db.*;
-import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
 import com.codecool.shop.model.ProductCategory;
@@ -14,7 +13,6 @@ import spark.Response;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public class ProductControllerDB {
     static Integer categoryId = 1;
     static Integer supplierId = 1;
     static ArrayList<String> savedOrderExamine;
-    private static String STATUS_CHECKED_CART;
+    private static String STATUS_CHECKED_CART = "UNCHECKED";
 
     // Handle the content of the params HashMap
     private static Map setParams(Request req) throws NotFoundException, SQLException {
@@ -97,7 +95,6 @@ public class ProductControllerDB {
 
         if (req.session().attribute("Cart") == null) {
             order = new Order();
-//            System.out.println(req.session().id());
         } else {
             order = req.session().attribute("Cart");
         }
@@ -112,13 +109,18 @@ public class ProductControllerDB {
         int id = Integer.parseInt(req.params(":id"));
         Orderable order;
 
-        if (req.session().attribute("Cart") == null) {
-            order = new Order();
-        } else {
-            order = req.session().attribute("Cart");
-        }
+        order = req.session().attribute("Cart");
 
+        // remove one product from session
         order.remove(ProductDB.find(id));
+        req.session().attribute("Cart", order);
+        res.redirect(req.session().attribute("currentUrl"));
+        return null;
+    }
+
+    // Handle the content of the session and set the variables of Order object
+    public static String removeAllFromCart(Request req, Response res) throws NotFoundException {
+        Order order = null;
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
@@ -128,40 +130,9 @@ public class ProductControllerDB {
         Map params = setParams(req);
         Order order = req.session().attribute("Cart");
 
-        // set the examining list pareters the default (default = user don't push the checkout button yet)
-        STATUS_CHECKED_CART = "UNCHECKED";
-        savedOrderExamine = new ArrayList<>(Arrays.asList(req.session().id(), STATUS_CHECKED_CART));
-
-        // set userId to order
-        // temporary UserId, because the registration form isn't yet ready
-        order.setUserSessionId(req.session().id());
-
-        // HOW TO DELETE FROM SESSION ORDER? THERE IS THE METHOD TO DELETE, SET ORDER NEW !! :)
-//        req.session().attribute("Cart", order);
-
-        if (savedOrderExamine.get(0).equals(req.session().id()) && savedOrderExamine.get(1).equals(STATUS_CHECKED_CART)) {
-            // add order to order's table & set the order id according to the database
-            OrderDaoDB.add(order);
-
-//            System.out.println(order.getId());
-
-            // set order's status to "CHECKED"
-            CheckoutProcess checkoutProcess = new CheckoutProcess();
-            checkoutProcess.process(order);
-
-            for (LineItem lineItem : order.getItemsToBuy()) {
-                lineItem.setOrderId(order.getId());
-                LineItemDaoDB.add(lineItem);
-            }
-            savedOrderExamine.set(1, "CHECKED");
-        } else if (savedOrderExamine.get(1).equals(STATUS_CHECKED_CART)){
-            // update order in order's table
-            // update should have to examine the differences between the saved order totalprice and the current total price and the userid and the status
-            // i have to make a new list for the new lineitem and with this i have to update the lineitems
-//            OrderDaoDB.update(order);
-//            LineItemDaoDB.update(lineItem);
-        }
-
+        // set order's status to "CHECKED"
+        CheckoutProcess checkoutProcess = new CheckoutProcess();
+        checkoutProcess.process(order);
 
         return new ModelAndView(params, "product/checkout");
     }
