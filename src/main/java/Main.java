@@ -32,10 +32,12 @@ public class Main {
         get("/cartcontent", OrderControllerDB::renderCartContent, new ThymeleafTemplateEngine());
 
         get("/checkout", OrderControllerDB::renderCheckoutPage, new ThymeleafTemplateEngine());
-        post("/checkout", OrderControllerDB::saveShippingInfoToSession);
+        post("/checkout", Controller::saveShippingInfoToSession);
 
         get("/pay", OrderControllerDB::renderPaymentPage, new ThymeleafTemplateEngine());
-        post("/pay", OrderControllerDB::saveBankCardData);
+        post("/pay", Controller::saveBankCardData);
+        get("/afterpayment", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
+
 
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
