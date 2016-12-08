@@ -18,6 +18,6 @@ public abstract class AbstractProcess {
     protected abstract void action(Orderable item);
 
     public void stepAfter() {
-        System.out.println("sending email...");
+        System.out.println("stepAfter method...");
     }
 }
