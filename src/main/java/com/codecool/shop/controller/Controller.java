@@ -23,6 +23,9 @@ public class Controller {
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
 
+    static Integer categoryId = 1;
+    static Integer supplierId = 1;
+
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
 

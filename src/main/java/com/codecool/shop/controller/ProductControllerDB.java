@@ -47,7 +47,7 @@ public class ProductControllerDB {
             }
         }
 
-        // to examine with thymeleaf the page type (homepage or filtered page)
+        // to examine with thymeleaf the page
         params.put("paginationExamine", "INDEX");
         return new ModelAndView(params, "product/index");
     }
