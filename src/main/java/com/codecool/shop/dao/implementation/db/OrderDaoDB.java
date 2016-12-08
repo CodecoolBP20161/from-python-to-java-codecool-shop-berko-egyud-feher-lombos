@@ -140,15 +140,15 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     public void update(Order order){
-        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?";
+        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?, STATUS=?";
         try {
             PreparedStatement stmt;
             stmt = connection.prepareStatement(query);
             stmt.setDouble(1, order.getTotalPrice());
+            stmt.setString(2, order.getStatus().toString());
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("buggggg");
         }
     }
 }

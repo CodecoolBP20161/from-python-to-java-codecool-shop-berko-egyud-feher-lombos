@@ -20,9 +20,9 @@ import java.util.Map;
 
 public class Controller {
 
-    private static ProductDaoDB ProductDB = ProductDaoDB.getInstance();
-    private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
-    private static SupplierDaoDB SupplierDB = SupplierDaoDB.getInstance();
+    private static ProductDaoDB productDB = ProductDaoDB.getInstance();
+    private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
+    private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
     // Handle the content of the params HashMap
@@ -31,9 +31,9 @@ public class Controller {
         Map params = new HashMap<>();
 
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
-        params.put("categories", ProductCategoryDB.getAll());
-        params.put("suppliers", SupplierDB.getAll());
-        params.put("products", ProductDB.getAll());
+        params.put("categories", productCategoryDB.getAll());
+        params.put("suppliers", supplierDB.getAll());
+        params.put("products", productDB.getAll());
 
         req.session().attribute("currentUrl", "/");
 
@@ -58,7 +58,7 @@ public class Controller {
             order = req.session().attribute("Cart");
         }
 
-        order.add(ProductDB.find(id));
+        order.add(productDB.find(id));
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
@@ -71,7 +71,7 @@ public class Controller {
         order = req.session().attribute("Cart");
 
         // remove one product from session
-        order.remove(ProductDB.find(id));
+        order.remove(productDB.find(id));
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;

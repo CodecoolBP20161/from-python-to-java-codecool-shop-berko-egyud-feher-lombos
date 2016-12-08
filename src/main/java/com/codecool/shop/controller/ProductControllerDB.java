@@ -15,9 +15,9 @@ import java.util.Map;
 
 public class ProductControllerDB {
 
-    private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
-    private static ProductDaoDB ProductDB = ProductDaoDB.getInstance();
-    private static SupplierDaoDB SupplierDB = SupplierDaoDB.getInstance();
+    private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
+    private static ProductDaoDB productDB = ProductDaoDB.getInstance();
+    private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
@@ -27,12 +27,12 @@ public class ProductControllerDB {
         Map params = Controller.setParams(req);
 
         // pagination handling
-        params.put("pageNumberList", ProductDB.getPageNumberList((int) Math.ceil(ProductDB.getAll().size()/10.0)));
-        params.put("lastPageNumber", (int) Math.ceil(ProductDB.getAll().size()/10.0));
+        params.put("pageNumberList", productDB.getPageNumberList((int) Math.ceil(productDB.getAll().size()/10.0)));
+        params.put("lastPageNumber", (int) Math.ceil(productDB.getAll().size()/10.0));
 
         // products put to params according to the paginationNumber
         if (req.queryParams("paginationNumber") == null) {
-            params.put("products", ProductDB.getProductByPagination(1));
+            params.put("products", productDB.getProductByPagination(1));
             params.put("paginationNumber", 1);
         } else if (req.queryParams("paginationNumber") != null) {
             int paginationNumber = Integer.parseInt(req.queryParams("paginationNumber"));
@@ -41,9 +41,9 @@ public class ProductControllerDB {
 
             // dynamic page paginaton handling
             if (paginationNumber == 1){
-                params.put("products", ProductDB.getProductByPagination((0)));
+                params.put("products", productDB.getProductByPagination((0)));
             } else if (paginationNumber > 1) {
-                params.put("products", ProductDB.getProductByPagination((paginationNumber*10)-9));
+                params.put("products", productDB.getProductByPagination((paginationNumber*10)-9));
             }
         }
 
@@ -58,22 +58,22 @@ public class ProductControllerDB {
 
         if ( req.params(":categoryid") != null ) {
             categoryId = Integer.parseInt(req.params(":categoryid"));
-            params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
+            params.put("products", productDB.getBy(productCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
         }
         else if ( req.params(":supplierid") != null ) {
             supplierId = Integer.parseInt(req.params(":supplierid"));
-            params.put("products", ProductDB.getBy(SupplierDB.find(supplierId)));
+            params.put("products", productDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
 
         if ( req.params(":categoryid") != null ) {
             params = Controller.setParams(req);
-            params.put("category", ProductCategoryDB.find(categoryId));
+            params.put("category", productCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
             params = Controller.setParams(req);
-            params.put("supplier", SupplierDB.find(supplierId));
+            params.put("supplier", supplierDB.find(supplierId));
         }
         return new ModelAndView(params, "product/index");
     }
