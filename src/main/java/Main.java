@@ -36,6 +36,7 @@ public class Main {
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("/signin", UserController::renderSignIn, new ThymeleafTemplateEngine());
         get("/signup", UserController::renderSignUp, new ThymeleafTemplateEngine());
+        get("/logout", UserController::logOut, new ThymeleafTemplateEngine());
         post("/signin", UserController::login, new ThymeleafTemplateEngine());
         post("/signup", UserController::createUser, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
