@@ -74,6 +74,14 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         return convertManyDBResultToObject(query);
     }
 
+    public List<Integer> getPageNumberList(Integer allProduct) throws NotFoundException {
+        List<Integer> allProductList = new ArrayList<>();
+        for (int i = 1; i < allProduct +1; i++) {
+            allProductList.add(i);
+        }
+        return allProductList;
+    }
+
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
         String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
