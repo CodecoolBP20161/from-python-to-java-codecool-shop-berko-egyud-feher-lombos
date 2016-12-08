@@ -79,7 +79,7 @@ public class BuildTable {
                     "STATE varchar(255)," +
                     "ZIP_CODE int," +
                     "COMMENT varchar(255)," +
-                    "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
+                    "ORDER_ID int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                     ");";
 
 
