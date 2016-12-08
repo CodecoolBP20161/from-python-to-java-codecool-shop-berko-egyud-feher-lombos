@@ -21,6 +21,13 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private static UserLoginHandlerDAODB loginDB = new UserLoginHandlerDAODB();
 
+    /**
+     * renders the signin.html form, handles all the side cases
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView
+     * @throws NotFoundException,SQLException - Exception handling at it's finest
+     */
     public static ModelAndView renderSignIn(Request req, Response res) throws NotFoundException, SQLException {
         logger.info("RenderSignIn: Rendering signIn started...Checking user authentication.");
         if (req.session().attribute("authenticated").equals(false)) {
@@ -35,6 +42,13 @@ public class UserController {
         return null;
     }
 
+    /**
+     * renders the signup.html form, hadles all the side cases
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView
+     * @throws NotFoundException,SQLException - Exception handling at it's finest
+     */
     public static ModelAndView renderSignUp(Request req, Response res) throws NotFoundException, SQLException {
         logger.info("RenderSignUp: Rendering signUp started...Checking user authentication...");
         Map params = new HashMap<>();
@@ -49,7 +63,13 @@ public class UserController {
             return new ModelAndView(params, "product/signup");
         }
     }
-
+    /**
+     * Gives the form parameters to check if the input is valid and sets the session for the user, handles all the side cases
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView
+     * @throws NotFoundException,SQLException,UnsupportedEncodingException,NoSuchAlgorithmException - Exception handling at it's finest
+     */
     public static ModelAndView login(Request req, Response res) throws NotFoundException, SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
         logger.info("Login: Login attempt started. Checking authentication.");
         if(req.session().attribute("authenticated").equals(true)) {
@@ -76,7 +96,13 @@ public class UserController {
         }
         return null;
     }
-
+    /**
+     * Saves the new user's parameters and redirects to the index page, handles all side cases
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView
+     * @throws NotFoundException,SQLException - Exception handling at it's finest
+     */
     public static ModelAndView createUser(Request req, Response res) throws NotFoundException, SQLException {
         logger.info("CreateUser: User creation is called. Checking authentication.");
         Map params = new HashMap();
@@ -101,6 +127,12 @@ public class UserController {
         }
         return null;
     }
+    /**
+     * Resets the session for the user and redirects to the index page
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView
+     */
     public static ModelAndView logOut(Request req, Response res){
         logger.info("LogOut: Logout has started. Setting parameters to null.");
         req.session().attribute("authenticated", false);
