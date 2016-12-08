@@ -1,3 +1,4 @@
+import com.codecool.shop.controller.AboutUsControllerDB;
 import com.codecool.shop.controller.Controller;
 import com.codecool.shop.controller.OrderControllerDB;
 import com.codecool.shop.controller.ProductControllerDB;
@@ -41,7 +42,7 @@ public class Main {
         get("/afterpay", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
 
 
-        get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
+        get("/aboutus", AboutUsControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });

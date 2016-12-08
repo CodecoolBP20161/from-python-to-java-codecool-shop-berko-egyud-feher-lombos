@@ -78,10 +78,4 @@ public class ProductControllerDB {
         return new ModelAndView(params, "product/index");
     }
 
-    // Action for display about us page
-    public static ModelAndView renderAboutUs(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = Controller.setParams(req);
-        return new ModelAndView(params, "product/aboutus");
-    }
-
 }
