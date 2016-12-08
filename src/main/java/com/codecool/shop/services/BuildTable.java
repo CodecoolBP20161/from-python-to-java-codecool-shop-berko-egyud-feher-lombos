@@ -70,7 +70,7 @@ public class BuildTable {
                                       "(" +
                                       "ID SERIAL PRIMARY KEY," +
                                       "USERNAME varchar(255) UNIQUE," +
-                                      "EMAIL int," +
+                                      "EMAIL VARCHAR(255)," +
                                       "PASSWORD varchar(255) NOT NULL UNIQUE," +
                                       "SALT  varchar(255) NOT NULL UNIQUE" +
                                       ");";
