@@ -18,11 +18,12 @@ public class Main {
 
         TestDataDB.populateData();
 
-        before((request, response) ->
+        before( "*", (request, response) ->
         {
             AbstractDBHandler.getConnection();
             if (request.session().attribute("authenticated") == null) {
                 request.session().attribute("authenticated", false);
+                request.session().attribute("username", false);
             }
         });
 
