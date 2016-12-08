@@ -33,11 +33,18 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-btn signButtons">
+                    <li class="navbar-btn signButtons" th:if="${authenticated}">
+                        <div class="btn btn-default"><b th:text="'Welcome,' + ${username} + '!'"></b></div>
+                       <!-- <p class=".bg-success welcome"><b th:text="'Welcome,' + ${username} + '!'"></b></p>-->
+                    </li>
+                    <li class="navbar-btn signButtons" th:if="${not authenticated}">
                         <button class="btn btn-default"><a class="anchorButton" th:href="'/signin'" ><b>Sign In</b></a></button>
                     </li>
-                    <li class="navbar-btn signButtons">
-                        <button class="btn btn-success"><a class="anchorButton"  th:href="'/signUp'" ><b>Sign Up</b></a></button>
+                    <li class="navbar-btn signButtons" th:if="${ not authenticated}">
+                        <button href="/signup" class="btn btn-success"><a class="anchorButton"  th:href="'/signup'" ><b>Sign Up</b></a></button>
+                    </li>
+                    <li class="navbar-btn signButtons" th:if="${authenticated}">
+                        <button href="/logout" class="btn btn-success"><a class="anchorButton"  th:href="'/logout'" ><b>Logout</b></a></button>
                     </li>
                 </ul>
             </div>
