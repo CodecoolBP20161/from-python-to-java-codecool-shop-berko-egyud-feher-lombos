@@ -2,22 +2,35 @@ package com.codecool.shop.dao.implementation.db;
 
 
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.model.*;
-import com.codecool.shop.services.ConnectionPropertyValues;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import javassist.NotFoundException;
-import spark.Spark;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
+    private static ProductDaoDB INSTANCE;
+
+    public static ProductDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ProductDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private ProductDaoDB() {
+    }
+
     @Override
     public void add(Product product) {
-        ProductCategoryDaoDB productDB = new ProductCategoryDaoDB();
+        ProductCategoryDaoDB productDB = ProductCategoryDaoDB.getInstance();
         try {
             PreparedStatement stmt;
             stmt = getConnection().prepareStatement("INSERT INTO \"product\"(NAME, DESCRIPTION, PRICE, CURRENCY, PRODUCT_CATEGORY, PRODUCT_SUPPLIER) VALUES (?, ?, ?, ?, ?, ?)");
@@ -68,6 +81,19 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
         return convertManyDBResultToObject(query);
     }
 
+    public List<Product> getProductByPagination(Integer from) throws NotFoundException {
+        String query = "SELECT * FROM product LIMIT 10 OFFSET " + from.toString() + ";";
+        return convertManyDBResultToObject(query);
+    }
+
+    public List<Integer> getPageNumberList(Integer allProduct) throws NotFoundException {
+        List<Integer> allProductList = new ArrayList<>();
+        for (int i = 1; i < allProduct +1; i++) {
+            allProductList.add(i);
+        }
+        return allProductList;
+    }
+
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
         String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
@@ -82,8 +108,8 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
 
-        ProductCategoryDaoDB categoryDB = new ProductCategoryDaoDB();
-        SupplierDaoDB supplierDB = new SupplierDaoDB();
+        ProductCategoryDaoDB categoryDB = ProductCategoryDaoDB.getInstance();
+        SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
         return new Product(resultSet.getInt("ID"),
                 resultSet.getString("NAME"),

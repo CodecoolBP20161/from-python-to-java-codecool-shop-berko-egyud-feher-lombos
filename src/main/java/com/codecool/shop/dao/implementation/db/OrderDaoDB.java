@@ -6,28 +6,52 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Status;
 import javassist.NotFoundException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
+    private static OrderDaoDB INSTANCE;
+
+    public static OrderDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new OrderDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private OrderDaoDB() {
+    }
+
     @Override
     public void add(Order order) {
 
-        try {
+        String query = "INSERT INTO \"order\" (STATUS, TOTAL_PRICE, USER_ID) VALUES (?, ?, ?)";
 
-            PreparedStatement stmt;
-            stmt = connection.prepareStatement("INSERT INTO \"order\" (STATUS, TOTAL_PRICE) VALUES (?, ?)");
-            stmt.setString(1, order.getStatus().toString());
-            stmt.setDouble(2, order.getTotalPrice());
-            stmt.executeQuery();
+        try (
+                PreparedStatement statement = connection.prepareStatement(query,
+                        Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, order.getStatus().toString());
+            statement.setDouble(2, order.getTotalPrice());
+            statement.setString(3, order.getUserSessionId());
 
-        } catch (Exception e) {
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    order.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Creating order failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -101,8 +125,8 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     private Order fillWithLineItem(Order order) throws NotFoundException {
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
-        ProductDaoDB productDB = new ProductDaoDB();
+        LineItemDaoDB lineItemDB = LineItemDaoDB.getInstance();
+        ProductDaoDB productDB = ProductDaoDB.getInstance();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
 
         // For each lineItem, add a product times the quantity, to the order
@@ -113,6 +137,18 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
             }
         }
         return order;
-    };
+    }
 
+    public void update(Order order){
+        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?, STATUS=?";
+        try {
+            PreparedStatement stmt;
+            stmt = connection.prepareStatement(query);
+            stmt.setDouble(1, order.getTotalPrice());
+            stmt.setString(2, order.getStatus().toString());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

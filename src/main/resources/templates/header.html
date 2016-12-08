@@ -19,17 +19,14 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a class="navbar-brand" th:attr="href='/'">Codecool Shop</a>
+                        <a class="navbar-brand" th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/'" >Codecool Shop <i class="glyphicon glyphicon-heart-empty"></i></a>
                     </li>
 
                     <li>
-                        <a th:href="'/aboutus'">About Us</a>
+                        <a th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/'"  >About Us</a>
                     </li>
                     <li>
-                        <a th:href="'/cartcontent'"
-                           th:text="${cart} ? 'Cart ('+ ${cart.totalQuantity} + ')' : 'Cart (0)'">
-                            Cart
-                        </a>
+                        <a th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/cartcontent'" >Cart <span class="badge" th:text="${cart} ? '   ' + ${cart.totalQuantity} : ' 0'"></span></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
