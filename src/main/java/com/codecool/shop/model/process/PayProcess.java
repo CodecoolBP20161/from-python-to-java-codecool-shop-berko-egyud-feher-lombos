@@ -8,5 +8,6 @@ public class PayProcess extends AbstractProcess {
     protected void action(Orderable item) {
         System.out.println("pay in action");
         item.checkout();
+//        EmailSender.send(useremail, subject, message);
     }
 }
