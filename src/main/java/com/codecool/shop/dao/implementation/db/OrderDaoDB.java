@@ -34,7 +34,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    System.out.println(generatedKeys.getInt(1));
+//                    System.out.println(generatedKeys.getInt(1));
                     order.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating order failed, no ID obtained.");

@@ -32,6 +32,7 @@ public class OrderControllerDB {
     public static ModelAndView renderCheckoutPage(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
+        order.setUserSessionId(req.session().id());
 
         // set order's status to "CHECKED"
         CheckoutProcess checkoutProcess = new CheckoutProcess();
@@ -43,14 +44,7 @@ public class OrderControllerDB {
     //Action for display payment page & set order's status to PAID
     public static ModelAndView renderPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
-        Order order = req.session().attribute("Cart");
 
-        // set order's status to "PAID"
-        PayProcess payProcess = new PayProcess();
-        payProcess.process(order);
-
-        // delete the SessionCartContent
-        Controller.removeAllFromSessionCart(req, res);
 
         return new ModelAndView(params, "product/pay");
     }
@@ -58,10 +52,17 @@ public class OrderControllerDB {
     //Action for display after payment page
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
+        Order order = req.session().attribute("Cart");
 
-        // Save the order into DB
+        System.out.println(order);
+
+        // set order's status to "PAID"
+        PayProcess payProcess = new PayProcess();
+        payProcess.process(order);
 
 
+        // delete the SessionCartContent
+        Controller.removeAllFromSessionCart(req, res);
 
         return new ModelAndView(params, "product/afterpay");
     }

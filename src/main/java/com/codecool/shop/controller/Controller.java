@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
+import com.codecool.shop.dao.implementation.db.ShippingDataDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
@@ -22,6 +23,8 @@ public class Controller {
     private static ProductDaoDB ProductDB = new ProductDaoDB();
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
+    private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
+
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
@@ -82,7 +85,7 @@ public class Controller {
     public static String removeAllFromSessionCart(Request req, Response res) throws NotFoundException {
         Order order = null;
         req.session().attribute("Cart", order);
-//        res.redirect(req.session().attribute("currentUrl"));
+        res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
 
@@ -101,6 +104,12 @@ public class Controller {
 
         ArrayList<String> shippingDataList =new ArrayList(Arrays.asList(first_name, last_name, email, phone, adress, city,state, zip, comment));
         req.session().attribute("ShippingDataList", shippingDataList);
+
+
+        // saving shipping data for order
+        Orderable order;
+        order = req.session().attribute("Cart");
+        ShippingDataDB.add(shippingDataList, (Order) order);
 
         res.redirect("/pay");
         return null;

@@ -2,13 +2,14 @@ package com.codecool.shop.model.process;
 
 
 import com.codecool.shop.model.Orderable;
+import javassist.NotFoundException;
 
 public abstract class AbstractProcess {
 
-    public void process(Orderable item) {
+    public void process(Orderable item) throws NotFoundException {
         stepBefore();
         action(item);
-        stepAfter();
+        stepAfter(item);
     }
 
     public void stepBefore() {
@@ -17,7 +18,7 @@ public abstract class AbstractProcess {
 
     protected abstract void action(Orderable item);
 
-    public void stepAfter() {
-        System.out.println("stepAfter method...");
+    public void stepAfter(Orderable item) throws NotFoundException {
+        System.out.println("stepAfter?");
     }
 }
