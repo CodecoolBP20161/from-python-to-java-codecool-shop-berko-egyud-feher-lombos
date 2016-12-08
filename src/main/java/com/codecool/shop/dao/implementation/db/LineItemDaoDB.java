@@ -14,6 +14,18 @@ import java.util.List;
 
 public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
+    private static LineItemDaoDB INSTANCE;
+
+    public static LineItemDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new LineItemDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private LineItemDaoDB() {
+    }
+
     @Override
     public void add(LineItem lineitem) {
 
