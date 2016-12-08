@@ -25,10 +25,6 @@ public class Controller {
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
     private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
 
-
-    static Integer categoryId = 1;
-    static Integer supplierId = 1;
-
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
 
@@ -85,7 +81,7 @@ public class Controller {
     public static String removeAllFromSessionCart(Request req, Response res) throws NotFoundException {
         Order order = null;
         req.session().attribute("Cart", order);
-        res.redirect(req.session().attribute("currentUrl"));
+        res.redirect("/");
         return null;
     }
 
