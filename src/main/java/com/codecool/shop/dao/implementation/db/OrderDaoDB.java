@@ -13,6 +13,18 @@ import java.util.List;
 
 public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
+    private static OrderDaoDB INSTANCE;
+
+    public static OrderDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new OrderDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private OrderDaoDB() {
+    }
+
     @Override
     public void add(Order order) {
 
@@ -34,7 +46,6 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-//                    System.out.println(generatedKeys.getInt(1));
                     order.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating order failed, no ID obtained.");
@@ -114,7 +125,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     private Order fillWithLineItem(Order order) throws NotFoundException {
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
+        LineItemDaoDB lineItemDB = LineItemDaoDB.getInstance();
         ProductDaoDB productDB = new ProductDaoDB();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
 
