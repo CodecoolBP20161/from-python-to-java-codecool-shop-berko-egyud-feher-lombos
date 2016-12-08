@@ -16,13 +16,13 @@ import java.sql.SQLException;
 
 public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
-//    HashMap User{
-//        "username":String,
-//        "email":String,
-//        "password":String,
-//    }
-
-
+    /**
+     * adds a new user entry to the database
+     * @param username - new username to get saved
+     * @param password - new password to get saved
+     * @param email - new email to get saved
+     * @throws SQLException - Exception at it's finest
+     */
     public void add(String username, String password, String email) throws SQLException {
         try {
             String salt = generateSalt();
@@ -40,11 +40,22 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         }
     }
 
+    /**
+     * checks if the input params are the same as the corresponding database params
+     * @param username - new username to get saved
+     * @param inputPassword - new password to get saved
+     * @throws SQLException,UnsupportedEncodingException,NoSuchAlgorithmException - Exception at it's finest
+     */
     public boolean authenticate(String username, String inputPassword) throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
             String inputHash = hash(inputPassword + getSalt(username));
         return inputHash.equals(getPassword(username));
     }
 
+    /**
+     * returns the ID which refers to the username param in the database
+     * @param username - new username to search in the database
+     * @throws SQLException - Exceptions at it's finest
+     */
     public int getId(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
@@ -55,6 +66,11 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         return 0;
     }
 
+    /**
+     * returns the salt which refers to the username param in the database
+     * @param username - username to search in the database
+     * @throws SQLException - Exceptions at it's finest
+     */
     private String getSalt(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
@@ -65,13 +81,23 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         return null;
     }
 
-    public Boolean checkIfUsernameExists(String userName) throws SQLException {
+    /**
+     * checks if a username is already used by another user in the database
+     * @param username - username to search in the database
+     * @throws SQLException - Exceptions at it's finest
+     */
+    public Boolean checkIfUsernameExists(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
-        stmt.setString(1, userName);
+        stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
         return rs.next();
     }
 
+    /**
+     * checks if a email is already used by another user in the database
+     * @param email - username to search in the database
+     * @throws SQLException - Exceptions at it's finest
+     */
     public Boolean checkIfEmailExists(String email) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE email=?");
         stmt.setString(1, email);
@@ -80,6 +106,11 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
     }
 
+    /**
+     * generates a hash from a the string param by SHA-1 encryption
+     * @param string - username to search in the database
+     * @throws NoSuchAlgorithmException, UnsupportedEncodingException - Exceptions at it's finest
+     */
     private String hash(String string) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-1");
         crypt.reset();
@@ -87,6 +118,10 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         return new BigInteger(1, crypt.digest()).toString(16);
     }
 
+    /**
+     * generates a random 20 byte long salt, and creates a hash from it
+     * @throws UnsupportedEncodingException,NoSuchAlgorithmException - Exceptions at it's finest
+     */
     private String generateSalt() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[20];
@@ -94,6 +129,11 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         return hash(new BigInteger(1, bytes).toString(20));
     }
 
+    /**
+     * gets the password which belongs to the username param in the database
+     * @param username - username to search in the database
+     * @throws SQLException - Exceptions at it's finest
+     */
     private String getPassword(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
