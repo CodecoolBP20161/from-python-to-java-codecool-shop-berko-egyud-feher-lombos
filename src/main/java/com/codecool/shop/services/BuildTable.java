@@ -75,7 +75,7 @@ public class BuildTable {
                                       "SALT int varchar(255) NOT NULL UNIQUE," +
                                       ");";
 
-        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);
+        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createLoginTable);
 
         } catch (SQLException e){
             e.printStackTrace();
