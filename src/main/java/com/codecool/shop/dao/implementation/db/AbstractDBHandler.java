@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public abstract class AbstractDBHandler {
     private static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
-    private static HashMap DBprops = configReader.getPropValues();
+    private static HashMap DBprops = configReader.getPropValuesOfDB();
 
     private static final String DATABASE = "jdbc:postgresql://" + DBprops.get("url") + "/" + DBprops.get("database");
     private static final String DB_USER = String.valueOf(DBprops.get("user"));

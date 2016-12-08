@@ -2,15 +2,16 @@ package com.codecool.shop.dao.implementation.db;
 
 
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.model.*;
-import com.codecool.shop.services.ConnectionPropertyValues;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import javassist.NotFoundException;
-import spark.Spark;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
@@ -66,6 +67,19 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
     public List<Product> getAll() throws NotFoundException {
         String query = "SELECT * FROM product;";
         return convertManyDBResultToObject(query);
+    }
+
+    public List<Product> getProductByPagination(Integer from) throws NotFoundException {
+        String query = "SELECT * FROM product LIMIT 10 OFFSET " + from.toString() + ";";
+        return convertManyDBResultToObject(query);
+    }
+
+    public List<Integer> getPageNumberList(Integer allProduct) throws NotFoundException {
+        List<Integer> allProductList = new ArrayList<>();
+        for (int i = 1; i < allProduct +1; i++) {
+            allProductList.add(i);
+        }
+        return allProductList;
     }
 
     @Override

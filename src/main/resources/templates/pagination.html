@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!--Display the selected products-->
+        <div th:fragment="pagination">
+            <nav aria-label="...">
+                <ul class="pagination" >
+                    <li th:class="${paginationNumber == 1} ? 'disabled' " ><a th:href="${paginationNumber > 1} ? '?paginationNumber=' + ${(paginationNumber-1)}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    <li th:each="page,iterStat : ${pageNumberList}" th:class="${paginationNumber == page} ? 'active' "><a th:href="'?paginationNumber=' + ${page}" th:text="${page}">1 <span class="sr-only">(current)</span></a></li>
+                    <li th:class="${lastPageNumber == paginationNumber} ? 'disabled' " ><a th:href="'?paginationNumber=' + ${(paginationNumber+1)}" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>
+

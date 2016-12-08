@@ -132,6 +132,12 @@ public class Order implements Orderable {
         this.setStatus(Status.CHECKED);
         return true;
     }
+
+    // it set the Order's status to "PAID"
+    public boolean pay() {
+        this.setStatus(Status.PAID);
+        return true;
+    }
 }
 
 

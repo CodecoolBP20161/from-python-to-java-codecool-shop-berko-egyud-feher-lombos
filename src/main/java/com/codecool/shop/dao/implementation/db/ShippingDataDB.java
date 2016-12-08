@@ -3,8 +3,10 @@ package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.ShippingDataDao;
 import com.codecool.shop.model.Order;
+import javassist.NotFoundException;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
     @Override
     public void add(ArrayList<String> shippingDataList, Order order) {
 
-        String query = "INSERT INTO shippingdata (FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADRESS, CITY, STATE, ZIP_CODE, COMMENT, \"ORDER\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO shippingdata (FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADRESS, CITY, STATE, ZIP_CODE, COMMENT, ORDER_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(query,
@@ -36,6 +38,25 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
+    public String find(int id) throws NotFoundException {
+        String query = "SELECT EMAIL FROM shippingdata WHERE ORDER_ID ='" + id + "';";
+        try(
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)
+        ){
+            if (resultSet.next()) {
+                String userEmail = resultSet.getString("EMAIL");
+                System.out.println(userEmail);
+                return userEmail;
+            } else {
+                throw new NotFoundException("Order not found");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

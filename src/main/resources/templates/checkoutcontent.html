@@ -8,6 +8,14 @@
     <!-- Default panel contents -->
     <div class="panel panel-default container-fluid">
 
+
+        <h4>Keep up, there's not much left! <i class="fa fa-smile-o"></i></h4>
+        <div class="progress">
+            <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                <span class="sr-only">45% Complete</span>
+            </div>
+        </div>
+
         <div class="panel-body">
             <form class="well form-horizontal" action="/checkout" method="post" id="contact_form">
 
@@ -168,22 +176,12 @@
                     </div>
                 </div>
 
-                <!-- Success message -->
-                <div class="alert alert-success" role="alert" id="success_message">Success <i
-                        class="glyphicon glyphicon-thumbs-up"></i> Thanks for contacting us, we will get back to you
-                    shortly.
-                </div>
 
                 <!-- Button -->
                 <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-4">
                         <button type="submit" class="btn btn-warning">Go To Pay <i class="glyphicon glyphicon-credit-card"></i></button>
-                        <div class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <span class="sr-only">Caution:</span>
-                            After you press the 'Go To Pay' button, you won't be able to change your cart'content!
-                        </div>
                     </div>
                 </div>
             </form>

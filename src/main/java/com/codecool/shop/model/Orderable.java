@@ -5,5 +5,6 @@ public interface Orderable {
     void add(Product item);
     void remove(Product item);
     boolean checkout();
+    boolean pay();
 
 }

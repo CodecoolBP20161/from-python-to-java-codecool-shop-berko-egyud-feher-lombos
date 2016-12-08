@@ -2,9 +2,7 @@ package com.codecool.shop.dao;
 
 
 import com.codecool.shop.model.LineItem;
-import com.codecool.shop.model.Order;
 import javassist.NotFoundException;
-
 
 import java.util.List;
 
