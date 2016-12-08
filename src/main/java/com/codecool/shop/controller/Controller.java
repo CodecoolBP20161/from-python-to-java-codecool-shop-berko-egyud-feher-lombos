@@ -23,7 +23,7 @@ public class Controller {
     private static ProductDaoDB ProductDB = ProductDaoDB.getInstance();
     private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
-    private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
+    private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
@@ -105,7 +105,7 @@ public class Controller {
         // saving shipping data for order
         Orderable order;
         order = req.session().attribute("Cart");
-        ShippingDataDB.add(shippingDataList, (Order) order);
+        shippingDataDB.add(shippingDataList, (Order) order);
 
         res.redirect("/pay");
         return null;

@@ -13,6 +13,18 @@ import java.util.ArrayList;
 
 public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao {
 
+    private static ShippingDataDB INSTANCE;
+
+    public static ShippingDataDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ShippingDataDB();
+        }
+        return INSTANCE;
+    }
+
+    private ShippingDataDB() {
+    }
+
     @Override
     public void add(ArrayList<String> shippingDataList, Order order) {
 
