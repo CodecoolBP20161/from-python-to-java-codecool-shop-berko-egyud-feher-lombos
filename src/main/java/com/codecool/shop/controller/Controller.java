@@ -22,7 +22,7 @@ public class Controller {
 
     private static ProductDaoDB ProductDB = ProductDaoDB.getInstance();
     private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
-    private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
+    private static SupplierDaoDB SupplierDB = SupplierDaoDB.getInstance();
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
     // Handle the content of the params HashMap

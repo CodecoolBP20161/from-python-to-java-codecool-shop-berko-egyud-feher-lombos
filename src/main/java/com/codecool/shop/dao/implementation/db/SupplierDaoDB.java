@@ -13,6 +13,18 @@ import java.util.List;
 
 public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
 
+    private static SupplierDaoDB INSTANCE;
+
+    public static SupplierDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new SupplierDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private SupplierDaoDB() {
+    }
+
     @Override
     public void add(Supplier supplier) {
             try {

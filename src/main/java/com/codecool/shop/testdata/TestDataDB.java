@@ -14,7 +14,7 @@ public class TestDataDB {
     public static void populateData() throws NotFoundException {
         ProductDaoDB productDB = ProductDaoDB.getInstance();
         ProductCategoryDaoDB CategoryDB = ProductCategoryDaoDB.getInstance();
-        SupplierDaoDB supplierDB = new SupplierDaoDB();
+        SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
         // Uncomment this if you don't want your data reset
         BuildTable.build();

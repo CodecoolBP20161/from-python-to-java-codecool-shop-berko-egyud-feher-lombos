@@ -9,7 +9,7 @@ import javassist.NotFoundException;
 
 public class PayProcess extends AbstractProcess {
 
-    private  ShippingDataDB shippingDataDB = new ShippingDataDB();
+    private  ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
 
     @Override

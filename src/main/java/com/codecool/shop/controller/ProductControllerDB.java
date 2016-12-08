@@ -17,7 +17,7 @@ public class ProductControllerDB {
 
     private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
     private static ProductDaoDB ProductDB = ProductDaoDB.getInstance();
-    private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
+    private static SupplierDaoDB SupplierDB = SupplierDaoDB.getInstance();
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;

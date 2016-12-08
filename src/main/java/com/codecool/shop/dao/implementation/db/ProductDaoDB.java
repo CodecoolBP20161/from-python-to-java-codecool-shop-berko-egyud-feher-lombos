@@ -109,7 +109,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
     private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
 
         ProductCategoryDaoDB categoryDB = ProductCategoryDaoDB.getInstance();
-        SupplierDaoDB supplierDB = new SupplierDaoDB();
+        SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
         return new Product(resultSet.getInt("ID"),
                 resultSet.getString("NAME"),
