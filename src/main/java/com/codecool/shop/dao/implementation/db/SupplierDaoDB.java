@@ -1,13 +1,13 @@
 package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import javassist.NotFoundException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
             ) {
                 if (resultSet.next()) {
 
-                    ProductDaoDB productDB = new ProductDaoDB();
+                    ProductDaoDB productDB = ProductDaoDB.getInstance();
                     supplier = new Supplier(resultSet.getInt("ID"), resultSet.getString("NAME"), resultSet.getString("DESCRIPTION"));
 
                     return supplier;
@@ -59,7 +59,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
 
         @Override
         public List<Supplier> getAll () throws NotFoundException {
-            ProductDaoDB productDB = new ProductDaoDB();
+            ProductDaoDB productDB = ProductDaoDB.getInstance();
             List<Supplier> resultList = new ArrayList<>();
             String query = "SELECT * FROM supplier;";
 
@@ -87,7 +87,7 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
         }
 
         public Supplier fillWithProducts(Supplier supplier) throws NotFoundException {
-            ProductDaoDB productDB = new ProductDaoDB();
+            ProductDaoDB productDB = ProductDaoDB.getInstance();
             // Iterating through the products queried by category, and adding them to the suppliers 'category' field
             productDB.getBy(supplier).forEach(supplier::addProduct);
             return supplier;

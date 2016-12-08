@@ -98,7 +98,7 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     }
 
     public ProductCategory fillWithProducts(ProductCategory category) throws NotFoundException {
-        ProductDaoDB productDB = new ProductDaoDB();
+        ProductDaoDB productDB = ProductDaoDB.getInstance();
         // Iterating through the products queried by category, and adding them to the suppliers 'category' field
         productDB.getBy(category).forEach(category::addProduct);
         return category;

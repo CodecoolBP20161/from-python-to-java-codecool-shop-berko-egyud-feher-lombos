@@ -12,7 +12,7 @@ import javassist.NotFoundException;
 
 public class TestDataDB {
     public static void populateData() throws NotFoundException {
-        ProductDaoDB productDB = new ProductDaoDB();
+        ProductDaoDB productDB = ProductDaoDB.getInstance();
         ProductCategoryDaoDB CategoryDB = ProductCategoryDaoDB.getInstance();
         SupplierDaoDB supplierDB = new SupplierDaoDB();
 

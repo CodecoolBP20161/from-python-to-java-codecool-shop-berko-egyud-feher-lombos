@@ -66,7 +66,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
     @Override
     public List<LineItem> getAll() throws NotFoundException {
-        ProductDaoDB prodDB = new ProductDaoDB();
+        ProductDaoDB prodDB = ProductDaoDB.getInstance();
         String query = "SELECT * FROM lineitem;";
         List<LineItem> resultList = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
     @Override
     public List<LineItem> getBy(int orderId) throws NotFoundException {
-        ProductDaoDB prodDB = new ProductDaoDB();
+        ProductDaoDB prodDB = ProductDaoDB.getInstance();
         String query = "SELECT * FROM lineitem WHERE \"ORDER\"='" + orderId + "';";
         List<LineItem> resultList = new ArrayList<>();
 

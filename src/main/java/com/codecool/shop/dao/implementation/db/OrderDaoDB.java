@@ -126,7 +126,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
     private Order fillWithLineItem(Order order) throws NotFoundException {
         LineItemDaoDB lineItemDB = LineItemDaoDB.getInstance();
-        ProductDaoDB productDB = new ProductDaoDB();
+        ProductDaoDB productDB = ProductDaoDB.getInstance();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
 
         // For each lineItem, add a product times the quantity, to the order

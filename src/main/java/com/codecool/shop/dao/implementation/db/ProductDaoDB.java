@@ -16,6 +16,18 @@ import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
+    private static ProductDaoDB INSTANCE;
+
+    public static ProductDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ProductDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private ProductDaoDB() {
+    }
+
     @Override
     public void add(Product product) {
         ProductCategoryDaoDB productDB = ProductCategoryDaoDB.getInstance();
