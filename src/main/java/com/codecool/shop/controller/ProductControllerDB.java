@@ -17,7 +17,7 @@ public class ProductControllerDB {
 
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static ProductDaoDB ProductDB = new ProductDaoDB();
-    private static SupplierDaoDB supplierDB = new SupplierDaoDB();
+    private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
@@ -25,6 +25,8 @@ public class ProductControllerDB {
     // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
+
+        // pagination handling
         params.put("pageNumberList", ProductDB.getPageNumberList((int) Math.ceil(ProductDB.getAll().size()/10.0)));
         params.put("lastPageNumber", (int) Math.ceil(ProductDB.getAll().size()/10.0));
 
@@ -37,7 +39,7 @@ public class ProductControllerDB {
             // to set the pagination button active/disabled
             params.put("paginationNumber", paginationNumber);
 
-            // dynamic page paginaton
+            // dynamic page paginaton handling
             if (paginationNumber == 1){
                 params.put("products", ProductDB.getProductByPagination((0)));
             } else if (paginationNumber > 1) {
@@ -45,7 +47,7 @@ public class ProductControllerDB {
             }
         }
 
-        // to examine with thymeleaf the page
+        // to examine with thymeleaf the page type (homepage or filtered page)
         params.put("paginationExamine", "INDEX");
         return new ModelAndView(params, "product/index");
     }
@@ -55,12 +57,23 @@ public class ProductControllerDB {
         Map params = Controller.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
+            categoryId = Integer.parseInt(req.params(":categoryid"));
+            params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
+            req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
+        }
+        else if ( req.params(":supplierid") != null ) {
+            supplierId = Integer.parseInt(req.params(":supplierid"));
+            params.put("products", ProductDB.getBy(SupplierDB.find(supplierId)));
+            req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
+        }
+
+        if ( req.params(":categoryid") != null ) {
             params = Controller.setParams(req);
             params.put("category", ProductCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
             params = Controller.setParams(req);
-            params.put("supplier", supplierDB.find(supplierId));
+            params.put("supplier", SupplierDB.find(supplierId));
         }
         return new ModelAndView(params, "product/index");
     }

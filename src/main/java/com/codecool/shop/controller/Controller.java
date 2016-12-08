@@ -23,9 +23,6 @@ public class Controller {
     private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
 
-    static Integer categoryId = 1;
-    static Integer supplierId = 1;
-
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
 
@@ -34,21 +31,11 @@ public class Controller {
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
         params.put("categories", ProductCategoryDB.getAll());
         params.put("suppliers", SupplierDB.getAll());
-//        params.put("products", ProductDB.getAll());
+        params.put("products", ProductDB.getAll());
 
         req.session().attribute("currentUrl", "/");
 
-        if ( req.params(":categoryid") != null ) {
-            categoryId = Integer.parseInt(req.params(":categoryid"));
-            params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
-            req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
-        }
-        else if ( req.params(":supplierid") != null ) {
-            supplierId = Integer.parseInt(req.params(":supplierid"));
-            params.put("products", ProductDB.getBy(SupplierDB.find(supplierId)));
-            req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
-        }
-        else if ( req.url().equals("http://localhost:8888/cartcontent")) {
+        if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
         }
 
