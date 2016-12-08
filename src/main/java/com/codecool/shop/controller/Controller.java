@@ -21,7 +21,7 @@ import java.util.Map;
 public class Controller {
 
     private static ProductDaoDB ProductDB = new ProductDaoDB();
-    private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
+    private static ProductCategoryDaoDB ProductCategoryDB = ProductCategoryDaoDB.getInstance();
     private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
     private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
 

@@ -13,7 +13,7 @@ import javassist.NotFoundException;
 public class TestDataDB {
     public static void populateData() throws NotFoundException {
         ProductDaoDB productDB = new ProductDaoDB();
-        ProductCategoryDaoDB CategoryDB = new ProductCategoryDaoDB();
+        ProductCategoryDaoDB CategoryDB = ProductCategoryDaoDB.getInstance();
         SupplierDaoDB supplierDB = new SupplierDaoDB();
 
         // Uncomment this if you don't want your data reset

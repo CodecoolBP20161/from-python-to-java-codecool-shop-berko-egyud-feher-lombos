@@ -2,16 +2,28 @@ package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.ProductCategory;
-
 import javassist.NotFoundException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCategoryDao {
+
+    private static ProductCategoryDaoDB INSTANCE;
+
+    public static ProductCategoryDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ProductCategoryDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private ProductCategoryDaoDB() {
+    }
 
     @Override
     public void add(ProductCategory category) {
