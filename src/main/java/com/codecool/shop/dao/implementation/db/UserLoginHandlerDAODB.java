@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -22,15 +23,15 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
 //    }
 
 
-    public void add(JSONObject user) throws SQLException {
+    public void add(String username, String password, String email) throws SQLException {
         try {
             String salt = generateSalt();
             PreparedStatement stmt;
             stmt = getConnection().prepareStatement("INSERT INTO logintable (USERNAME, EMAIL, PASSWORD, SALT) VALUES (?, ?, ?, ?)");
 
-            stmt.setString(1, user.getString("userName"));
-            stmt.setString(2, user.getString("email"));
-            stmt.setString(3, hash(user.getString("password") + salt));
+            stmt.setString(1,username);
+            stmt.setString(2, email);
+            stmt.setString(3, hash(password + salt));
             stmt.setString(4, salt);
             stmt.executeUpdate();
 
@@ -47,25 +48,36 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     public int getId(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
-        return stmt.executeQuery().getInt("ID");
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            return rs.getInt("ID");
+        }
+        return 0;
     }
 
     private String getSalt(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
-        return stmt.executeQuery().getString("SALT");
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            return rs.getString("SALT");
+        }
+        return null;
     }
 
     public Boolean checkIfUsernameExists(String userName) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, userName);
-        return stmt.executeQuery().first();
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();
     }
 
     public Boolean checkIfEmailExists(String email) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE email=?");
         stmt.setString(1, email);
-        return stmt.executeQuery().first();
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();
+
     }
 
     private String hash(String string) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -82,10 +94,14 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
         return hash(new BigInteger(1, bytes).toString(20));
     }
 
-    private static String getPassword(String username) throws SQLException {
+    private String getPassword(String username) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
-        return stmt.executeQuery().getString("PASSWORD");
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            return rs.getString("PASSWORD");
+        }
+        return null;
     }
 }
 
