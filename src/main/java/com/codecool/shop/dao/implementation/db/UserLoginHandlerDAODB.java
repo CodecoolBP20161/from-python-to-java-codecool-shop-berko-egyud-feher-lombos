@@ -1,8 +1,5 @@
 package com.codecool.shop.dao.implementation.db;
 
-
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,7 +9,6 @@ import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
@@ -44,6 +40,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * checks if the input params are the same as the corresponding database params
      * @param username - new username to get saved
      * @param inputPassword - new password to get saved
+     * @return boolean
      * @throws SQLException,UnsupportedEncodingException,NoSuchAlgorithmException - Exception at it's finest
      */
     public boolean authenticate(String username, String inputPassword) throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -54,6 +51,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * returns the ID which refers to the username param in the database
      * @param username - new username to search in the database
+     * @return int - id
      * @throws SQLException - Exceptions at it's finest
      */
     public int getId(String username) throws SQLException {
@@ -69,6 +67,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * returns the salt which refers to the username param in the database
      * @param username - username to search in the database
+     * @return string - salt
      * @throws SQLException - Exceptions at it's finest
      */
     private String getSalt(String username) throws SQLException {
@@ -84,6 +83,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * checks if a username is already used by another user in the database
      * @param username - username to search in the database
+     ** @return boolean
      * @throws SQLException - Exceptions at it's finest
      */
     public Boolean checkIfUsernameExists(String username) throws SQLException {
@@ -96,6 +96,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * checks if a email is already used by another user in the database
      * @param email - username to search in the database
+     * @return boolean
      * @throws SQLException - Exceptions at it's finest
      */
     public Boolean checkIfEmailExists(String email) throws SQLException {
@@ -109,6 +110,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * generates a hash from a the string param by SHA-1 encryption
      * @param string - username to search in the database
+     * @return string - encrypted string
      * @throws NoSuchAlgorithmException, UnsupportedEncodingException - Exceptions at it's finest
      */
     private String hash(String string) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -120,6 +122,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
     /**
      * generates a random 20 byte long salt, and creates a hash from it
+     * @return string - generated salt as a string
      * @throws UnsupportedEncodingException,NoSuchAlgorithmException - Exceptions at it's finest
      */
     private String generateSalt() throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -132,6 +135,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
     /**
      * gets the password which belongs to the username param in the database
      * @param username - username to search in the database
+     * @return string - password from the database
      * @throws SQLException - Exceptions at it's finest
      */
     private String getPassword(String username) throws SQLException {
