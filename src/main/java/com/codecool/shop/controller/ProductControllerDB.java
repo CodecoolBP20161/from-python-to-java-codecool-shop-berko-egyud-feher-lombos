@@ -38,6 +38,8 @@ public class ProductControllerDB {
         params.put("categories", ProductCategoryDB.getAll());
         params.put("products", ProductDB.getAll());
         params.put("suppliers", supplierDB.getAll());
+        params.put("authenticated", req.session().attribute("authenticated"));
+        params.put("username", req.session().attribute("authenticated"));
 
         req.session().attribute("currentUrl", "/");
 
@@ -86,10 +88,7 @@ public class ProductControllerDB {
         Map params = setParams(req);
         return new ModelAndView(params, "product/aboutus");
     }
-    public static ModelAndView renderSignIn(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = setParams(req);
-        return new ModelAndView(params, "product/signin");
-    }
+
 
     // Handle the content of the session and set the variables of Order object
     public static String addToCart(Request req, Response res) throws NotFoundException {
