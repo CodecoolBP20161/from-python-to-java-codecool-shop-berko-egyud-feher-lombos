@@ -71,7 +71,8 @@ public class BuildTable {
                                       "ID SERIAL PRIMARY KEY," +
                                       "USERNAME varchar(255) UNIQUE," +
                                       "EMAIL int," +
-                                      "PASSWORD int NOT NULL UNIQUE," +
+                                      "PASSWORD varchar(255) NOT NULL UNIQUE," +
+                                      "SALT int varchar(255) NOT NULL UNIQUE," +
                                       ");";
 
         statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem);
