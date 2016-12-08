@@ -21,14 +21,16 @@ public class Main {
 
         before((request, response) -> AbstractDBHandler.getConnection());
 
-        get("/add/:id", Controller::addToCart);
-        get("/remove/:id", Controller :: removeFromCart);
-        get("/removeall", Controller :: removeAllFromCart);
+        get("/add/:id", Controller::addToSessionCart);
+        get("/remove/:id", Controller ::removeFromSessionCart);
+        get("/removeall", Controller ::removeAllFromSessionCart);
 
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+
+
         get("/hello", (req, res) -> "Hello World");
-        get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
-        get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+        get("/category/:categoryid", ProductControllerDB::renderFilteredProducts, new ThymeleafTemplateEngine());
+        get("/supplier/:supplierid", ProductControllerDB::renderFilteredProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", OrderControllerDB::renderCartContent, new ThymeleafTemplateEngine());
 
         get("/checkout", OrderControllerDB::renderCheckoutPage, new ThymeleafTemplateEngine());
