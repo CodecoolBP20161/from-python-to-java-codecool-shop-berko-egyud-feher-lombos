@@ -22,15 +22,20 @@ public class ProductControllerDB {
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
-    // Action for display all
+    // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
 
         // products put to params according to the paginationNumber
         if (req.queryParams("paginationNumber") == null) {
             params.put("products", ProductDB.getProductByPagination(1));
+            params.put("paginationNumber", 1);
         } else if (req.queryParams("paginationNumber") != null) {
             int paginationNumber = Integer.parseInt(req.queryParams("paginationNumber"));
+
+            // to set the pagination button active/disabled
+            params.put("paginationNumber", paginationNumber);
+
             if (paginationNumber == 1) {
                 params.put("products", ProductDB.getProductByPagination(1));
             } else if (paginationNumber == 2) {
@@ -39,6 +44,9 @@ public class ProductControllerDB {
                 params.put("products", ProductDB.getProductByPagination(21));
             }
         }
+
+        // to examine with thymeleaf the page
+        params.put("paginationExamine", "INDEX");
         return new ModelAndView(params, "product/index");
     }
 
