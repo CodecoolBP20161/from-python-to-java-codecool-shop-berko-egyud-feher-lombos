@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class BuildTable {
     public static void build() {
          ConnectionPropertyValues configReader = new ConnectionPropertyValues();
-         HashMap DBprops = configReader.getPropValues();
+         HashMap DBprops = configReader.getPropValuesOfDB();
 
         String DATABASE = "jdbc:postgresql://" + DBprops.get("url") + "/" + DBprops.get("database");
          String DB_USER = String.valueOf(DBprops.get("user"));
