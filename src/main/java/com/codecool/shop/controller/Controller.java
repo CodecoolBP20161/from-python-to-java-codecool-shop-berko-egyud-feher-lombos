@@ -20,14 +20,10 @@ import java.util.Map;
 
 public class Controller {
 
-    private static ProductDaoDB ProductDB = new ProductDaoDB();
-    private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
-    private static SupplierDaoDB SupplierDB = new SupplierDaoDB();
-    private static ShippingDataDB ShippingDataDB = new ShippingDataDB();
-
-
-    static Integer categoryId = 1;
-    static Integer supplierId = 1;
+    private static ProductDaoDB productDB = ProductDaoDB.getInstance();
+    private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
+    private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
+    private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
@@ -35,9 +31,9 @@ public class Controller {
         Map params = new HashMap<>();
 
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
-        params.put("categories", ProductCategoryDB.getAll());
-        params.put("suppliers", SupplierDB.getAll());
-        params.put("products", ProductDB.getAll());
+        params.put("categories", productCategoryDB.getAll());
+        params.put("suppliers", supplierDB.getAll());
+        params.put("products", productDB.getAll());
 
         req.session().attribute("currentUrl", "/");
 
@@ -62,7 +58,7 @@ public class Controller {
             order = req.session().attribute("Cart");
         }
 
-        order.add(ProductDB.find(id));
+        order.add(productDB.find(id));
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
@@ -75,7 +71,7 @@ public class Controller {
         order = req.session().attribute("Cart");
 
         // remove one product from session
-        order.remove(ProductDB.find(id));
+        order.remove(productDB.find(id));
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));
         return null;
@@ -85,7 +81,7 @@ public class Controller {
     public static String removeAllFromSessionCart(Request req, Response res) throws NotFoundException {
         Order order = null;
         req.session().attribute("Cart", order);
-        res.redirect(req.session().attribute("currentUrl"));
+        res.redirect("/");
         return null;
     }
 
@@ -109,7 +105,7 @@ public class Controller {
         // saving shipping data for order
         Orderable order;
         order = req.session().attribute("Cart");
-        ShippingDataDB.add(shippingDataList, (Order) order);
+        shippingDataDB.add(shippingDataList, (Order) order);
 
         res.redirect("/pay");
         return null;

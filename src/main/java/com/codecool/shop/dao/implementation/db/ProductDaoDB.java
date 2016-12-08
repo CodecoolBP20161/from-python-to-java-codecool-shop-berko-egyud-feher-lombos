@@ -16,9 +16,21 @@ import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
+    private static ProductDaoDB INSTANCE;
+
+    public static ProductDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ProductDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private ProductDaoDB() {
+    }
+
     @Override
     public void add(Product product) {
-        ProductCategoryDaoDB productDB = new ProductCategoryDaoDB();
+        ProductCategoryDaoDB productDB = ProductCategoryDaoDB.getInstance();
         try {
             PreparedStatement stmt;
             stmt = getConnection().prepareStatement("INSERT INTO \"product\"(NAME, DESCRIPTION, PRICE, CURRENCY, PRODUCT_CATEGORY, PRODUCT_SUPPLIER) VALUES (?, ?, ?, ?, ?, ?)");
@@ -96,8 +108,8 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
 
-        ProductCategoryDaoDB categoryDB = new ProductCategoryDaoDB();
-        SupplierDaoDB supplierDB = new SupplierDaoDB();
+        ProductCategoryDaoDB categoryDB = ProductCategoryDaoDB.getInstance();
+        SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
         return new Product(resultSet.getInt("ID"),
                 resultSet.getString("NAME"),

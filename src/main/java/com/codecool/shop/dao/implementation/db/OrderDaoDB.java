@@ -13,6 +13,18 @@ import java.util.List;
 
 public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
+    private static OrderDaoDB INSTANCE;
+
+    public static OrderDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new OrderDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private OrderDaoDB() {
+    }
+
     @Override
     public void add(Order order) {
 
@@ -34,7 +46,6 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-//                    System.out.println(generatedKeys.getInt(1));
                     order.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating order failed, no ID obtained.");
@@ -114,8 +125,8 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     private Order fillWithLineItem(Order order) throws NotFoundException {
-        LineItemDaoDB lineItemDB = new LineItemDaoDB();
-        ProductDaoDB productDB = new ProductDaoDB();
+        LineItemDaoDB lineItemDB = LineItemDaoDB.getInstance();
+        ProductDaoDB productDB = ProductDaoDB.getInstance();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
 
         // For each lineItem, add a product times the quantity, to the order
@@ -129,15 +140,15 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     }
 
     public void update(Order order){
-        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?";
+        String query = "UPDATE \"order\" SET TOTAL_PRICE = ?, STATUS=?";
         try {
             PreparedStatement stmt;
             stmt = connection.prepareStatement(query);
             stmt.setDouble(1, order.getTotalPrice());
+            stmt.setString(2, order.getStatus().toString());
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("buggggg");
         }
     }
 }

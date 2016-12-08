@@ -1,8 +1,6 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.dao.implementation.db.LineItemDaoDB;
-import com.codecool.shop.dao.implementation.db.OrderDaoDB;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -15,12 +13,6 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class OrderControllerDB {
-
-    private static OrderDaoDB OrderDaoDB = new OrderDaoDB();
-    private static LineItemDaoDB LineItemDaoDB = new LineItemDaoDB();
-    private static String STATUS_CHECKED_CART = "UNCHECKED";
-
-
 
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
@@ -56,13 +48,11 @@ public class OrderControllerDB {
 
         System.out.println(order);
 
-        // set order's status to "PAID"
+        // Set order's status to "PAID"
         PayProcess payProcess = new PayProcess();
         payProcess.process(order);
 
-
-        // delete the SessionCartContent
-        Controller.removeAllFromSessionCart(req, res);
+        params.put("navbarButtonsHREF", "removeAllCartContentFromSession");
 
         return new ModelAndView(params, "product/afterpay");
     }

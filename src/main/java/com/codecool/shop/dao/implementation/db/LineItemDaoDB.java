@@ -14,6 +14,18 @@ import java.util.List;
 
 public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
+    private static LineItemDaoDB INSTANCE;
+
+    public static LineItemDaoDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new LineItemDaoDB();
+        }
+        return INSTANCE;
+    }
+
+    private LineItemDaoDB() {
+    }
+
     @Override
     public void add(LineItem lineitem) {
 
@@ -54,7 +66,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
     @Override
     public List<LineItem> getAll() throws NotFoundException {
-        ProductDaoDB prodDB = new ProductDaoDB();
+        ProductDaoDB prodDB = ProductDaoDB.getInstance();
         String query = "SELECT * FROM lineitem;";
         List<LineItem> resultList = new ArrayList<>();
 
@@ -78,7 +90,7 @@ public class LineItemDaoDB extends AbstractDBHandler implements LineItemDao {
 
     @Override
     public List<LineItem> getBy(int orderId) throws NotFoundException {
-        ProductDaoDB prodDB = new ProductDaoDB();
+        ProductDaoDB prodDB = ProductDaoDB.getInstance();
         String query = "SELECT * FROM lineitem WHERE \"ORDER\"='" + orderId + "';";
         List<LineItem> resultList = new ArrayList<>();
 

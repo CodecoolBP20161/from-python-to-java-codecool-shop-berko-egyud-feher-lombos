@@ -8,9 +8,8 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
 
 public class CheckoutProcess extends AbstractProcess {
-    private OrderDaoDB orderDaoDB = new OrderDaoDB();
-
-    LineItemDaoDB lineItemDaoDB = new LineItemDaoDB();
+    private OrderDaoDB orderDaoDB = OrderDaoDB.getInstance();
+    private LineItemDaoDB lineItemDaoDB = LineItemDaoDB.getInstance();
 
     @Override
     public void action(Orderable item) {

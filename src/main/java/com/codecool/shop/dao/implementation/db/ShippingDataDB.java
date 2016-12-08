@@ -10,8 +10,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao {
+
+    private static ShippingDataDB INSTANCE;
+
+    public static ShippingDataDB getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ShippingDataDB();
+        }
+        return INSTANCE;
+    }
+
+    private ShippingDataDB() {
+    }
 
     @Override
     public void add(ArrayList<String> shippingDataList, Order order) {
@@ -40,16 +53,19 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
         }
     }
 
-    public String find(int id) throws NotFoundException {
-        String query = "SELECT EMAIL FROM shippingdata WHERE ORDER_ID ='" + id + "';";
+    public ArrayList<String> find(int id) throws NotFoundException {
+        String query = "SELECT * FROM shippingdata WHERE ORDER_ID ='" + id + "';";
+        ArrayList<String> userData;
         try(
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query)
         ){
             if (resultSet.next()) {
                 String userEmail = resultSet.getString("EMAIL");
-                System.out.println(userEmail);
-                return userEmail;
+                String userFirstName = resultSet.getString("FIRST_NAME");
+                String userLastName = resultSet.getString("LAST_NAME");
+                userData = new ArrayList<>(Arrays.asList(userEmail, userFirstName, userLastName));
+                return userData;
             } else {
                 throw new NotFoundException("Order not found");
             }
