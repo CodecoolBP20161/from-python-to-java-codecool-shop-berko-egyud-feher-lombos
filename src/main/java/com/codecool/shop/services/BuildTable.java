@@ -72,7 +72,7 @@ public class BuildTable {
                                       "USERNAME varchar(255) UNIQUE," +
                                       "EMAIL int," +
                                       "PASSWORD varchar(255) NOT NULL UNIQUE," +
-                                      "SALT int varchar(255) NOT NULL UNIQUE," +
+                                      "SALT  varchar(255) NOT NULL UNIQUE" +
                                       ");";
 
         statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createLoginTable);
