@@ -1,5 +1,6 @@
 package com.codecool.shop.model.process;
 
+import com.codecool.shop.dao.implementation.db.OrderDaoDB;
 import com.codecool.shop.dao.implementation.db.ShippingDataDB;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
@@ -10,12 +11,14 @@ import javassist.NotFoundException;
 public class PayProcess extends AbstractProcess {
 
     private  ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
-
+    private OrderDaoDB orderDaoDB = OrderDaoDB.getInstance();
 
     @Override
     protected void action(Orderable item) {
         System.out.println("pay in action");
         item.pay();
+
+        orderDaoDB.update((Order) item);
     }
 
     @Override
