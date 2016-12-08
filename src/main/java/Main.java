@@ -1,4 +1,5 @@
 import com.codecool.shop.controller.ProductControllerDB;
+import com.codecool.shop.controller.UserController;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import javassist.NotFoundException;
@@ -17,21 +18,29 @@ public class Main {
 
         TestDataDB.populateData();
 
-        before((request, response) -> AbstractDBHandler.getConnection());
+        before((request, response) ->
+        {
+            AbstractDBHandler.getConnection();
+            if (request.session().attribute("authenticated") == null) {
+                request.session().attribute("authenticated", false);
+            }
+        });
 
         get("/add/:id", ProductControllerDB::addToCart);
-        get("/remove/:id", ProductControllerDB :: removeFromCart);
+        get("/remove/:id", ProductControllerDB::removeFromCart);
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/hello", (req, res) -> "Hello World");
         get("/category/:categoryid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", ProductControllerDB::renderCartContent, new ThymeleafTemplateEngine());
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
-        get("/signin", ProductControllerDB::renderSignIn, new ThymeleafTemplateEngine());
+        get("/signin", UserController::renderSignIn, new ThymeleafTemplateEngine());
+        get("/signup", UserController::renderSignUp, new ThymeleafTemplateEngine());
+        post("/signin", UserController::login, new ThymeleafTemplateEngine());
+        post("/signup", UserController::createUser, new ThymeleafTemplateEngine());
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });
-        // Add this line to your project to enable the debug screen
     }
 
 }
