@@ -49,12 +49,20 @@ public class OrderControllerDB {
         PayProcess payProcess = new PayProcess();
         payProcess.process(order);
 
+        // delete the SessionCartContent
+        Controller.removeAllFromSessionCart(req, res);
+
         return new ModelAndView(params, "product/pay");
     }
 
     //Action for display after payment page
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
+
+        // Save the order into DB
+
+
+
         return new ModelAndView(params, "product/afterpay");
     }
 
