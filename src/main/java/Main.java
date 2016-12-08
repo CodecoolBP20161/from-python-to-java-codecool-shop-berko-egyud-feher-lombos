@@ -21,24 +21,24 @@ public class Main {
 
         before((request, response) -> AbstractDBHandler.getConnection());
 
+        get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+
+        // Controller's methods
         get("/add/:id", Controller::addToSessionCart);
         get("/remove/:id", Controller ::removeFromSessionCart);
         get("/removeall", Controller ::removeAllFromSessionCart);
 
-        get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
-
-
-        get("/hello", (req, res) -> "Hello World");
+        // ProductController's render actions
         get("/category/:categoryid", ProductControllerDB::renderFilteredProducts, new ThymeleafTemplateEngine());
         get("/supplier/:supplierid", ProductControllerDB::renderFilteredProducts, new ThymeleafTemplateEngine());
         get("/cartcontent", OrderControllerDB::renderCartContent, new ThymeleafTemplateEngine());
 
+        // OrderController's render actions
         get("/checkout", OrderControllerDB::renderCheckoutPage, new ThymeleafTemplateEngine());
         post("/checkout", Controller::saveShippingInfoToSession);
-
         get("/pay", OrderControllerDB::renderPaymentPage, new ThymeleafTemplateEngine());
-        post("/pay", Controller::saveBankCardData);
-        get("/afterpayment", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
+        post("/pay", Controller::saveBankCardDataToSession);
+        get("/afterpay", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
 
 
         get("/aboutus", ProductControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
