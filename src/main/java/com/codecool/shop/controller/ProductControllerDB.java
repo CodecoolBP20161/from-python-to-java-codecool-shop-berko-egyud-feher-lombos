@@ -25,6 +25,7 @@ public class ProductControllerDB {
     // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
+        params.put("pageNumber", ProductDB.getPageNumberList((int) Math.ceil(ProductDB.getAll().size()/10.0)));
 
         // products put to params according to the paginationNumber
         if (req.queryParams("paginationNumber") == null) {
@@ -32,16 +33,14 @@ public class ProductControllerDB {
             params.put("paginationNumber", 1);
         } else if (req.queryParams("paginationNumber") != null) {
             int paginationNumber = Integer.parseInt(req.queryParams("paginationNumber"));
-
             // to set the pagination button active/disabled
             params.put("paginationNumber", paginationNumber);
 
-            if (paginationNumber == 1) {
-                params.put("products", ProductDB.getProductByPagination(1));
-            } else if (paginationNumber == 2) {
-                params.put("products", ProductDB.getProductByPagination(11));
-            } else if (paginationNumber == 3) {
-                params.put("products", ProductDB.getProductByPagination(21));
+            // dynamic page paginaton
+            if (paginationNumber == 1){
+                params.put("products", ProductDB.getProductByPagination((0)));
+            } else if (paginationNumber > 1) {
+                params.put("products", ProductDB.getProductByPagination((paginationNumber*10)-9));
             }
         }
 
