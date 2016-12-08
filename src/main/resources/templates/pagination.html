@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!--Display the selected products-->
+        <div th:fragment="pagination">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li th:class="${paginationNumber == 1} ? 'disabled' : 'active'"><a th:href="'?paginationNumber=1'">1 <span class="sr-only">(current)</span></a></li>
+                    <li th:class="${paginationNumber == 2} ? 'disabled' : 'active'"><a th:href="'?paginationNumber=2'">2 <span class="sr-only">(current)</span></a></li>
+                    <li th:class="${paginationNumber == 3} ? 'disabled' : 'active'"><a th:href="'?paginationNumber=3'">3<span class="sr-only">(current)</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>
+
