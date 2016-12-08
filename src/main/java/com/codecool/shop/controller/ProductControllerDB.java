@@ -25,7 +25,8 @@ public class ProductControllerDB {
     // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
-        params.put("pageNumber", ProductDB.getPageNumberList((int) Math.ceil(ProductDB.getAll().size()/10.0)));
+        params.put("pageNumberList", ProductDB.getPageNumberList((int) Math.ceil(ProductDB.getAll().size()/10.0)));
+        params.put("lastPageNumber", (int) Math.ceil(ProductDB.getAll().size()/10.0));
 
         // products put to params according to the paginationNumber
         if (req.queryParams("paginationNumber") == null) {
