@@ -80,8 +80,13 @@ a:hover
     text-decoration:none;
     cursor:pointer;
 }
-.centerDiv{
+.centerDiv {
     margin:auto;
-
-
+}
+.padding{
+    margin:10px;
+}
+.welcome{
+    vertical-align: 33%;
+    color:white;
 }
