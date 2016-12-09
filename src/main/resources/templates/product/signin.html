@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head"></head>
+<body>
+<div th:replace="header :: header"></div>
+<div class="container-fluid">
+
+    <form class="input-group centerDiv" action="/signin" method="post">
+        <p th:if="${not valid}" class="bg-danger padding"><b th:text="${message}"></b></p>
+        <div class="input-group" >
+            <span class="padding">Username</span>
+            <input required="required" type="text" class="form-control padding" name="username" placeholder="Username" maxlength="10"></input>
+        </div>
+        <div class="input-group">
+            <span class="padding" >Password:</span>
+            <input required="required" type="password" class="form-control padding" name="password" placeholder="Password" maxlength="8"></input>
+        </div>
+        <button class="btn btn-success btn-block padding" type="submit">Sign In!</button>
+    </form>
+</div>
+</body>
+</html>
