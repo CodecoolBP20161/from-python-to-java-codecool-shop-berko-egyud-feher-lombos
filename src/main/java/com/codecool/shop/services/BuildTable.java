@@ -66,6 +66,17 @@ public class BuildTable {
                                     "\"ORDER\" int REFERENCES \"order\"(ID) ON DELETE CASCADE" +
                                     ");";
 
+            String createLoginTable = "DROP TABLE IF EXISTS logintable CASCADE;" +
+                                      "CREATE TABLE logintable" +
+                                      "(" +
+                                      "ID SERIAL PRIMARY KEY," +
+                                      "USERNAME varchar(255) UNIQUE," +
+                                      "EMAIL VARCHAR(255)," +
+                                      "PASSWORD varchar(255) NOT NULL UNIQUE," +
+                                      "SALT  varchar(255) NOT NULL UNIQUE" +
+                                      ");";
+
+
             String createShippingData = "DROP TABLE IF EXISTS shippingdata CASCADE;" +
                     "CREATE TABLE shippingdata" +
                     "(" +
@@ -83,7 +94,7 @@ public class BuildTable {
                     ");";
 
 
-        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createShippingData);
+        statement.execute(createSupplier + createCategory + createOrder + createProduct + createLineItem + createShippingData + createLoginTable);
 
         } catch (SQLException e){
             e.printStackTrace();

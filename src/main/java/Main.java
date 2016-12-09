@@ -2,6 +2,7 @@ import com.codecool.shop.controller.AboutUsControllerDB;
 import com.codecool.shop.controller.Controller;
 import com.codecool.shop.controller.OrderControllerDB;
 import com.codecool.shop.controller.ProductControllerDB;
+import com.codecool.shop.controller.UserController;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import javassist.NotFoundException;
@@ -20,9 +21,24 @@ public class Main {
 
         TestDataDB.populateData();
 
-        before((request, response) -> AbstractDBHandler.getConnection());
+        before( "*", (request, response) ->
+        {
+            AbstractDBHandler.getConnection();
+            if (request.session().attribute("authenticated") == null) {
+                request.session().attribute("authenticated", false);
+                request.session().attribute("username", false);
+            }
+        });
 
+        // Index page
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
+
+        //  UserController's method and rendered action
+        get("/signin", UserController::renderSignIn, new ThymeleafTemplateEngine());
+        get("/signup", UserController::renderSignUp, new ThymeleafTemplateEngine());
+        get("/logout", UserController::logOut, new ThymeleafTemplateEngine());
+        post("/signin", UserController::login, new ThymeleafTemplateEngine());
+        post("/signup", UserController::createUser, new ThymeleafTemplateEngine());
 
         // Controller's methods
         get("/add/:id", Controller::addToSessionCart);
@@ -43,10 +59,10 @@ public class Main {
 
 
         get("/aboutus", AboutUsControllerDB::renderAboutUs, new ThymeleafTemplateEngine());
+
         get("*", (req, res) -> {
             throw new Exception("Exceptions everywhere!");
         });
-        // Add this line to your project to enable the debug screen
     }
 
 }
