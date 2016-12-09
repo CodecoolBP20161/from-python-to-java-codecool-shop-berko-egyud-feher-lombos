@@ -4,120 +4,78 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
-
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.Orderable;
-import com.codecool.shop.model.ProductCategory;
-
 import javassist.NotFoundException;
-
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 
 public class ProductControllerDB {
 
-    private static ProductDaoDB ProductDB = new ProductDaoDB();
-    private static ProductCategoryDaoDB ProductCategoryDB = new ProductCategoryDaoDB();
-    private static SupplierDaoDB supplierDB = new SupplierDaoDB();
+    private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
+    private static ProductDaoDB productDB = ProductDaoDB.getInstance();
+    private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
 
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
-    // Handle the content of the params HashMap
-    private static Map setParams(Request req) throws NotFoundException, SQLException {
+    // Action for display all with opportunities of pagination
+    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
+        Map params = Controller.setParams(req);
 
-        Map params = new HashMap<>();
+        // pagination handling
+        params.put("pageNumberList", productDB.getPageNumberList((int) Math.ceil(productDB.getAll().size()/10.0)));
+        params.put("lastPageNumber", (int) Math.ceil(productDB.getAll().size()/10.0));
 
-        params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
-        params.put("categories", ProductCategoryDB.getAll());
-        params.put("products", ProductDB.getAll());
-        params.put("suppliers", supplierDB.getAll());
+        // products put to params according to the paginationNumber
+        if (req.queryParams("paginationNumber") == null) {
+            params.put("products", productDB.getProductByPagination(1));
+            params.put("paginationNumber", 1);
+        } else if (req.queryParams("paginationNumber") != null) {
+            int paginationNumber = Integer.parseInt(req.queryParams("paginationNumber"));
+            // to set the pagination button active/disabled
+            params.put("paginationNumber", paginationNumber);
 
-        req.session().attribute("currentUrl", "/");
+            // dynamic page paginaton handling
+            if (paginationNumber == 1){
+                params.put("products", productDB.getProductByPagination((0)));
+            } else if (paginationNumber > 1) {
+                params.put("products", productDB.getProductByPagination((paginationNumber*10)-9));
+            }
+        }
+
+        // to examine with thymeleaf the page
+        params.put("paginationExamine", "INDEX");
+        return new ModelAndView(params, "product/index");
+    }
+
+    // Action for display filtered products
+    public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
+        Map params = Controller.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
             categoryId = Integer.parseInt(req.params(":categoryid"));
-            params.put("products", ProductDB.getBy(ProductCategoryDB.find(categoryId)));
+            params.put("products", productDB.getBy(productCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
-
         }
         else if ( req.params(":supplierid") != null ) {
             supplierId = Integer.parseInt(req.params(":supplierid"));
-            params.put("products", ProductDB.getBy(supplierDB.find(supplierId)));
+            params.put("products", productDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
-        else if ( req.url().equals("http://localhost:8888/cartcontent")) {
-            req.session().attribute("currentUrl", "/cartcontent");
-        }
-
-        Order cart = req.session().attribute("Cart");
-        params.put("cart", cart);
-        return params;
-
-    }
-
-    // Action for display all or filtered products
-    public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = setParams(req);
 
         if ( req.params(":categoryid") != null ) {
-            params.put("category", ProductCategoryDB.find(categoryId));
+            params = Controller.setParams(req);
+            params.put("category", productCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
+            params = Controller.setParams(req);
             params.put("supplier", supplierDB.find(supplierId));
         }
         return new ModelAndView(params, "product/index");
     }
 
-    // Action for display cart content
-    public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = setParams(req);
-        return new ModelAndView(params, "product/cart");
-    }
-
-    // Action for display about us page
-    public static ModelAndView renderAboutUs(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = setParams(req);
-        return new ModelAndView(params, "product/aboutus");
-    }
-
-    // Handle the content of the session and set the variables of Order object
-    public static String addToCart(Request req, Response res) throws NotFoundException {
-        int id = Integer.parseInt(req.params(":id"));
-        Orderable cart;
-
-        if (req.session().attribute("Cart") == null) {
-            cart = new Order();
-        } else {
-            cart = req.session().attribute("Cart");
-        }
-
-        cart.add(ProductDB.find(id));
-        req.session().attribute("Cart", cart);
-
-        res.redirect(req.session().attribute("currentUrl"));
-        return null;
-    }
-    // Handle the content of the session and set the variables of Order object
-    public static String removeFromCart(Request req, Response res) throws NotFoundException {
-        int id = Integer.parseInt(req.params(":id"));
-        Orderable cart;
-
-        if (req.session().attribute("Cart") == null) {
-            cart = new Order();
-        } else {
-            cart = req.session().attribute("Cart");
-        }
-
-        cart.remove(ProductDB.find(id));
-        req.session().attribute("Cart", cart);
-        res.redirect(req.session().attribute("currentUrl"));
-        return null;
-    }
 }
