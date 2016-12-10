@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!--Display sign in content in table-->
+    <div th:fragment="signincontent">
+        <!--<div class="container-fluid">-->
+
+            <!--<form class="input-group centerDiv" action="/signin" method="post">-->
+                <!--<div class="input-group" >-->
+                    <!--<span class="padding">Username</span>-->
+                    <!--<input required="required" type="text" class="form-control padding" name="username" placeholder="Username" maxlength="10"></input>-->
+                <!--</div>-->
+                <!--<div class="input-group">-->
+                    <!--<span class="padding" >Password:</span>-->
+                    <!--<input required="required" type="password" class="form-control padding" name="password" placeholder="Password" maxlength="8"></input>-->
+                <!--</div>-->
+                <!--<button class="btn btn-success btn-block padding" type="submit">Sign In!</button>-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <div class="container">
+            <div class="card card-container">
+                <!--Profile picture-->
+                <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+                <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+                <p id="profile-name" class="profile-name-card"></p>
+
+                <form class="form-signin" action="/signin" method="post">
+                    <p th:if="${not valid}" class="bg-danger padding"><b th:text="${message}"></b></p>
+
+                    <span id="reauth-email" class="reauth-email"></span>
+                    <input name="username" type="text" id="inputEmail" class="form-control"  placeholder="Username" required="required" autofocus="autofocus" />
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" />
+                    <div id="remember" class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me" /> Remember me
+                        </label>
+                    </div>
+                    <button id="signin-btn" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                </form><!-- /form -->
+                <a href="#" class="forgot-password">
+                    Forgot the password?
+                </a>
+            </div><!-- /card-container -->
+        </div><!-- /container -->
+    </div>
+</body>
+</html>
