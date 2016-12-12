@@ -6,6 +6,8 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
+    private static final Logger logger = LoggerFactory.getLogger(ProductDaoDB.class);
+
 
     private static ProductDaoDB INSTANCE;
 
@@ -30,6 +34,8 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public void add(Product product) {
+        logger.info("add method is called.");
+
         ProductCategoryDaoDB productDB = ProductCategoryDaoDB.getInstance();
         try {
             PreparedStatement stmt;
@@ -41,16 +47,20 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             stmt.setInt(5, product.getProductCategory().getId());
             stmt.setInt(6, product.getSupplier().getId());
             stmt.executeUpdate();
+            logger.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
+            logger.info("Product name: {}, description: {}, defaultPrice: {}, defaultCurrency: {}, productCategory: {}, Supplier: {}", product.getName(), product.getDescription(), product.getDefaultPrice(), product.getDefaultCurrency().toString(), product.getProductCategory().getId(), product.getSupplier().getId());
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Error occurred during order added into database: {}", e);
         }
 
     }
 
     @Override
     public Product find(int id) throws NotFoundException {
-        Product product;
+        logger.info("find method is called.");
 
+        Product product;
         String query = "SELECT * FROM product WHERE ID = '" + id + "';";
 
         try (
@@ -65,28 +75,35 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error occurred during order find(looked) in database: {}", e);
         }
         return null;
     }
 
     @Override
     public void remove(int id) {
+        logger.info("remove method is called.");
         String query = "DELETE FROM product WHERE id = '" + id + "';";
         executeQuery(query);
     }
 
     @Override
     public List<Product> getAll() throws NotFoundException {
+        logger.info("getAll method is called.");
+
         String query = "SELECT * FROM product;";
         return convertManyDBResultToObject(query);
     }
 
     public List<Product> getProductByPagination(Integer from) throws NotFoundException {
+        logger.info("getProductByPagination method is called.");
         String query = "SELECT * FROM product LIMIT 10 OFFSET " + from.toString() + ";";
         return convertManyDBResultToObject(query);
     }
 
     public List<Integer> getPageNumberList(Integer allProduct) throws NotFoundException {
+        logger.info("getPageNumberList method is called.");
+
         List<Integer> allProductList = new ArrayList<>();
         for (int i = 1; i < allProduct +1; i++) {
             allProductList.add(i);
@@ -96,17 +113,22 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
+        logger.info("getBy method is called (supplier)");
+
         String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
         return convertManyDBResultToObject(query);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) throws NotFoundException {
+        logger.info("getBy method is called (category)");
+
         String query = "SELECT * FROM product WHERE PRODUCT_CATEGORY='" + productCategory.getId() + "';";
         return convertManyDBResultToObject(query);
     }
 
     private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
+        logger.info("createFromResultSet method is called");
 
         ProductCategoryDaoDB categoryDB = ProductCategoryDaoDB.getInstance();
         SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
@@ -120,6 +142,8 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
                 supplierDB.find(resultSet.getInt("PRODUCT_SUPPLIER")));
     }
     private ArrayList<Product> convertManyDBResultToObject(String query) throws NotFoundException {
+        logger.info("convertManyDBResultToObject method is called.");
+
         ArrayList<Product> objectList = new ArrayList<>();
         Product product;
         try (
@@ -132,6 +156,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error occurred during convertManyDBResultToObject method called: {}", e);
         }
         return objectList;
     }
