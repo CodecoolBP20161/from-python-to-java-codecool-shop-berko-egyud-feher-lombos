@@ -5,6 +5,8 @@ import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 
 public class ProductControllerDB {
+    private static final Logger logger = LoggerFactory.getLogger(ProductControllerDB.class);
 
     private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
     private static ProductDaoDB productDB = ProductDaoDB.getInstance();
@@ -25,6 +28,8 @@ public class ProductControllerDB {
     // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
+        logger.info("renderProducts method is called.");
+
 
         // pagination handling
         params.put("pageNumberList", productDB.getPageNumberList((int) Math.ceil(productDB.getAll().size()/10.0)));
@@ -34,7 +39,11 @@ public class ProductControllerDB {
         if (req.queryParams("paginationNumber") == null) {
             params.put("products", productDB.getProductByPagination(1));
             params.put("paginationNumber", 1);
+            logger.info("First-loaded page get a number for pagination.");
+
         } else if (req.queryParams("paginationNumber") != null) {
+            logger.info("Page examine the number of pagination from URL with queryParams method.");
+
             int paginationNumber = Integer.parseInt(req.queryParams("paginationNumber"));
             // to set the pagination button active/disabled
             params.put("paginationNumber", paginationNumber);
@@ -57,24 +66,32 @@ public class ProductControllerDB {
 
     // Action for display filtered products
     public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
+        logger.info("renderFilteredProducts method is called.");
+
         Map params = Controller.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
+            logger.info("Examine URL for categoryID to show the products filtered by category");
             categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", productDB.getBy(productCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
         }
         else if ( req.params(":supplierid") != null ) {
+            logger.info("Examine URL for supplerID to show the products filtered by supplier");
             supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", productDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
 
         if ( req.params(":categoryid") != null ) {
+            logger.info("Examine URL for supplerID to show the name of category.");
+
             params = Controller.setParams(req);
             params.put("category", productCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
+            logger.info("Examine URL for supplerID to show the name of supplier.");
+
             params = Controller.setParams(req);
             params.put("supplier", supplierDB.find(supplierId));
         }
