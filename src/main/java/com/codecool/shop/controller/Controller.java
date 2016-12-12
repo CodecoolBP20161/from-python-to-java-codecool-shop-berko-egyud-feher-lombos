@@ -9,6 +9,8 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
 import com.codecool.shop.model.ProductCategory;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Controller {
+
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
     private static ProductDaoDB productDB = ProductDaoDB.getInstance();
     private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
@@ -43,19 +47,24 @@ public class Controller {
 
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
+        logger.info("setParams method is called.");
         return params;
     }
 
 
     // Handle the content of the session and set the variables of Order object
     public static String addToSessionCart(Request req, Response res) throws NotFoundException {
+        logger.info("addToSessionCart method is called.");
+
         int id = Integer.parseInt(req.params(":id"));
         Orderable order;
 
         if (req.session().attribute("Cart") == null) {
             order = new Order();
+            logger.info("Session's cart empty, then Order object created.");
         } else {
             order = req.session().attribute("Cart");
+            logger.info("Session's cart not empty, then Order object called from session.");
         }
 
         order.add(productDB.find(id));
@@ -66,6 +75,8 @@ public class Controller {
 
     // Handle the content of the session and set the variables of Order object
     public static String removeFromSessionCart(Request req, Response res) throws NotFoundException {
+        logger.info("removeFromSessionCart method is called.");
+
         int id = Integer.parseInt(req.params(":id"));
         Orderable order;
         order = req.session().attribute("Cart");
@@ -79,6 +90,8 @@ public class Controller {
 
     // Handle the content of the session and set the variables of Order object
     public static String removeAllFromSessionCart(Request req, Response res) throws NotFoundException {
+        logger.info("removeAllFromSessionCart method is called.");
+
         Order order = null;
         req.session().attribute("Cart", order);
         res.redirect("/");
@@ -87,6 +100,7 @@ public class Controller {
 
     // Shipping data saved to session
     public static String saveShippingInfoToSession(Request req, Response res) {
+        logger.info("saveShippingInfoToSession method is called.");
 
         String first_name = req.queryParams("first_name");
         String last_name = req.queryParams("last_name");
@@ -106,6 +120,7 @@ public class Controller {
         Orderable order;
         order = req.session().attribute("Cart");
         shippingDataDB.add(shippingDataList, (Order) order);
+        logger.info("shippingDataList added to shippingDataDB");
 
         res.redirect("/pay");
         return null;
@@ -113,6 +128,8 @@ public class Controller {
 
     // Shipping data saved to session
     public static String saveBankCardDataToSession(Request req, Response res) {
+        logger.info("saveBankCardDataToSession method is called.");
+
 
         String card_holder_name = req.queryParams("card-holder-name");
         String card_number = req.queryParams("card-number");
