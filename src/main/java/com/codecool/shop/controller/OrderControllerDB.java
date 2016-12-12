@@ -5,6 +5,8 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -14,17 +16,24 @@ import java.util.Map;
 
 public class OrderControllerDB {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderControllerDB.class);
+
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
+        logger.info("renderCartContent method is called.");
+
         Map params = Controller.setParams(req);
         return new ModelAndView(params, "product/cart");
     }
 
     //Action for display checkout page & set order's status to CHECKED
     public static ModelAndView renderCheckoutPage(Request req, Response res) throws NotFoundException, SQLException {
+        logger.info("renderCheckoutPage method is called.");
+
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
         order.setUserSessionId(req.session().id());
+        logger.info("renderCheckoutPage method, order from session : {}", order);
 
         // set order's status to "CHECKED"
         CheckoutProcess checkoutProcess = new CheckoutProcess();
@@ -35,18 +44,20 @@ public class OrderControllerDB {
 
     //Action for display payment page & set order's status to PAID
     public static ModelAndView renderPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
+        logger.info("renderPaymentPage method is called.");
+
         Map params = Controller.setParams(req);
-
-
         return new ModelAndView(params, "product/pay");
     }
 
     //Action for display after payment page
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
+        logger.info("renderAfterPaymentPage method is called.");
+
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
 
-        System.out.println(order);
+        logger.info("renderAfterPaymentPage method, order from session : {}", order);
 
         // Set order's status to "PAID"
         PayProcess payProcess = new PayProcess();
