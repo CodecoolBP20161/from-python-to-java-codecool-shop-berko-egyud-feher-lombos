@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 
+import com.codecool.shop.controller.postal_fee_controller.PostalFeeCalculatorServiceController;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -9,6 +10,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -58,9 +61,10 @@ public class OrderControllerDB {
     }
 
 
-    public static ModelAndView renderShoppingInformationPage(Request req, Response res) throws NotFoundException, SQLException {
+    public static ModelAndView renderShoppingInformationPage(Request req, Response res) throws NotFoundException, SQLException, IOException, URISyntaxException {
         Map params = Controller.setParams(req);
-        Order order = req.session().attribute("Cart");
+
+        params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req));
 
         return new ModelAndView(params, "product/shippinginformation");
     }
