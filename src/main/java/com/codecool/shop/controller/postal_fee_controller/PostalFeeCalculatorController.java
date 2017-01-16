@@ -19,17 +19,4 @@ import java.util.UUID;
  */
 public class PostalFeeCalculatorController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostalFeeCalculatorController .class);
-    private static final String SERVICE_URL = "http://localhost:60000/";
-
-    public static String getPostalFee(){
-
-        return null;
-    }
-
-    private static String execute(String url) throws IOException, URISyntaxException {
-        //URI uri = new URIBuilder(SERVICE_URL + url).build();
-        //return Request.Get(uri).execute().returnContent().asString();
-        return null;
-    }
 }
