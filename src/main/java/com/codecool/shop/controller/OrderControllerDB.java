@@ -57,4 +57,12 @@ public class OrderControllerDB {
         return new ModelAndView(params, "product/afterpay");
     }
 
+
+    public static ModelAndView renderShoppingInformationPage(Request req, Response res) throws NotFoundException, SQLException {
+        Map params = Controller.setParams(req);
+        Order order = req.session().attribute("Cart");
+
+        return new ModelAndView(params, "product/shippinginformation");
+    }
+
 }
