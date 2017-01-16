@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head"></head>
+    <body>
+        <div class="col-sm-4 col-lg-4 col-md-4" th:each="prod,iterStat : ${shippinginformation}">
+            <p th:text="${prod}">Product description <a target="_blank" href="#"></a>.</p>
+        </div>
+    </body>
+</html>
