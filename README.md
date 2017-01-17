@@ -5,19 +5,19 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 
 # Preview 
 
-!["preview"](src/main/resources/public/img/preview_home.png)
+!["preview"](src/main/resources/public/img/readme/preview_home.png)
 
-!["preview"](src/main/resources/public/img/login.png)
+!["preview"](src/main/resources/public/img/readme/login.png)
 
-!["preview"](src/main/resources/public/img/signup.png)
+!["preview"](src/main/resources/public/img/readme/signup.png)
 
-!["preview"](src/main/resources/public/img/preview_cart.png)
+!["preview"](src/main/resources/public/img/readme/preview_cart.png)
 
-!["preview"](src/main/resources/public/img/checkout.png)
+!["preview"](src/main/resources/public/img/readme/checkout.png)
 
-!["preview"](src/main/resources/public/img/shippinginformation.png)
+!["preview"](src/main/resources/public/img/readme/shippinginformation.png)
 
-!["preview"](src/main/resources/public/img/pay.png)
+!["preview"](src/main/resources/public/img/readme/pay.png)
 
 
 # :lollipop: :lollipop: :lollipop: User Stories :lollipop: :lollipop: :lollipop:
