@@ -1,4 +1,4 @@
-# Codecool Online Shop
+# :star2: :star2: :star2: :star2: :star2: Codecool Online Shop :star2: :star2: :star2: :star2: :star2:
 
 The goal was to build an Online Shop, an online eCommerce web-application with Java.
 Where users can browse products, add them into a Shopping Cart, checkout items and make payments.
@@ -7,12 +7,20 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 
 !["preview"](src/main/resources/public/img/preview_home.png)
 
+!["preview"](src/main/resources/public/img/login.png)
 
+!["preview"](src/main/resources/public/img/signup.png)
 
 !["preview"](src/main/resources/public/img/preview_cart.png)
 
+!["preview"](src/main/resources/public/img/checkout.png)
 
-# User Stories
+!["preview"](src/main/resources/public/img/shippinginformation.png)
+
+!["preview"](src/main/resources/public/img/pay.png)
+
+
+# :lollipop: :lollipop: :lollipop: User Stories :lollipop: :lollipop: :lollipop:
 
 1. Development / Create an environment :white_check_mark:
 2. Products / List :white_check_mark:
@@ -21,9 +29,9 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 5. Shopping Cart / add to Cart :white_check_mark:
 6. Shopping Cart / Review :white_check_mark:
 7. Shopping Cart / Edit :white_check_mark:
-8. Shopping Cart / Checkout
-9. Shopping Cart / Payment
-10. Shopping Cart / Confirmation
+8. Shopping Cart / Checkout :white_check_mark:
+9. Shopping Cart / Payment :white_check_mark:
+10. Shopping Cart / Confirmation :white_check_mark:
 11. Admin log
 12. Products / DB  :white_check_mark:
 13. Products / memory DAO testing  :white_check_mark:
@@ -32,15 +40,15 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 16. Products / List / Unit Test :white_check_mark:
 17. Products / by Product Category / Unit test :white_check_mark:
 18. Products / by Supplier / Unit test :white_check_mark:
-19. Shopping Cart / add to Cart / Unit test
+19. Shopping Cart / add to Cart / Unit test :white_check_mark:
 20. Shopping Cart / Review / Unit test
 21. Shopping Cart / Edit / Unit test
 22. Shopping Cart / Checkout / Unt test
 23. Shopping Cart / Payment / Unit test
 24. Shopping Cart / Confirmation / Unit test
 25. Shopping Cart / Safe Checkout
-26. User / Registration
-27. User / Login - Logout
+26. User / Registration :white_check_mark:
+27. User / Login - Logout :white_check_mark:
 28. User / Order history
 29. User / Save shopping cart
 30. User / Save billing and shipping info
@@ -69,15 +77,20 @@ We had to take consideration the following requirements:
 
 # Install & Usage the App
 
+To operating the code, you need to clone two other repo. 
+    - :envelope::envelope::envelope: [Postal Fee Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-los_patrones)
+    - :hourglass::hourglass::hourglass: [Delivery Time Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-team2)
+
 1. Import this project to IntelliJ as a Maven project. (IntelliJ can auto-install the dependencies from the pom.xml)
-2. Fill resources/connection/connection.properties config file with your database's properties
-3. `run Main.java`
+2. Fill `resources/connection/connection.properties` config file with your database & email's properties
+3. run `src\main\java\Main.java`
+4. run  `from-python-to-java-microservices-los_patrones\src\main\java\Main.java` (postal_fee_calculator microservice)
 4. In your browser, type `localhost:8888`
 
 #  Usage the Test
 
 In test/java/com/codecool/shop there are two different folders. 
-You can just simply `run JunitTestRunner`
+You can just simply `run JunitTestRunner` file with CodeCoverage.
 
 
 
