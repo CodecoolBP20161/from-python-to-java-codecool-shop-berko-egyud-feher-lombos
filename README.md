@@ -78,14 +78,15 @@ We had to take consideration the following requirements:
 # Install & Usage the App
 
 To operating the code, you need to clone two other repo. 
-    1. :envelope::envelope::envelope: [Postal Fee Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-los_patrones)
-    2. :hourglass::hourglass::hourglass: [Delivery Time Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-team2)
 
-1. Import this project to IntelliJ as a Maven project. (IntelliJ can auto-install the dependencies from the pom.xml)
-2. Fill `resources/connection/connection.properties` config file with your database & email's properties
-3. run `src\main\java\Main.java`
-4. run  `from-python-to-java-microservices-los_patrones\src\main\java\Main.java` (postal_fee_calculator microservice)
-4. In your browser, type `localhost:8888`
+0. :envelope::envelope::envelope: [Postal Fee Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-los_patrones)
+1. :hourglass::hourglass::hourglass: [Delivery Time Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-team2)
+
+2. Import this project to IntelliJ as a Maven project. (IntelliJ can auto-install the dependencies from the pom.xml)
+3. Fill `resources/connection/connection.properties` config file with your database & email's properties
+4. run `src\main\java\Main.java`
+5. run  `from-python-to-java-microservices-los_patrones\src\main\java\Main.java` (postal_fee_calculator microservice)
+6. In your browser, type `localhost:8888`
 
 #  Usage the Test
 
