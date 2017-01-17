@@ -68,7 +68,7 @@ public class OrderControllerDB {
         if ((PostalFeeCalculatorServiceController.getPostalFee(req, order)) > 0f){
             params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req, order));
         } else if (PostalFeeCalculatorServiceController.getPostalFee(req, order) == 0f){
-            params.put("shippinginformationerror", "Couldn't calculated! Sorry!");
+            params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
         }
 
         return new ModelAndView(params, "product/shippinginformation");
