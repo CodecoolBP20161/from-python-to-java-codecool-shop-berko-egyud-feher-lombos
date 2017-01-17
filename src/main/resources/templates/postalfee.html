@@ -6,7 +6,7 @@
     <div th:fragment="postalfee">
         <div>
             <div class="col-sm-4 col-lg-4 col-md-4" th:each="cost,iterStat : ${shippinginformation}">
-                <p th:text="${cost}">Product description <a target="_blank" href="#"></a>.</p>
+                <p th:text="'Total Price: ' + ${#numbers.formatDecimal(cost, 0, 1)} + ' USD'">Product description <a target="_blank" href="#"></a>.</p>
             </div>
         </div>
     </div>
