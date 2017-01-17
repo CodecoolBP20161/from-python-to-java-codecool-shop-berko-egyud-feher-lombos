@@ -63,8 +63,8 @@ public class OrderControllerDB {
 
     public static ModelAndView renderShoppingInformationPage(Request req, Response res) throws NotFoundException, SQLException, IOException, URISyntaxException {
         Map params = Controller.setParams(req);
-
-        params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req));
+        Order order = req.session().attribute("Cart");
+        params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req, order));
 
         return new ModelAndView(params, "product/shippinginformation");
     }
