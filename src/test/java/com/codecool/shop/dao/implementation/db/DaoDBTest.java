@@ -45,11 +45,11 @@ public class DaoDBTest extends DBTestCase {
     public void test_Database_With_XML() throws Exception {
         // Fetch database data after executing your code
         IDataSet databaseDataSet = getConnection().createDataSet();
-        ITable actualTable = databaseDataSet.getTable("rendered_html");
+        ITable actualTable = databaseDataSet.getTable("product");
 
         // Load expected data from an XML dataset
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new File("src/test/java/com/codecool/shop/dao/implementation/db/partial.xml"));
-        ITable expectedTable = expectedDataSet.getTable("rendered_html");
+        ITable expectedTable = expectedDataSet.getTable("product");
 
         // Assert actual database table match expected table
         assertEquals(expectedTable.getRowCount(), actualTable.getRowCount());

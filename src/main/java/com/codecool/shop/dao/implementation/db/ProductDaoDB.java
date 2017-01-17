@@ -71,18 +71,18 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public void remove(int id) {
-        String query = "DELETE FROM rendered_html WHERE id = '" + id + "';";
+        String query = "DELETE FROM product WHERE id = '" + id + "';";
         executeQuery(query);
     }
 
     @Override
     public List<Product> getAll() throws NotFoundException {
-        String query = "SELECT * FROM rendered_html;";
+        String query = "SELECT * FROM product;";
         return convertManyDBResultToObject(query);
     }
 
     public List<Product> getProductByPagination(Integer from) throws NotFoundException {
-        String query = "SELECT * FROM rendered_html LIMIT 10 OFFSET " + from.toString() + ";";
+        String query = "SELECT * FROM product LIMIT 10 OFFSET " + from.toString() + ";";
         return convertManyDBResultToObject(query);
     }
 
@@ -96,13 +96,13 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
-        String query = "SELECT * FROM rendered_html WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
+        String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
         return convertManyDBResultToObject(query);
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) throws NotFoundException {
-        String query = "SELECT * FROM rendered_html WHERE PRODUCT_CATEGORY='" + productCategory.getId() + "';";
+        String query = "SELECT * FROM product WHERE PRODUCT_CATEGORY='" + productCategory.getId() + "';";
         return convertManyDBResultToObject(query);
     }
 

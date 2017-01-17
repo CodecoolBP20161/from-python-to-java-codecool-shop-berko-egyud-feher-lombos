@@ -7,7 +7,7 @@ public class LineItem extends Product {
     private int orderId;
 
 
-    // constructor that takes a rendered_html as argument, and construct a line item for display
+    // constructor that takes a product as argument, and construct a line item for display
     public LineItem(Product product, int orderId) {
         this.orderId = orderId;
         this.setProductId(product.getId());

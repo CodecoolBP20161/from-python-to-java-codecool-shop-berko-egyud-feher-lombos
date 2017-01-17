@@ -29,7 +29,7 @@ public class TestDataMem {
         Supplier lg = new Supplier("LG", "Digital content and services");
         supplierDataStore.add(lg);
 
-        //setting up a new rendered_html category
+        //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
         productCategoryDataStore.add(tablet);
         ProductCategory tv = new ProductCategory("TV", "Hardware", "TV is a telecommunication medium used for transmitting moving images in monochrome (black-and-white), or in color");

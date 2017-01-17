@@ -30,19 +30,19 @@ public class TestDataDB {
         Supplier lg = new Supplier("LG", "Digital content and services");
         supplierDB.add(lg);
 
-        // Re assigning suppliers to have the 'id' field from the DB, so we can assign them to a rendered_html
+        // Re assigning suppliers to have the 'id' field from the DB, so we can assign them to a product
         amazon = supplierDB.find(1);
         lenovo = supplierDB.find(2);
         samsung = supplierDB.find(3);
         lg = supplierDB.find(4);
 
-        //setting up a new rendered_html category
+        //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
         CategoryDB.add(tablet);
         ProductCategory tv = new ProductCategory("TV", "Hardware", "TV is a telecommunication medium used for transmitting moving images in monochrome (black-and-white), or in color");
         CategoryDB.add(tv);
 
-        // Re assigning categories to have the 'id' field from the DB, so we can assign them to a rendered_html
+        // Re assigning categories to have the 'id' field from the DB, so we can assign them to a product
         tablet = CategoryDB.find(1);
         tv = CategoryDB.find(2);
 

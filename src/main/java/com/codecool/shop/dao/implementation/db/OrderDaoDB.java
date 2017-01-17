@@ -129,7 +129,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
         ProductDaoDB productDB = ProductDaoDB.getInstance();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
 
-        // For each lineItem, add a rendered_html times the quantity, to the order
+        // For each lineItem, add a product times the quantity, to the order
         for (LineItem lineItem : lineItems) {
             for(int i = 0; i < lineItem.getQuantity(); i++) {
                 Product parentProduct = productDB.find(lineItem.getProductId());
