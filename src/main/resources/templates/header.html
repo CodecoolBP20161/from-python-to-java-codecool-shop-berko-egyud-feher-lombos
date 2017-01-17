@@ -23,7 +23,7 @@
                     </li>
 
                     <li>
-                        <a th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/'"  >About Us</a>
+                        <a th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/aboutus'"  >About Us</a>
                     </li>
                     <li>
                         <a th:href="${navbarButtonsHREF} == 'removeAllCartContentFromSession' ? '/removeall' : '/cartcontent'" >Cart <span class="badge" th:text="${cart} ? '   ' + ${cart.totalQuantity} : ' 0'"></span></a>
