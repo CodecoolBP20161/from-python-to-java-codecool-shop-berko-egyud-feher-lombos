@@ -36,7 +36,7 @@ public class PostalFeeCalculatorServiceController {
      * @author Vivi and Moni
      * @version final
      */
-    public static String getPostalFee(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
+    public static Float getPostalFee(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
         logger.info("Getting Postal Fee...");
 
         String webshopCity = "Budapest";
@@ -50,9 +50,11 @@ public class PostalFeeCalculatorServiceController {
 
         String cost = execute(builder.build());
         JSONObject json = new JSONObject(cost);
-        logger.info("Getting cost from JSON" + json);
 
-        return json.getString("cost");
+        logger.info("Getting cost from JSON" + json);
+        float feeAsFloat = Float.parseFloat(json.getString("cost").replace("$", "").trim());
+
+        return feeAsFloat;
     }
 
     /**
