@@ -6,6 +6,7 @@ import com.codecool.shop.model.Orderable;
 import javassist.NotFoundException;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.utils.StringUtils;
@@ -28,7 +29,7 @@ public class PostalFeeCalculatorServiceController {
      * </h1>
      * @param request
      * @param order
-     * @return Built URL as a String
+     * @return cost from the JSON returned by microservice
      * @throws IOException
      * @throws URISyntaxException
      * @throws NotFoundException
@@ -45,10 +46,13 @@ public class PostalFeeCalculatorServiceController {
         URIBuilder builder = new URIBuilder(SERVICE_URL + "/api");
         builder.addParameter(TARGET_PARAM_KEY, userCity);
         builder.addParameter(WEBSHOP_PARAM_KEY, webshopCity);
-
         logger.info("Getting URL" + builder.build());
 
-        return execute(builder.build());
+        String cost = execute(builder.build());
+        JSONObject json = new JSONObject(cost);
+        logger.info("Getting cost from JSON" + json);
+
+        return json.getString("cost");
     }
 
     /**
