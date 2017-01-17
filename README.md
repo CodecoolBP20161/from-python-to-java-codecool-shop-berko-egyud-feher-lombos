@@ -58,6 +58,8 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 34. User / Order history / Test
 35. User / Save shopping cart / Test
 36. User / Save billing and shipping info / Test
+37. Microservice Integration (Postal fee calculator) :white_check_mark:
+38. Microservice Integration (delivery cost calculator) :white_check_mark:
 
 We undertook the marked pipe stories and we could accomplish all of them at this week /2016.11.7 - 2016.11.24/.
 
