@@ -78,8 +78,8 @@ We had to take consideration the following requirements:
 # Install & Usage the App
 
 To operating the code, you need to clone two other repo. 
-    - :envelope::envelope::envelope: [Postal Fee Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-los_patrones)
-    - :hourglass::hourglass::hourglass: [Delivery Time Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-team2)
+    1. :envelope::envelope::envelope: [Postal Fee Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-los_patrones)
+    2. :hourglass::hourglass::hourglass: [Delivery Time Calculator](https://github.com/CodecoolBP20161/from-python-to-java-microservices-team2)
 
 1. Import this project to IntelliJ as a Maven project. (IntelliJ can auto-install the dependencies from the pom.xml)
 2. Fill `resources/connection/connection.properties` config file with your database & email's properties
