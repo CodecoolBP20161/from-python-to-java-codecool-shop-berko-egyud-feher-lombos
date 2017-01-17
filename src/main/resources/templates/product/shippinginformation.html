@@ -6,8 +6,9 @@
         <div th:replace="header :: header"></div>
         <div th:replace="collapsingpanel :: collapsingpanel"></div>
 
+
         <div class="text-right">
-            <a class='btn btn-success' href="/pay"><span>Go To Pay  <i class="glyphicon glyphicon-credit-card"></i></span></a>
+            <a th:class="${shippinginformationerror} ? 'btn btn-success disabled' : 'btn btn-success' " href="/pay"><span>Go To Pay  <i class="glyphicon glyphicon-credit-card"></i></span></a>
         </div>
 
     </div>

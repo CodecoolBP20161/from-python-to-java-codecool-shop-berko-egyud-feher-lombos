@@ -46,15 +46,19 @@ public class PostalFeeCalculatorServiceController {
         URIBuilder builder = new URIBuilder(SERVICE_URL + "/api");
         builder.addParameter(TARGET_PARAM_KEY, userCity);
         builder.addParameter(WEBSHOP_PARAM_KEY, webshopCity);
-        logger.info("Getting URL" + builder.build());
+        logger.info("Getting URL " + builder.build());
 
         String cost = execute(builder.build());
         JSONObject json = new JSONObject(cost);
 
-        logger.info("Getting cost from JSON" + json);
-        float feeAsFloat = Float.parseFloat(json.getString("cost").replace("$", "").trim());
-
-        return feeAsFloat;
+        logger.info("Getting cost from JSON " + json);
+        try {
+            float feeAsFloat = Float.parseFloat(json.getString("cost").replace("$", "").trim());
+            return feeAsFloat;
+        } catch(NumberFormatException e) {
+          logger.error("Invalid input: " + e);
+          return 0f;
+        }
     }
 
     /**

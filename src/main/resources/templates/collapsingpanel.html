@@ -32,7 +32,7 @@
                     </li>
 
                     <!--Display collapsing postal fee information-->
-                    <li class="list-group-item">
+                    <li th:class="${shippinginformationerror} ? 'list-group-item list-group-item-danger' : 'list-group-item'">
                         <div class="row toggle" id="dropdown-detail-2" data-toggle="detail-2">
                             <div class="col-xs-10">
                                 Postal Fee
