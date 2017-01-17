@@ -30,6 +30,7 @@ public class ProductControllerDB {
         params.put("pageNumberList", productDB.getPageNumberList((int) Math.ceil(productDB.getAll().size()/10.0)));
         params.put("lastPageNumber", (int) Math.ceil(productDB.getAll().size()/10.0));
 
+
         // products put to params according to the paginationNumber
         if (req.queryParams("paginationNumber") == null) {
             params.put("products", productDB.getProductByPagination(1));
@@ -48,7 +49,7 @@ public class ProductControllerDB {
         }
 
         params.put("authenticated", req.session().attribute("authenticated"));
-        params.put("username", req.session().attribute("authenticated"));
+        params.put("username", req.session().attribute("username"));
 
         // to examine with thymeleaf the page
         params.put("paginationExamine", "INDEX");
