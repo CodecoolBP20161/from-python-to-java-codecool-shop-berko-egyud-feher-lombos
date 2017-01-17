@@ -70,7 +70,7 @@ public class Controller {
         Orderable order;
         order = req.session().attribute("Cart");
 
-        // remove one product from session
+        // remove one rendered_html from session
         order.remove(productDB.find(id));
         req.session().attribute("Cart", order);
         res.redirect(req.session().attribute("currentUrl"));

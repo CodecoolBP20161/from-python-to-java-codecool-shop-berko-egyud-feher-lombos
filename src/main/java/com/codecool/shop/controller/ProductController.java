@@ -68,13 +68,13 @@ public class ProductController {
         if ( req.params(":supplierid") != null ) {
             params.put("supplier", productSupplierDataStore.find(supplierId));
         }
-        return new ModelAndView(params, "product/index");
+        return new ModelAndView(params, "rendered_html/index");
     }
 
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
-        return new ModelAndView(params, "product/cart");
+        return new ModelAndView(params, "rendered_html/cart");
     }
 
 

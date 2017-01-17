@@ -21,7 +21,7 @@ public class DatabaseExportToXML {
 
         // partial database export
         QueryDataSet partialDataSet = new QueryDataSet(connection);
-        partialDataSet.addTable("product");
+        partialDataSet.addTable("rendered_html");
         partialDataSet.addTable("supplier");
         partialDataSet.addTable("category");
 
