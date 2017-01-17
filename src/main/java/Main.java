@@ -30,6 +30,7 @@ public class Main {
             }
         });
 
+        // --- ROUTES ---
         // Index page
         get("/", ProductControllerDB::renderProducts, new ThymeleafTemplateEngine());
 
@@ -55,6 +56,7 @@ public class Main {
         post("/checkout", Controller::saveShippingInfoToSession);
         get("/pay", OrderControllerDB::renderPaymentPage, new ThymeleafTemplateEngine());
         post("/pay", Controller::saveBankCardDataToSession);
+        get("/shippinginformation", OrderControllerDB::renderShoppingInformationPage, new ThymeleafTemplateEngine());
         get("/afterpay", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
 
 

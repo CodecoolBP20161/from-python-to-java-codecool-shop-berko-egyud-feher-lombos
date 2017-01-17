@@ -64,7 +64,8 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
                 String userEmail = resultSet.getString("EMAIL");
                 String userFirstName = resultSet.getString("FIRST_NAME");
                 String userLastName = resultSet.getString("LAST_NAME");
-                userData = new ArrayList<>(Arrays.asList(userEmail, userFirstName, userLastName));
+                String userCity = resultSet.getString("CITY");
+                userData = new ArrayList<>(Arrays.asList(userEmail, userFirstName, userLastName, userCity));
                 return userData;
             } else {
                 throw new NotFoundException("Order not found");

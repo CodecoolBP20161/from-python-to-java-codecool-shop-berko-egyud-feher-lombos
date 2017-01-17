@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head"></head>
+    <body>
+    <div class="container">
+        <div th:replace="header :: header"></div>
+        <div th:replace="collapsingpanel :: collapsingpanel"></div>
+
+        <div class="text-right">
+            <a class='btn btn-success' href="/pay"><span>Go To Pay  <i class="glyphicon glyphicon-credit-card"></i></span></a>
+        </div>
+
+    </div>
+
+        <div th:replace="footer :: footer"></div>
+    </body>
+</html>
