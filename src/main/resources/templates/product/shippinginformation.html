@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="head :: head"></head>
+<head th:replace="fragment/head :: head"></head>
     <body>
     <div class="container">
-        <div th:replace="header :: header"></div>
-        <div th:replace="collapsingpanel :: collapsingpanel"></div>
+        <div th:replace="fragment/header :: header"></div>
+        <div th:replace="fragment/collapsingpanel :: collapsingpanel"></div>
 
 
         <div class="text-right">
@@ -13,6 +13,6 @@
 
     </div>
 
-        <div th:replace="footer :: footer"></div>
+        <div th:replace="fragment/footer :: footer"></div>
     </body>
 </html>
