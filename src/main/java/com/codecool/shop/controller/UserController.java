@@ -34,7 +34,7 @@ public class UserController {
             logger.info("RenderSignIn: user is not authenticated.Rendering signIn form....");
             Map params = new HashMap<>();
             params.put("valid", true);
-            return new ModelAndView(params, "product/signin");
+            return new ModelAndView(params, "rendered_html/signin");
         } else {
             logger.info("RenderSignIn: User is authenticated. Redirecting to index page.");
             res.redirect("/");
@@ -55,12 +55,12 @@ public class UserController {
         if (req.session().attribute("authenticated").equals(false)) {
             logger.info("RenderSignUp: User is not authenticated.Rendering signUp form...");
 
-            return new ModelAndView(params, "product/signup");
+            return new ModelAndView(params, "rendered_html/signup");
         } else {
             logger.info("RenderSignUp: User is authenticated. Showing error message.");
             params.put("valid", false);
             params.put("message", "You are currently logged in. Please log out to register.");
-            return new ModelAndView(params, "product/signup");
+            return new ModelAndView(params, "rendered_html/signup");
         }
     }
     /**
@@ -91,7 +91,7 @@ public class UserController {
                 Map params = new HashMap<>();
                 params.put("valid", false);
                 params.put("message", "Incorrect username or password.");
-                return new ModelAndView(params, "product/signin");
+                return new ModelAndView(params, "rendered_html/signin");
             }
         }
         return null;
@@ -110,7 +110,7 @@ public class UserController {
             logger.info("CreateUser: User is authenticated. Rendering form with error message.");
             params.put("valid", false);
             params.put("message", "You are logged in. Please log out to continue.");
-            return new ModelAndView(params, "product/signup");
+            return new ModelAndView(params, "rendered_html/signup");
         } else {
             logger.info("CreateUser: User is not authenticated. Checking if email or username is already in use.");
             if (!(loginDB.checkIfEmailExists(req.queryParams("email")) || loginDB.checkIfUsernameExists(req.queryParams("username")))) {
@@ -122,7 +122,7 @@ public class UserController {
                 logger.info("CreateUser: email or username is in use. Rendering form with error message.");
                 params.put("valid", false);
                 params.put("message", "Email or username already in use.");
-                return new ModelAndView(params, "product/signup");
+                return new ModelAndView(params, "rendered_html/signup");
             }
         }
         return null;

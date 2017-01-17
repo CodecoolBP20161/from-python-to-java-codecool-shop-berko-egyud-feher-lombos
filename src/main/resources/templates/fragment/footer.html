@@ -4,7 +4,7 @@
 <!--Display footer-->
     <div th:fragment="footer">
         <div th:unless="${paginationExamine} != 'INDEX'" class="text-center">
-            <div th:replace="pagination :: pagination"></div>
+            <div th:replace="fragment/pagination :: pagination"></div>
         </div>
 
         <div class="bottom-navbar">

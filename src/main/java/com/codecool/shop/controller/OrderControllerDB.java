@@ -20,7 +20,7 @@ public class OrderControllerDB {
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
-        return new ModelAndView(params, "product/cart");
+        return new ModelAndView(params, "rendered_html/cart");
     }
 
     //Action for display checkout page & set order's status to CHECKED
@@ -33,7 +33,7 @@ public class OrderControllerDB {
         CheckoutProcess checkoutProcess = new CheckoutProcess();
         checkoutProcess.process(order);
 
-        return new ModelAndView(params, "product/checkout");
+        return new ModelAndView(params, "rendered_html/checkout");
     }
 
     //Action for display payment page & set order's status to PAID
@@ -41,7 +41,7 @@ public class OrderControllerDB {
         Map params = Controller.setParams(req);
 
 
-        return new ModelAndView(params, "product/pay");
+        return new ModelAndView(params, "rendered_html/pay");
     }
 
     //Action for display after payment page
@@ -57,7 +57,7 @@ public class OrderControllerDB {
 
         params.put("navbarButtonsHREF", "removeAllCartContentFromSession");
 
-        return new ModelAndView(params, "product/afterpay");
+        return new ModelAndView(params, "rendered_html/afterpay");
     }
 
 
@@ -83,7 +83,7 @@ public class OrderControllerDB {
             params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
         }
 
-        return new ModelAndView(params, "product/shippinginformation");
+        return new ModelAndView(params, "rendered_html/shippinginformation");
     }
 
 }
