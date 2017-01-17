@@ -61,7 +61,19 @@ public class OrderControllerDB {
     }
 
 
-    public static ModelAndView renderShoppingInformationPage(Request req, Response res) throws NotFoundException, SQLException, IOException, URISyntaxException {
+    /**
+     * <h1>Render shippinginformation.html to show the details of shopping.</h1>
+     * @param req
+     * @param res
+     * @return ModelAndView to render shippinginformation.html
+     * @throws NotFoundException
+     * @throws SQLException
+     * @throws IOException
+     * @throws URISyntaxException
+     * @author Moni
+     * @version final
+     */
+    public static ModelAndView renderShippingInformationPage(Request req, Response res) throws NotFoundException, SQLException, IOException, URISyntaxException {
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
 
