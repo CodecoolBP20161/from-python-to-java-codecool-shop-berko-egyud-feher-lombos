@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.controller.postal_fee_controller.PostalFeeCalculatorServiceController;
+import com.codecool.shop.controller.postal_time_service_controller.PostalTimeServiceController;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -94,6 +95,19 @@ public class OrderControllerDB {
             logger.error("Getting error: " + e);
         } catch (NumberFormatException | URISyntaxException | NotFoundException | IOException e){
             logger.error("Getting error: " + e);
+        }
+
+        try {
+
+            String postalTime = PostalTimeServiceController.getPostalTime(req, order);
+            params.put("shippingtime",  postalTime);
+
+        } catch (Exception exception) {
+            if(exception.getClass().equals(NotFoundException.class)) params.put("shippingtimeerror", exception.getMessage());
+            else {
+                exception.printStackTrace();
+            }
+
         }
         return new ModelAndView(params, "rendered_html/shippinginformation");
     }
