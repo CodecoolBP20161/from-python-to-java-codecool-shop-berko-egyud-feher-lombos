@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!--Display the postaltime-->
+<div th:fragment="postaltime">
+    <div>
+        <div th:if="${shippingtime}" class="col-sm-4 col-lg-4 col-md-4">
+            <p th:text="'Estimated time of shipping: ' + ${shippingtime} + ' workingday(s).'">Postal Time</p>
+        </div>
+        <div th:if="${shippingtimeerror}" class="col-sm-4 col-lg-4 col-md-4">
+            <p th:text="${shippingtimeerror}">.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
