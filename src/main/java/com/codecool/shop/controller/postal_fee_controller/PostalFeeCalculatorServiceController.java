@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 public class PostalFeeCalculatorServiceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostalFeeCalculatorServiceController .class);
-    private static final String SERVICE_URL = "http://localhost:60000";
+    private static final String SERVICE_URL = "http://localhost:60001";
     private static final String TARGET_PARAM_KEY = "target";
     private static final String WEBSHOP_PARAM_KEY= "webshop";
 
