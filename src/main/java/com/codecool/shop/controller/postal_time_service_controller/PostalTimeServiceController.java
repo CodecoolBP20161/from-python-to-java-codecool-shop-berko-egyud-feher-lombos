@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,10 +46,14 @@ public class PostalTimeServiceController {
         logger.info("URL: " + builder.build());
 
         String time = execute(builder.build());
-        JSONObject json = new JSONObject(time);
-        logger.info("Getting cost from JSON" + json);
+        JSONObject jsonOfTime = new JSONObject(time);
 
-        return Math.floor((json.getInt("time")) / 86400000) + "";
+        if (jsonOfTime.getString("status").equals("NOT_FOUND")) throw new NotFoundException("City not found. :(");
+        if (jsonOfTime.getString("status").equals("ZERO_RESULTS")) throw new NotFoundException("Location is overseas. :(");
+
+        logger.info("Getting time from JSON" + jsonOfTime);
+
+        return Math.floor((jsonOfTime.getInt("time")) / 86400000) + "";
     }
 
     /**
