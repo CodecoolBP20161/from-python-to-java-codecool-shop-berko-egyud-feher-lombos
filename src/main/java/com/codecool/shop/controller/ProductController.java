@@ -1,22 +1,18 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.db.OrderDaoDB;
-import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
-import com.codecool.shop.dao.implementation.db.ProductDaoDB;
-import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
 import com.codecool.shop.dao.implementation.mem.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.mem.ProductDaoMem;
 import com.codecool.shop.dao.implementation.mem.SupplierDaoMem;
-import com.codecool.shop.model.*;
-
+import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Orderable;
+import com.codecool.shop.model.ProductCategory;
 import javassist.NotFoundException;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.ModelAndView;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -32,7 +28,14 @@ public class ProductController {
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
-    // Handle the content of the params HashMap
+
+    /**
+     * Handle the content of the params Hashmap
+     * @param req - Spark Request
+     * @return the filtered or non-filtered products in a HashMap
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static Map setParams(Request req) throws NotFoundException, SQLException {
         Map params = new HashMap<>();
         params.put("category", new ProductCategory("All Products", "All Products", "All Products"));
@@ -59,7 +62,16 @@ public class ProductController {
         return params;
     }
 
-    // Action for display all or filtered products
+
+    /**
+     * Action for display all or filtered products.
+     * Render the index.html form.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render index.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         if ( req.params(":categoryid") != null ) {
@@ -71,14 +83,30 @@ public class ProductController {
         return new ModelAndView(params, "rendered_html/index");
     }
 
-    // Action for display cart content
+
+    /**
+     * Action for display cart content.
+     * Render the cart.html form.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render cart.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         Map params = setParams(req);
         return new ModelAndView(params, "rendered_html/cart");
     }
 
 
-    // Handle the content of the session and set the variables of Order object
+    /**
+     * Handle the content of the session and set the variables of Order object.
+     * Add the item with the given id to the cart.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     * @throws NotFoundException
+     */
     public static String addToCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
@@ -95,7 +123,16 @@ public class ProductController {
         res.redirect(req.session().attribute("currentUrl"));
         return null;
     }
-    // Handle the content of the session and set the variables of Order object
+
+
+    /**
+     * Handle the content of the session and set the variables of Order object.
+     * Remove the item with the given id from the cart.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     * @throws NotFoundException
+     */
     public static String removeFromCart(Request req, Response res) throws NotFoundException {
         int id = Integer.parseInt(req.params(":id"));
         Orderable cart;
