@@ -6,7 +6,7 @@
 <div th:fragment="postaltime">
     <div>
         <div th:if="${shippingtime}" class="col-sm-4 col-lg-4 col-md-4">
-            <p th:text="'Estimated time of shipping: ' + ${#shippingtime} + ' workingday(s).'">Postal Time</p>
+            <p th:text="'Estimated time of shipping: ' + ${shippingtime} + ' workingday(s).'">Postal Time</p>
         </div>
         <div th:if="${shippingtimeerror}" class="col-sm-4 col-lg-4 col-md-4">
             <p th:text="${shippingtimeerror}">.</p>
