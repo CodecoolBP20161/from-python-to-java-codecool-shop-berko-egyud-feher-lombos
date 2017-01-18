@@ -46,12 +46,10 @@ public class PostalTimeServiceController {
         String time = execute(builder.build());
         JSONObject jsonOfTime = new JSONObject(time);
 
-        if (jsonOfTime.getString("status").equals("NOT_FOUND")) throw new NotFoundException("City not found. :(");
-        if (jsonOfTime.getString("status").equals("ZERO_RESULTS")) throw new NotFoundException("Location is overseas. :(");
+        if (jsonOfTime.getString("status").equals("NOT_FOUND ERROR: Place doesn't exist!")) throw new NotFoundException("City not found. :(");
+        if (jsonOfTime.getString("status").equals("ZERO_RESULTS ERROR: Oversea location!")) throw new NotFoundException("Location is overseas. :(");
 
-        logger.info("Getting time from JSON" + jsonOfTime);
-
-        return (int) Math.ceil((jsonOfTime.getInt("time")) / 86400000) + "";
+        return String.valueOf((int) Math.ceil(jsonOfTime.getDouble("time") / 86400000));
     }
 
     /**
