@@ -104,8 +104,10 @@ public class OrderControllerDB {
         }
 
         try {
+
             String postalTime = PostalTimeServiceController.getPostalTime(req, order);
             params.put("shippingtime",  postalTime);
+
         } catch (Exception exception) {
             if(exception.getClass().equals(NotFoundException.class)) params.put("shippingtimeerror", exception.getMessage());
             else {
