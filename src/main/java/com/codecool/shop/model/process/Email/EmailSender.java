@@ -1,7 +1,10 @@
 package com.codecool.shop.model.process.Email;
 
 
+import com.codecool.shop.model.process.AbstractProcess;
 import com.codecool.shop.services.ConnectionPropertyValues;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -11,6 +14,8 @@ import java.util.Properties;
 
 
 public class EmailSender {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
 
     static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
     static HashMap EmailProperties = configReader.getPropValuesOfEmail();
@@ -25,7 +30,7 @@ public class EmailSender {
     public static void send(String userEmail, String subject, String messagetext) {
 
         try {
-            System.out.println("TLSEmail Start");
+            LOGGER.info("EmailSender.send() method is called.");
             Properties props = new Properties();
             props.put("mail.smtp.host", SMTP_HOST); //SMTP Host
             props.put("mail.smtp.port", SMTP_PORT); //TLS Port
@@ -45,18 +50,14 @@ public class EmailSender {
             message.setFrom(new InternetAddress(SENDER_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
 
-            System.out.println("Mail Check 2");
-
             message.setSubject(subject);
             message.setText(messagetext);
 
-            System.out.println("Mail Check 3");
-
             Transport.send(message);
-            System.out.println("Mail Sent");
+            LOGGER.info("Email sent.");
+
         } catch (Exception ex) {
-            System.out.println("Mail fail");
-            System.out.println(ex);
+            LOGGER.error("EmailSender.send() method failed: " +  ex);
         }
     }
 }

@@ -6,13 +6,18 @@ import com.codecool.shop.controller.UserController;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import static spark.Spark.*;
 
 public class Main {
 
+    static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws NotFoundException {
+        LOGGER.info("Server is running.");
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());

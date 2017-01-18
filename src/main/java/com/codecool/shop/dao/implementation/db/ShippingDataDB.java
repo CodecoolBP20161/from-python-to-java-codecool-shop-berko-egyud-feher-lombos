@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao {
-    private static final Logger logger = LoggerFactory.getLogger(ShippingDataDB.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShippingDataDB.class);
 
     private static ShippingDataDB INSTANCE;
 
@@ -31,7 +31,7 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
 
     @Override
     public void add(ArrayList<String> shippingDataList, Order order) {
-        logger.info("add method is called.");
+        LOGGER.debug("add method is called.");
 
         String query = "INSERT INTO shippingdata (FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADRESS, CITY, STATE, ZIP_CODE, COMMENT, ORDER_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -52,17 +52,17 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
 
             statement.executeUpdate();
 
-            logger.info("Add method insert shippingData FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADRESS, CITY, STATE, ZIP_CODE, COMMENT, ORDER_ID into ShippingDataDB.");
-            logger.info("Order FIRST_NAME: {}, LAST_NAME: {}, EMAIL: {}, PHONE: {}, ADDRESS: {}, CITY: {}, STATE: {}, ZIP_CODE: {}, COMMENT: {}, ORDER_ID: {}, ",shippingDataList.get(0), shippingDataList.get(1), shippingDataList.get(2), shippingDataList.get(3), shippingDataList.get(4), shippingDataList.get(5), shippingDataList.get(6), shippingDataList.get(7), shippingDataList.get(8), order.getId());
+            LOGGER.info("Add method insert shippingData FIRST_NAME, LAST_NAME, EMAIL, PHONE, ADRESS, CITY, STATE, ZIP_CODE, COMMENT, ORDER_ID into ShippingDataDB.");
+            LOGGER.info("Order FIRST_NAME: {}, LAST_NAME: {}, EMAIL: {}, PHONE: {}, ADDRESS: {}, CITY: {}, STATE: {}, ZIP_CODE: {}, COMMENT: {}, ORDER_ID: {}, ",shippingDataList.get(0), shippingDataList.get(1), shippingDataList.get(2), shippingDataList.get(3), shippingDataList.get(4), shippingDataList.get(5), shippingDataList.get(6), shippingDataList.get(7), shippingDataList.get(8), order.getId());
 
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during convertManyDBResultToObject method called: {}", e);
+            LOGGER.error("Error occurred during convertManyDBResultToObject method called: {}", e);
         }
     }
 
     public ArrayList<String> find(int id) throws NotFoundException {
-        logger.info("find method is called.");
+        LOGGER.debug("find method is called.");
 
         String query = "SELECT * FROM shippingdata WHERE ORDER_ID ='" + id + "';";
         ArrayList<String> userData;
@@ -82,7 +82,7 @@ public class ShippingDataDB extends AbstractDBHandler implements ShippingDataDao
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during order find(looked) in database: {}", e);
+            LOGGER.error("Error occurred during order find(looked) in database: {}", e);
         }
         return null;
     }

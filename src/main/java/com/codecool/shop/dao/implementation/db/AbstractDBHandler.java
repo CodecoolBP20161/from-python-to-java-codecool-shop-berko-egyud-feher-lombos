@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 
 public abstract class AbstractDBHandler {
-    private static final Logger logger = LoggerFactory.getLogger(AbstractDBHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDBHandler.class);
 
     private static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
     private static HashMap DBprops = configReader.getPropValuesOfDB();
@@ -23,10 +23,10 @@ public abstract class AbstractDBHandler {
     protected static Connection connection = null;
 
     public static Connection getConnection() throws SQLException {
-        logger.info("getConnection method is called.");
+        LOGGER.debug("getConnection() method is called.");
 
         if (connection == null) {
-            logger.info("create connection");
+            LOGGER.info("create connection");
 
             connection = DriverManager.getConnection(
                     DATABASE,
@@ -40,11 +40,10 @@ public abstract class AbstractDBHandler {
         try (
              Statement statement = connection.createStatement()
         ){
-            logger.info("Execute query on statement.");
+            LOGGER.debug("Execute query on statement.");
             statement.execute(query);
-
         } catch (SQLException e) {
-            logger.error("Error occurred during execute query on statement: {}", e);
+            LOGGER.error("Error occurred during execute query on statement: {}", e);
             e.printStackTrace();
         }
     }

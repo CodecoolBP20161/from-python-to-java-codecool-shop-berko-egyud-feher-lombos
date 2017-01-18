@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
-    private static final Logger logger = LoggerFactory.getLogger(ProductDaoDB.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductDaoDB.class);
 
     private static ProductDaoDB INSTANCE;
 
@@ -34,7 +33,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public void add(Product product) {
-        logger.info("add method is called.");
+        LOGGER.debug("add method is called.");
 
         ProductCategoryDaoDB productDB = ProductCategoryDaoDB.getInstance();
         try {
@@ -47,18 +46,18 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             stmt.setInt(5, product.getProductCategory().getId());
             stmt.setInt(6, product.getSupplier().getId());
             stmt.executeUpdate();
-            logger.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
-            logger.info("Product name: {}, description: {}, defaultPrice: {}, defaultCurrency: {}, productCategory: {}, Supplier: {}", product.getName(), product.getDescription(), product.getDefaultPrice(), product.getDefaultCurrency().toString(), product.getProductCategory().getId(), product.getSupplier().getId());
+            LOGGER.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
+            LOGGER.info("Product name: {}, description: {}, defaultPrice: {}, defaultCurrency: {}, productCategory: {}, Supplier: {}", product.getName(), product.getDescription(), product.getDefaultPrice(), product.getDefaultCurrency().toString(), product.getProductCategory().getId(), product.getSupplier().getId());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error occurred during order added into database: {}", e);
+            LOGGER.error("Error occurred during order added into database: {}", e);
         }
 
     }
 
     @Override
     public Product find(int id) throws NotFoundException {
-        logger.info("find method is called.");
+        LOGGER.debug("find method is called.");
 
         Product product;
         String query = "SELECT * FROM product WHERE ID = '" + id + "';";
@@ -75,34 +74,34 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during order find(looked) in database: {}", e);
+            LOGGER.error("Error occurred during order find(looked) in database: {}", e);
         }
         return null;
     }
 
     @Override
     public void remove(int id) {
-        logger.info("remove method is called.");
+        LOGGER.debug("remove method is called.");
         String query = "DELETE FROM product WHERE id = '" + id + "';";
         executeQuery(query);
     }
 
     @Override
     public List<Product> getAll() throws NotFoundException {
-        logger.info("getAll method is called.");
+        LOGGER.debug("getAll method is called.");
 
         String query = "SELECT * FROM product;";
         return convertManyDBResultToObject(query);
     }
 
     public List<Product> getProductByPagination(Integer from) throws NotFoundException {
-        logger.info("getProductByPagination method is called.");
+        LOGGER.debug("getProductByPagination method is called.");
         String query = "SELECT * FROM product LIMIT 10 OFFSET " + from.toString() + ";";
         return convertManyDBResultToObject(query);
     }
 
     public List<Integer> getPageNumberList(Integer allProduct) throws NotFoundException {
-        logger.info("getPageNumberList method is called.");
+        LOGGER.debug("getPageNumberList method is called.");
 
         List<Integer> allProductList = new ArrayList<>();
         for (int i = 1; i < allProduct +1; i++) {
@@ -113,7 +112,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) throws NotFoundException {
-        logger.info("getBy method is called (supplier)");
+        LOGGER.debug("getBy method is called (supplier)");
 
         String query = "SELECT * FROM product WHERE PRODUCT_SUPPLIER='" + supplier.getId() + "';";
         return convertManyDBResultToObject(query);
@@ -121,14 +120,14 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) throws NotFoundException {
-        logger.info("getBy method is called (category)");
+        LOGGER.debug("getBy method is called (category)");
 
         String query = "SELECT * FROM product WHERE PRODUCT_CATEGORY='" + productCategory.getId() + "';";
         return convertManyDBResultToObject(query);
     }
 
     private Product createFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
-        logger.info("createFromResultSet method is called");
+        LOGGER.debug("createFromResultSet method is called");
 
         ProductCategoryDaoDB categoryDB = ProductCategoryDaoDB.getInstance();
         SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
@@ -142,7 +141,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
                 supplierDB.find(resultSet.getInt("PRODUCT_SUPPLIER")));
     }
     private ArrayList<Product> convertManyDBResultToObject(String query) throws NotFoundException {
-        logger.info("convertManyDBResultToObject method is called.");
+        LOGGER.debug("convertManyDBResultToObject method is called.");
 
         ArrayList<Product> objectList = new ArrayList<>();
         Product product;
@@ -156,7 +155,7 @@ public class ProductDaoDB extends AbstractDBHandler implements ProductDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during convertManyDBResultToObject method called: {}", e);
+            LOGGER.error("Error occurred during convertManyDBResultToObject method called: {}", e);
         }
         return objectList;
     }

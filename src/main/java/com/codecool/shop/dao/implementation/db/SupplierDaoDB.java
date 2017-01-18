@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
-    private static final Logger logger = LoggerFactory.getLogger(SupplierDaoDB.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SupplierDaoDB.class);
 
 
     private static SupplierDaoDB INSTANCE;
@@ -31,7 +31,6 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
 
     @Override
     public void add(Supplier supplier) {
-        logger.info("add method is called.");
 
         try {
             PreparedStatement stmt;
@@ -39,17 +38,17 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
             stmt.setString(1, supplier.getName());
             stmt.setString(2, supplier.getDescription());
             stmt.executeUpdate();
-            logger.info("Add method insert order name and the description into SupplierDB.");
-            logger.info("Supplier name: {}, description: {}", supplier.getName(), supplier.getDescription());
+            LOGGER.info("Add method insert order name and the description into SupplierDB.");
+            LOGGER.info("Supplier name: {}, description: {}", supplier.getName(), supplier.getDescription());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error occurred during order added into database: {}", e);
+            LOGGER.error("Error occurred during order added into database: {}", e);
         }
     }
 
         @Override
         public Supplier find ( int id) throws NotFoundException {
-            logger.info("find method is called.");
+            LOGGER.debug("find method is called.");
             Supplier supplier;
             String query = "SELECT * FROM supplier WHERE ID='" + id + "';";
 
@@ -69,21 +68,21 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                logger.error("Error occurred during order find(looked) in database: {}", e);
+                LOGGER.error("Error occurred during order find(looked) in database: {}", e);
             }
             return null;
         }
 
         @Override
         public void remove (int id){
-            logger.info("remove method is called.");
+            LOGGER.debug("remove method is called.");
             String query = "DELETE FROM supplier WHERE id = '" + id +"';";
             executeQuery(query);
         }
 
         @Override
         public List<Supplier> getAll () throws NotFoundException {
-            logger.info("getAll method is called.");
+            LOGGER.debug("getAll method is called.");
             ProductDaoDB productDB = ProductDaoDB.getInstance();
             List<Supplier> resultList = new ArrayList<>();
             String query = "SELECT * FROM supplier;";
@@ -107,13 +106,13 @@ public class SupplierDaoDB extends AbstractDBHandler implements SupplierDao {
                 return resultList;
             } catch (SQLException e) {
                 e.printStackTrace();
-                logger.error("Error occurred during order find(looked) in database: {}", e);
+                LOGGER.error("Error occurred during order find(looked) in database: {}", e);
             }
             return null;
         }
 
         public Supplier fillWithProducts(Supplier supplier) throws NotFoundException {
-            logger.info("fillWithProducts method is called.");
+            LOGGER.debug("fillWithProducts method is called.");
 
             ProductDaoDB productDB = ProductDaoDB.getInstance();
             // Iterating through the products queried by category, and adding them to the suppliers 'category' field

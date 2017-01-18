@@ -31,3 +31,4 @@ sample.properties
 src/test/java/com/codecool/shop/dao/implementation/db/partial.xml
 /src/main/resources/connection/connection.properties
 /log/
+/log.txt

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCategoryDao {
-    private static final Logger logger = LoggerFactory.getLogger(ProductCategoryDaoDB.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductCategoryDaoDB.class);
 
     private static ProductCategoryDaoDB INSTANCE;
 
@@ -30,7 +30,7 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
 
     @Override
     public void add(ProductCategory category) {
-        logger.info("add method is called.");
+        LOGGER.debug("add() method is called.");
 
         try {
             PreparedStatement stmt;
@@ -39,17 +39,17 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             stmt.setString(2, category.getDescription());
             stmt.setString(3, category.getDepartment());
             stmt.executeUpdate();
-            logger.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
-            logger.info("ProductCategory name: {}, description: {}, department: {}", category.getName(), category.getDescription(), category.getDepartment());
+            LOGGER.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
+            LOGGER.info("ProductCategory name: {}, description: {}, department: {}", category.getName(), category.getDescription(), category.getDepartment());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Error occurred during order added into database: {}", e);
+            LOGGER.error("Error occurred during order added into database: {}", e);
         }
     }
 
     @Override
     public ProductCategory find(int id) throws NotFoundException {
-        logger.info("find method is called.");
+        LOGGER.debug("find() method is called.");
         ProductCategory category;
         String query = "SELECT * FROM category WHERE ID = '" + id + "';";
 
@@ -68,25 +68,24 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during order find(looked) in database: {}", e);
+            LOGGER.error("Error occurred during order find(looked) in database: {}", e);
         }
         return null;
     }
 
     @Override
     public void remove(int id) {
-        logger.info("remove method is called.");
+        LOGGER.debug("remove() method is called.");
         String query = "DELETE FROM \"category\" WHERE id = '" + id +"';";
         executeQuery(query);
     }
 
     @Override
     public List<ProductCategory> getAll() throws SQLException, NotFoundException {
-        logger.info("getAll method is called.");
+        LOGGER.debug("getAll() method is called.");
         ProductCategory productCategory;
         List<ProductCategory> resultList = new ArrayList<>();
         String query = "SELECT * FROM category;";
-
 
         try(
             Statement statement = connection.createStatement();
@@ -104,13 +103,13 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Error occurred during getAll method: ", e);
+            LOGGER.error("Error occurred during getAll method: ", e);
         }
         return null;
     }
 
     public ProductCategory fillWithProducts(ProductCategory category) throws NotFoundException {
-        logger.info("fillWithProducts method is called.");
+        LOGGER.debug("fillWithProducts() method is called.");
 
         ProductDaoDB productDB = ProductDaoDB.getInstance();
         // Iterating through the products queried by category, and adding them to the suppliers 'category' field
