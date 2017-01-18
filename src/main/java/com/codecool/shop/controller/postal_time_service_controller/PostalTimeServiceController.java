@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 
 public class PostalTimeServiceController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostalTimeServiceController .class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostalTimeServiceController .class);
     private static final String SERVICE_URL = "http://0.0.0.0:60003/api/timecalculator/";
     public  static final String ORIGIN_CITY = "Budapest";
 
@@ -35,13 +35,13 @@ public class PostalTimeServiceController {
      * @version final
      */
     public static String getPostalTime(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
-        logger.info("Getting postal time");
+        LOGGER.debug("Getting postal time with getPostalTime() method.");
 
-        logger.info("Generating URL...");
+        LOGGER.debug("Generating URL...");
         ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
         String userCity = shippingDataDB.find(order.getId()).get(3);
         URIBuilder builder = new URIBuilder(SERVICE_URL + ORIGIN_CITY + "/" + userCity);
-        logger.info("URL: " + builder.build());
+        LOGGER.info("URL: " + builder.build());
 
         String time = execute(builder.build());
         JSONObject jsonOfTime = new JSONObject(time);

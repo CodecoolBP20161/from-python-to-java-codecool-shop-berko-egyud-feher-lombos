@@ -1,5 +1,8 @@
 package com.codecool.shop.dao.implementation.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,6 +15,8 @@ import java.sql.SQLException;
 
 public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginHandlerDAODB.class);
+
     /**
      * adds a new user entry to the database
      * @param username - new username to get saved
@@ -20,6 +25,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exception at it's finest
      */
     public void add(String username, String password, String email) throws SQLException {
+        LOGGER.debug("add method is called.");
         try {
             String salt = generateSalt();
             PreparedStatement stmt;
@@ -33,6 +39,7 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
 
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.error("Error occurred during order find(looked) in database: {}", e);
         }
     }
 
@@ -44,7 +51,9 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException,UnsupportedEncodingException,NoSuchAlgorithmException - Exception at it's finest
      */
     public boolean authenticate(String username, String inputPassword) throws SQLException, UnsupportedEncodingException, NoSuchAlgorithmException {
-            String inputHash = hash(inputPassword + getSalt(username));
+        LOGGER.debug("authenticate method is called.");
+
+        String inputHash = hash(inputPassword + getSalt(username));
         return inputHash.equals(getPassword(username));
     }
 
@@ -55,6 +64,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exceptions at it's finest
      */
     public int getId(String username) throws SQLException {
+        LOGGER.debug("getId method is called.");
+
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
@@ -71,6 +82,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exceptions at it's finest
      */
     private String getSalt(String username) throws SQLException {
+        LOGGER.debug("getSalt method is called.");
+
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
@@ -87,6 +100,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exceptions at it's finest
      */
     public Boolean checkIfUsernameExists(String username) throws SQLException {
+        LOGGER.debug("checkIfUsernameExists method is called.");
+
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
@@ -100,6 +115,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exceptions at it's finest
      */
     public Boolean checkIfEmailExists(String email) throws SQLException {
+        LOGGER.debug("checkIfEmailExists method is called.");
+
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE email=?");
         stmt.setString(1, email);
         ResultSet rs = stmt.executeQuery();
@@ -114,6 +131,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws NoSuchAlgorithmException, UnsupportedEncodingException - Exceptions at it's finest
      */
     private String hash(String string) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        LOGGER.debug("hash method is called.");
+
         MessageDigest crypt = MessageDigest.getInstance("SHA-1");
         crypt.reset();
         crypt.update(string.getBytes("UTF-8"));
@@ -126,6 +145,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws UnsupportedEncodingException,NoSuchAlgorithmException - Exceptions at it's finest
      */
     private String generateSalt() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        LOGGER.debug("generateSalt method is called.");
+
         SecureRandom random = new SecureRandom();
         byte bytes[] = new byte[20];
         random.nextBytes(bytes);
@@ -139,6 +160,8 @@ public class UserLoginHandlerDAODB extends AbstractDBHandler {
      * @throws SQLException - Exceptions at it's finest
      */
     private String getPassword(String username) throws SQLException {
+        LOGGER.debug("getPassword method is called.");
+
         PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM logintable WHERE username=?");
         stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();

@@ -9,9 +9,14 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.services.BuildTable;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestDataDB {
+    static final Logger LOGGER = LoggerFactory.getLogger(TestDataDB.class);
+
     public static void populateData() throws NotFoundException {
+
         ProductDaoDB productDB = ProductDaoDB.getInstance();
         ProductCategoryDaoDB CategoryDB = ProductCategoryDaoDB.getInstance();
         SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();

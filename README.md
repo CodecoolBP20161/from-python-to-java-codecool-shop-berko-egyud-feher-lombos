@@ -32,7 +32,7 @@ Where users can browse products, add them into a Shopping Cart, checkout items a
 8. Shopping Cart / Checkout :white_check_mark:
 9. Shopping Cart / Payment :white_check_mark:
 10. Shopping Cart / Confirmation :white_check_mark:
-11. Admin log
+11. Admin log :white_check_mark:
 12. Products / DB  :white_check_mark:
 13. Products / memory DAO testing  :white_check_mark:
 14. Product / DB / Testing  :white_check_mark:
