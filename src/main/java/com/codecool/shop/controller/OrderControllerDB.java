@@ -7,6 +7,9 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
 import javassist.NotFoundException;
+import org.apache.http.client.HttpResponseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,6 +20,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class OrderControllerDB {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderControllerDB.class);
 
     // Action for display cart content
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
@@ -74,14 +79,28 @@ public class OrderControllerDB {
      * @author Moni
      * @version final
      */
-    public static ModelAndView renderShippingInformationPage(Request req, Response res) throws NotFoundException, SQLException, IOException, URISyntaxException {
+    public static ModelAndView renderShippingInformationPage(Request req, Response res) throws NotFoundException, SQLException {
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
 
-        if ((PostalFeeCalculatorServiceController.getPostalFee(req, order)) > 0f){
-            params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req, order));
-        } else if (PostalFeeCalculatorServiceController.getPostalFee(req, order) == 0f){
-            params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
+
+        try {
+            if ((PostalFeeCalculatorServiceController.getPostalFee(req, order)).get(1).equals("Invalid parameters")){
+                params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
+            }
+            params.put("shippinginformation", Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
+            logger.info("Getting  postal fee: " + Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
+        } catch (NumberFormatException e){
+            logger.error("Getting error: " + e);
+        } catch (NotFoundException e) {
+            logger.error("Getting error: " + e);
+        } catch (HttpResponseException e) {
+            params.put("shippinginformationerror", "Sorry, the shipping isn't available yet, please contact us! ");
+            logger.error("Getting error: " + e);
+        } catch(IOException e) {
+            logger.error("Getting error: " + e);
+        } catch (URISyntaxException e ){
+            logger.error("Getting error: " + e);
         }
 
         try {
