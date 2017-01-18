@@ -20,8 +20,6 @@ public class PostalTimeServiceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostalTimeServiceController .class);
     private static final String SERVICE_URL = " http://0.0.0.0:60003/api/timecalculator/";
-    private static final String TARGET_PARAM_KEY = "target";
-    private static final String ORIGIN_PARAM_KEY = "origin";
     public  static final String ORIGIN_CITY = "Budapest";
 
     /**
