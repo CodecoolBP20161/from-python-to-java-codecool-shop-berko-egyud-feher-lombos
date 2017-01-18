@@ -90,16 +90,10 @@ public class OrderControllerDB {
             }
             params.put("shippinginformation", Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
             logger.info("Getting  postal fee: " + Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
-        } catch (NumberFormatException e){
-            logger.error("Getting error: " + e);
-        } catch (NotFoundException e) {
-            logger.error("Getting error: " + e);
         } catch (HttpResponseException e) {
             params.put("shippinginformationerror", "Sorry, the shipping isn't available yet, please contact us! ");
             logger.error("Getting error: " + e);
-        } catch(IOException e) {
-            logger.error("Getting error: " + e);
-        } catch (URISyntaxException e ){
+        } catch (NumberFormatException | URISyntaxException | NotFoundException | IOException e){
             logger.error("Getting error: " + e);
         }
 
@@ -115,7 +109,6 @@ public class OrderControllerDB {
             }
 
         }
-
         return new ModelAndView(params, "rendered_html/shippinginformation");
     }
 
