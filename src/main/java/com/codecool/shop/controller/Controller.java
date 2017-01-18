@@ -122,7 +122,7 @@ public class Controller {
         shippingDataDB.add(shippingDataList, (Order) order);
         logger.info("shippingDataList added to shippingDataDB");
 
-        res.redirect("/pay");
+        res.redirect("/shippinginformation");
         return null;
     }
 

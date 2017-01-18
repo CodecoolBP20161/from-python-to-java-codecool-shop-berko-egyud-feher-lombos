@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <!--Display the postalfee-->
+    <div th:fragment="postalfee">
+        <div>
+            <div th:if="${shippinginformation}" class="col-sm-4 col-lg-4 col-md-4">
+                <p th:text="'Total Price: ' + ${#numbers.formatDecimal(shippinginformation, 0, 1)} + ' USD'">Postal fee <a target="_blank" href="#"></a>.</p>
+            </div>
+            <div th:if="${shippinginformationerror}" class="col-sm-4 col-lg-4 col-md-4">
+                <p th:text="${shippinginformationerror}">.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
