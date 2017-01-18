@@ -106,8 +106,12 @@ public class OrderControllerDB {
         try {
             String postalTime = PostalTimeServiceController.getPostalTime(req, order);
             params.put("shippingtime",  postalTime);
-        } catch (NotFoundException exception) {
-            params.put("shippingtimeerror", exception.getMessage());
+        } catch (Exception exception) {
+            if(exception.getClass().equals(NotFoundException.class)) params.put("shippingtimeerror", exception.getMessage());
+            else {
+                exception.printStackTrace();
+            }
+
         }
 
         return new ModelAndView(params, "rendered_html/shippinginformation");
