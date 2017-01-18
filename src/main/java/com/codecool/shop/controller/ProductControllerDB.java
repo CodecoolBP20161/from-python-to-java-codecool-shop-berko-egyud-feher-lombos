@@ -48,7 +48,7 @@ public class ProductControllerDB {
         }
 
         params.put("authenticated", req.session().attribute("authenticated"));
-        params.put("username", req.session().attribute("authenticated"));
+        params.put("username", req.session().attribute("username"));
 
         // to examine with thymeleaf the page
         params.put("paginationExamine", "INDEX");
