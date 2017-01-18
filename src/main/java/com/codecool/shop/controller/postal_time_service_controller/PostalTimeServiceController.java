@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 public class PostalTimeServiceController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostalTimeServiceController .class);
-    private static final String SERVICE_URL = " http://0.0.0.0:60003/api/timecalculator/";
+    private static final String SERVICE_URL = "http://0.0.0.0:60003/api/timecalculator/";
     public  static final String ORIGIN_CITY = "Budapest";
 
     /**
@@ -51,7 +51,7 @@ public class PostalTimeServiceController {
 
         logger.info("Getting time from JSON" + jsonOfTime);
 
-        return Math.floor((jsonOfTime.getInt("time")) / 86400000) + "";
+        return (int) Math.ceil((jsonOfTime.getInt("time")) / 86400000) + "";
     }
 
     /**
