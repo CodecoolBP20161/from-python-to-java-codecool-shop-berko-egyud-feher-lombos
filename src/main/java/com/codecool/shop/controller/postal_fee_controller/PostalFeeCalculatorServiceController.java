@@ -14,11 +14,12 @@ import spark.utils.StringUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 
 public class PostalFeeCalculatorServiceController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostalFeeCalculatorServiceController .class);
+    private static final Logger logger = LoggerFactory.getLogger(PostalFeeCalculatorServiceController.class);
     private static final String SERVICE_URL = "http://localhost:60001";
     private static final String TARGET_PARAM_KEY = "target";
     private static final String WEBSHOP_PARAM_KEY= "webshop";
@@ -36,7 +37,7 @@ public class PostalFeeCalculatorServiceController {
      * @author Vivi and Moni
      * @version final
      */
-    public static Float getPostalFee(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
+    public static ArrayList<String> getPostalFee(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
         logger.info("Getting Postal Fee...");
 
         String webshopCity = "Budapest";
@@ -52,13 +53,13 @@ public class PostalFeeCalculatorServiceController {
         JSONObject json = new JSONObject(cost);
 
         logger.info("Getting cost from JSON " + json);
-        try {
-            float feeAsFloat = Float.parseFloat(json.getString("cost").replace("$", "").trim());
-            return feeAsFloat;
-        } catch(NumberFormatException e) {
-          logger.error("Invalid input: " + e);
-          return 0f;
-        }
+
+        ArrayList<String> postalFeeAsJson = new ArrayList<>();
+        postalFeeAsJson.add(0, json.getString("cost"));
+        postalFeeAsJson.add(1, json.getString("status"));
+        logger.info("Getting postalFeeAsJson " + postalFeeAsJson);
+
+        return postalFeeAsJson;
     }
 
     /**
