@@ -107,7 +107,7 @@ public class Controller {
         order = req.session().attribute("Cart");
         shippingDataDB.add(shippingDataList, (Order) order);
 
-        res.redirect("/pay");
+        res.redirect("/shippinginformation");
         return null;
     }
 

@@ -52,7 +52,7 @@ public class ProductControllerDB {
 
         // to examine with thymeleaf the page
         params.put("paginationExamine", "INDEX");
-        return new ModelAndView(params, "product/index");
+        return new ModelAndView(params, "rendered_html/index");
     }
 
     // Action for display filtered products
@@ -78,7 +78,7 @@ public class ProductControllerDB {
             params = Controller.setParams(req);
             params.put("supplier", supplierDB.find(supplierId));
         }
-        return new ModelAndView(params, "product/index");
+        return new ModelAndView(params, "rendered_html/index");
     }
 
 }
