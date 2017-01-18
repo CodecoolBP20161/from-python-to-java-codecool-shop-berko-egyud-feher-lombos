@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.controller.postal_fee_controller.PostalFeeCalculatorServiceController;
+import com.codecool.shop.controller.postal_time_service_controller.PostalTimeServiceController;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -81,6 +82,13 @@ public class OrderControllerDB {
             params.put("shippinginformation", PostalFeeCalculatorServiceController.getPostalFee(req, order));
         } else if (PostalFeeCalculatorServiceController.getPostalFee(req, order) == 0f){
             params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
+        }
+
+        try {
+            String postalTime = PostalTimeServiceController.getPostalTime(req, order);
+            params.put("shippingtime",  postalTime);
+        } catch (NotFoundException exception) {
+            params.put("shippingtimeerror", exception.getMessage());
         }
 
         return new ModelAndView(params, "rendered_html/shippinginformation");
