@@ -1,4 +1,4 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.event_controller.session_controller;
 
 
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
@@ -20,14 +20,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controller {
+public class SessionEventController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionEventController.class);
 
     private static ProductDaoDB productDB = ProductDaoDB.getInstance();
     private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
     private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
+
 
 
     /**
@@ -37,7 +38,7 @@ public class Controller {
      * @throws NotFoundException
      * @throws SQLException
      */
-    static Map setParams(Request req) throws NotFoundException, SQLException {
+    public static Map setParams(Request req) throws NotFoundException, SQLException {
         LOGGER.info("setParams() method is called.");
 
         Map params = new HashMap<>();
@@ -51,6 +52,9 @@ public class Controller {
 
         if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
+        }
+        if ( req.url().equals("http://localhost:8888/shippinginformation")) {
+            req.session().attribute("currentUrl", "/shippinginformation");
         }
 
         Order cart = req.session().attribute("Cart");
@@ -133,22 +137,21 @@ public class Controller {
      * @param res - Spark Response
      * @return null
      */
-    public static String saveShippingInfoToSession(Request req, Response res) {
+    public static String saveShippingInfoToSession(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("saveShippingInfoToSession() method is called.");
 
         String first_name = req.queryParams("first_name");
         String last_name = req.queryParams("last_name");
         String email = req.queryParams("email");
         String phone = req.queryParams("phone");
-        String adress = req.queryParams("adress");
+        String address = req.queryParams("adress");
         String city = req.queryParams("city");
         String state = req.queryParams("state");
         String zip = req.queryParams("zip");
         String comment = req.queryParams("comment");
 
-        ArrayList<String> shippingDataList =new ArrayList(Arrays.asList(first_name, last_name, email, phone, adress, city,state, zip, comment));
+        ArrayList<String> shippingDataList = new ArrayList(Arrays.asList(first_name, last_name, email, phone, address, city,state, zip, comment));
         req.session().attribute("ShippingDataList", shippingDataList);
-
 
         // saving shipping data for order
         Orderable order;

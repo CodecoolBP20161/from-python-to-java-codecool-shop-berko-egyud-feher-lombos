@@ -1,8 +1,8 @@
-import com.codecool.shop.controller.AboutUsControllerDB;
-import com.codecool.shop.controller.Controller;
-import com.codecool.shop.controller.OrderControllerDB;
-import com.codecool.shop.controller.ProductControllerDB;
-import com.codecool.shop.controller.UserController;
+import com.codecool.shop.controller.event_controller.session_controller.SessionEventController;
+import com.codecool.shop.controller.rendered_page.AboutUsControllerDB;
+import com.codecool.shop.controller.rendered_page.OrderControllerDB;
+import com.codecool.shop.controller.rendered_page.ProductControllerDB;
+import com.codecool.shop.controller.rendered_page.UserController;
 import com.codecool.shop.dao.implementation.db.AbstractDBHandler;
 import com.codecool.shop.testdata.TestDataDB;
 import javassist.NotFoundException;
@@ -46,10 +46,10 @@ public class Main {
         post("/signin", UserController::login, new ThymeleafTemplateEngine());
         post("/signup", UserController::createUser, new ThymeleafTemplateEngine());
 
-        // Controller's methods
-        get("/add/:id", Controller::addToSessionCart);
-        get("/remove/:id", Controller ::removeFromSessionCart);
-        get("/removeall", Controller ::removeAllFromSessionCart);
+        // SessionEventController's methods
+        get("/add/:id", SessionEventController::addToSessionCart);
+        get("/remove/:id", SessionEventController::removeFromSessionCart);
+        get("/removeall", SessionEventController::removeAllFromSessionCart);
 
         // ProductController's render actions
         get("/category/:categoryid", ProductControllerDB::renderFilteredProducts, new ThymeleafTemplateEngine());
@@ -58,9 +58,9 @@ public class Main {
 
         // OrderController's render actions
         get("/checkout", OrderControllerDB::renderCheckoutPage, new ThymeleafTemplateEngine());
-        post("/checkout", Controller::saveShippingInfoToSession);
+        post("/checkout", SessionEventController::saveShippingInfoToSession);
         get("/pay", OrderControllerDB::renderPaymentPage, new ThymeleafTemplateEngine());
-        post("/pay", Controller::saveBankCardDataToSession);
+        post("/pay", SessionEventController::saveBankCardDataToSession);
         get("/shippinginformation", OrderControllerDB::renderShippingInformationPage, new ThymeleafTemplateEngine());
         get("/afterpay", OrderControllerDB::renderAfterPaymentPage, new ThymeleafTemplateEngine());
 

@@ -1,6 +1,7 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.rendered_page;
 
 
+import com.codecool.shop.controller.event_controller.session_controller.SessionEventController;
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
@@ -36,7 +37,7 @@ public class ProductControllerDB {
      * @throws SQLException
      */
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         LOGGER.info("renderProducts() method is called.");
 
         // pagination handling
@@ -83,34 +84,32 @@ public class ProductControllerDB {
      */
     public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderFilteredProducts() method is called.");
-
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
-            LOGGER.debug("Examine URL for categoryID to show the products filtered by category");
+            LOGGER.info("Examine URL for categoryID to show the products filtered by category...");
             categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", productDB.getBy(productCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
         }
         else if ( req.params(":supplierid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the products filtered by supplier");
+            LOGGER.info("Examine URL for supplerID to show the products filtered by supplier...");
             supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", productDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
 
         if ( req.params(":categoryid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the name of category.");
+            LOGGER.info("Examine URL for supplerID to show the name of category...");
 
-            params = Controller.setParams(req);
             params.put("category", productCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the name of supplier.");
+            LOGGER.info("Examine URL for supplerID to show the name of supplier...");
 
-            params = Controller.setParams(req);
             params.put("supplier", supplierDB.find(supplierId));
         }
+
         return new ModelAndView(params, "rendered_html/index");
     }
 
