@@ -1,7 +1,8 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.rendered_page;
 
-import com.codecool.shop.controller.postal_fee_controller.PostalFeeCalculatorServiceController;
-import com.codecool.shop.controller.postal_time_service_controller.PostalTimeServiceController;
+import com.codecool.shop.controller.event_controller.postal_fee_controller.PostalFeeCalculatorServiceController;
+import com.codecool.shop.controller.event_controller.postal_time_service_controller.PostalTimeServiceController;
+import com.codecool.shop.controller.event_controller.session_controller.SessionEventController;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -26,7 +27,7 @@ public class OrderControllerDB {
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderCartContent() method is called.");
 
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         return new ModelAndView(params, "rendered_html/cart");
     }
 
@@ -34,7 +35,7 @@ public class OrderControllerDB {
     public static ModelAndView renderCheckoutPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderCheckoutPage() method is called.");
 
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         Order order = req.session().attribute("Cart");
         order.setUserSessionId(req.session().id());
         LOGGER.debug("renderCheckoutPage method, order from session : {}", order);
@@ -50,7 +51,7 @@ public class OrderControllerDB {
     public static ModelAndView renderPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderPaymentPage() method is called.");
 
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
 
         return new ModelAndView(params, "rendered_html/pay");
     }
@@ -59,7 +60,7 @@ public class OrderControllerDB {
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderAfterPaymentPage() method is called.");
 
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         Order order = req.session().attribute("Cart");
 
         LOGGER.debug("renderAfterPaymentPage method, order from session : {}", order);
@@ -87,7 +88,7 @@ public class OrderControllerDB {
      * @version final
      */
     public static ModelAndView renderShippingInformationPage(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         Order order = req.session().attribute("Cart");
 
         try {

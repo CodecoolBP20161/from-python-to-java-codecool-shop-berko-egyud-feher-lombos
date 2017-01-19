@@ -1,4 +1,4 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.event_controller.session_controller;
 
 
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
@@ -20,9 +20,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controller {
+public class SessionEventController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionEventController.class);
 
     private static ProductDaoDB productDB = ProductDaoDB.getInstance();
     private static ProductCategoryDaoDB productCategoryDB = ProductCategoryDaoDB.getInstance();
@@ -31,7 +31,7 @@ public class Controller {
 
 
     // Handle the content of the params HashMap
-    static Map setParams(Request req) throws NotFoundException, SQLException {
+    public static Map setParams(Request req) throws NotFoundException, SQLException {
         LOGGER.info("setParams() method is called.");
 
         Map params = new HashMap<>();
