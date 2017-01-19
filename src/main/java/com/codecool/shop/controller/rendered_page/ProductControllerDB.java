@@ -26,7 +26,16 @@ public class ProductControllerDB {
     static Integer categoryId = 1;
     static Integer supplierId = 1;
 
-    // Action for display all with opportunities of pagination
+
+    /**
+     * Render the index.html form. The index.html displays all products without any filter.
+     * Pagination implemented here, 10 item per page displayed.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render index.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
         Map params = SessionEventController.setParams(req);
         LOGGER.info("renderProducts() method is called.");
@@ -64,7 +73,15 @@ public class ProductControllerDB {
         return new ModelAndView(params, "rendered_html/index");
     }
 
-    // Action for display filtered products
+
+    /**
+     * Render the index.html form. The index.html displays the products filtered by category or supplier.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render index.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderFilteredProducts() method is called.");
         Map params = SessionEventController.setParams(req);

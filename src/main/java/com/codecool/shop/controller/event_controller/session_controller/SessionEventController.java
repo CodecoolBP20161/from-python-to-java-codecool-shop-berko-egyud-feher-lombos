@@ -30,7 +30,14 @@ public class SessionEventController {
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
 
-    // Handle the content of the params HashMap
+
+    /**
+     * Handle the content of the params Hashmap
+     * @param req - Spark Request
+     * @return all products
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static Map setParams(Request req) throws NotFoundException, SQLException {
         LOGGER.info("setParams() method is called.");
 
@@ -56,7 +63,14 @@ public class SessionEventController {
     }
 
 
-    // Handle the content of the session and set the variables of Order object
+    /**
+     * Handle the content of the session and set the variables of Order object.
+     * Add the item with the given id to the cart.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     * @throws NotFoundException
+     */
     public static String addToSessionCart(Request req, Response res) throws NotFoundException {
         LOGGER.info("addToSessionCart() method is called.");
 
@@ -77,7 +91,14 @@ public class SessionEventController {
         return null;
     }
 
-    // Handle the content of the session and set the variables of Order object
+    /**
+     * Handle the content of the session and set the variables of Order object.
+     * Remove the item with the given id from the cart.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     * @throws NotFoundException
+     */
     public static String removeFromSessionCart(Request req, Response res) throws NotFoundException {
         LOGGER.info("removeFromSessionCart() method is called.");
 
@@ -92,7 +113,14 @@ public class SessionEventController {
         return null;
     }
 
-    // Handle the content of the session and set the variables of Order object
+    /**
+     * Handle the content of the session and set the variables of Order object.
+     * Remove all items from the cart.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     * @throws NotFoundException
+     */
     public static String removeAllFromSessionCart(Request req, Response res) throws NotFoundException {
         LOGGER.info("removeAllFromSessionCart() method is called.");
 
@@ -102,10 +130,15 @@ public class SessionEventController {
         return null;
     }
 
-    // Shipping data saved to session
+
+    /**
+     * Save shipping data for order to session
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     */
     public static String saveShippingInfoToSession(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("saveShippingInfoToSession() method is called.");
-        Map params = setParams(req);
 
         String first_name = req.queryParams("first_name");
         String last_name = req.queryParams("last_name");
@@ -130,7 +163,12 @@ public class SessionEventController {
         return null;
     }
 
-    // Shipping data saved to session
+    /**
+     * Save bankcard data to the session
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return null
+     */
     public static String saveBankCardDataToSession(Request req, Response res) {
         LOGGER.info("saveBankCardDataToSession() method is called.");
 

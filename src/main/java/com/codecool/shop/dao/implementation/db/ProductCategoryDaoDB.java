@@ -28,6 +28,10 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
     private ProductCategoryDaoDB() {
     }
 
+    /**
+     * Adds new product category into the database.
+     * @param category
+     */
     @Override
     public void add(ProductCategory category) {
         LOGGER.debug("add() method is called.");
@@ -39,7 +43,7 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             stmt.setString(2, category.getDescription());
             stmt.setString(3, category.getDepartment());
             stmt.executeUpdate();
-            LOGGER.info("Add method insert productcategory name, description, and the department into ProductCategoryDB.");
+            LOGGER.info("add() method insert productcategory name, description, and the department into ProductCategoryDB.");
             LOGGER.info("ProductCategory name: {}, description: {}, department: {}", category.getName(), category.getDescription(), category.getDepartment());
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,6 +51,12 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
         }
     }
 
+    /**
+     * Finds the product category with the given ID.
+     * @param id
+     * @return the product category
+     * @throws NotFoundException
+     */
     @Override
     public ProductCategory find(int id) throws NotFoundException {
         LOGGER.debug("find() method is called.");
@@ -73,6 +83,10 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
         return null;
     }
 
+    /**
+     * Deletes the category with the given ID.
+     * @param id
+     */
     @Override
     public void remove(int id) {
         LOGGER.debug("remove() method is called.");
@@ -80,6 +94,12 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
         executeQuery(query);
     }
 
+    /**
+     * Collects all of the product categories
+     * @return list of the product categories
+     * @throws SQLException
+     * @throws NotFoundException
+     */
     @Override
     public List<ProductCategory> getAll() throws SQLException, NotFoundException {
         LOGGER.debug("getAll() method is called.");
@@ -103,11 +123,17 @@ public class ProductCategoryDaoDB extends AbstractDBHandler implements ProductCa
             return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
-            LOGGER.error("Error occurred during getAll method: ", e);
+            LOGGER.error("Error occurred during getAll() method: ", e);
         }
         return null;
     }
 
+    /**
+     * Puts the proper products into the category
+     * @param category
+     * @return the category
+     * @throws NotFoundException
+     */
     public ProductCategory fillWithProducts(ProductCategory category) throws NotFoundException {
         LOGGER.debug("fillWithProducts() method is called.");
 

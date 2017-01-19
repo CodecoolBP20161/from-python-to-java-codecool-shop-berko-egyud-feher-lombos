@@ -23,7 +23,15 @@ public class OrderControllerDB {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderControllerDB.class);
 
-    // Action for display cart content
+
+    /**
+     * Render cart.html form. Action for display cart content
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render cart.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderCartContent() method is called.");
 
@@ -31,7 +39,15 @@ public class OrderControllerDB {
         return new ModelAndView(params, "rendered_html/cart");
     }
 
-    //Action for display checkout page & set order's status to CHECKED
+
+    /**
+     * Render checkout.html form. Action for display checkout page & set order's status to CHECKED
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render checkout.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderCheckoutPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderCheckoutPage() method is called.");
 
@@ -47,7 +63,15 @@ public class OrderControllerDB {
         return new ModelAndView(params, "rendered_html/checkout");
     }
 
-    //Action for display payment page & set order's status to PAID
+
+    /**
+     * Render pay.html form. Action for display payment page & set order's status to PAID
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render pay.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderPaymentPage() method is called.");
 
@@ -56,7 +80,15 @@ public class OrderControllerDB {
         return new ModelAndView(params, "rendered_html/pay");
     }
 
-    //Action for display after payment page
+
+    /**
+     * Render afterpay.html form. Action for display after payment page.
+     * @param req - Spark Request
+     * @param res - Spark Response
+     * @return ModelAndView to render afterpay.html
+     * @throws NotFoundException
+     * @throws SQLException
+     */
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderAfterPaymentPage() method is called.");
 
@@ -76,14 +108,12 @@ public class OrderControllerDB {
 
 
     /**
-     * <h1>Render shippinginformation.html to show the details of shopping.</h1>
-     * @param req
-     * @param res
+     * Render shippinginformation.html to show the details of shopping.
+     * @param req - Spark Request
+     * @param res - Spark Response
      * @return ModelAndView to render shippinginformation.html
      * @throws NotFoundException
      * @throws SQLException
-     * @throws IOException
-     * @throws URISyntaxException
      * @author Moni
      * @version final
      */

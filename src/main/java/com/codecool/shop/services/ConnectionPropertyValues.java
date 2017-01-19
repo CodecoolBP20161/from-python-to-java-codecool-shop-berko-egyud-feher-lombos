@@ -10,7 +10,10 @@ public class ConnectionPropertyValues {
     private HashMap<String, String> connectionProperties = new HashMap<>();
     private InputStream inputStream;
 
-    // get the database connection properties from connection/connection.properties config file
+    /**
+     * get the database connection properties from connection/connection.properties config file
+     * @return connection properties
+     */
     public HashMap<String, String> getPropValuesOfDB() {
         try {
             Properties prop = new Properties();
@@ -38,7 +41,10 @@ public class ConnectionPropertyValues {
         return connectionProperties;
     }
 
-    // get the email connection properties from connection/connection.properties config file
+    /**
+     * get the email connection properties from connection/connection.properties config file
+     * @return connection properties
+     */
     public HashMap<String, String> getPropValuesOfEmail() {
         try {
             Properties prop = new Properties();
