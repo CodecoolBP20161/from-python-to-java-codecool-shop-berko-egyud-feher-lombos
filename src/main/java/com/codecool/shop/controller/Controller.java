@@ -46,6 +46,9 @@ public class Controller {
         if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
         }
+        if ( req.url().equals("http://localhost:8888/shippinginformation")) {
+            req.session().attribute("currentUrl", "/shippinginformation");
+        }
 
         Order cart = req.session().attribute("Cart");
         params.put("cart", cart);
