@@ -110,7 +110,8 @@ public class OrderControllerDB {
         } catch (Exception exception) {
             if(exception.getClass().equals(NotFoundException.class)) params.put("shippingtimeerror", exception.getMessage());
             else {
-                exception.printStackTrace();
+                LOGGER.error("Error " + exception);
+                params.put("shippingtimeerror", exception.getMessage());
             }
         }
         return new ModelAndView(params, "rendered_html/shippinginformation");
