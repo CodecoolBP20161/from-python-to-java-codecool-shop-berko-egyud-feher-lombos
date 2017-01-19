@@ -6,16 +6,20 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Orderable;
 import com.codecool.shop.model.process.Email.EmailSender;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class PayProcess extends AbstractProcess {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PayProcess.class);
 
     private ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
     private OrderDaoDB orderDaoDB = OrderDaoDB.getInstance();
 
     @Override
     protected void action(Orderable item) {
-        System.out.println("pay in action");
+        LOGGER.info("action() method is called");
         item.pay();
 
         orderDaoDB.update((Order) item);
@@ -23,6 +27,7 @@ public class PayProcess extends AbstractProcess {
 
     @Override
     public void stepAfter(Orderable item) throws NotFoundException {
+        LOGGER.info("stepAfter() method is called");
 
         String userEmail = shippingDataDB.find(((Order) item).getId()).get(0);
         String userFirstName = shippingDataDB.find(((Order) item).getId()).get(1);
@@ -39,7 +44,5 @@ public class PayProcess extends AbstractProcess {
                 "Total Price: " + ((Order) item).getTotalPrice() + " USD";
 
         EmailSender.send(userEmail, subject, message);
-
-        System.out.println("stepAfter method...");
     }
 }

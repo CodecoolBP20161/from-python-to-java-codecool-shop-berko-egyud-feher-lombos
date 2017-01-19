@@ -6,12 +6,15 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Status;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderDaoDB.class);
 
     private static OrderDaoDB INSTANCE;
 
@@ -25,9 +28,13 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
     private OrderDaoDB() {
     }
 
+    /**
+     * Add new order into the database.
+     * @param order
+     */
     @Override
     public void add(Order order) {
-
+        LOGGER.debug("add() method is called.");
         String query = "INSERT INTO \"order\" (STATUS, TOTAL_PRICE, USER_ID) VALUES (?, ?, ?)";
 
         try (
@@ -37,6 +44,8 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
             statement.setString(1, order.getStatus().toString());
             statement.setDouble(2, order.getTotalPrice());
             statement.setString(3, order.getUserSessionId());
+            LOGGER.info("add() method insert order status, totalPrice, and the UserSessionId into OrderDB.");
+            LOGGER.info("Order status: {}, totalPrice: {}, userSessionId: {}", order.getStatus().toString(), order.getTotalPrice(), order.getUserSessionId());
 
             int affectedRows = statement.executeUpdate();
 
@@ -47,17 +56,26 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     order.setId(generatedKeys.getInt(1));
+                    LOGGER.debug("order get new id from database: {}", generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Creating order failed, no ID obtained.");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.error("Error occurred during order added into database: {}", e);
         }
     }
 
+    /**
+     * Finds an order with the given id in the database.
+     * @param id
+     * @return null
+     * @throws NotFoundException
+     */
     @Override
     public Order find(int id) throws NotFoundException {
+        LOGGER.debug("find() method is called.");
         String query = "SELECT * FROM \"order\" WHERE ID = '" + id + "';";
         try(
             Statement statement = connection.createStatement();
@@ -77,29 +95,57 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.error("Error occurred during order find(looked) in database: {}", e);
         }
         return null;
     }
 
+    /**
+     * Removes the order with the given id from the database.
+     * @param id
+     */
     @Override
     public void remove(int id) {
+        LOGGER.debug("remove() method is called.");
         String query = "DELETE FROM \"order\" WHERE ID = '" + id + "';";
         executeQuery(query);
     }
 
+    /**
+     * Collects all orders into a list
+     * @return all orders
+     * @throws NotFoundException
+     */
     @Override
     public List<Order> getAll() throws NotFoundException {
+        LOGGER.debug("getAll() method is called.");
+
         String query = "SELECT * FROM \"order\";";
         return convertManyDBResultToObject(query);
     }
 
+    /**
+     * Collects orders with the given status into a list.
+     * @param status
+     * @return the selected orders
+     * @throws NotFoundException
+     */
     @Override
     public List<Order> getBy(Status status) throws NotFoundException {
+        LOGGER.debug("getBy() method is called.");
+
         String query = "SELECT * FROM \"order\" WHERE STATUS='" + status.toString() + "';";
         return convertManyDBResultToObject(query);
     }
 
+    /**
+     * Converts into a list of objects the previously selected orders.
+     * @param query
+     * @return list of order objects or null
+     * @throws NotFoundException
+     */
     private List<Order> convertManyDBResultToObject(String query) throws NotFoundException {
+        LOGGER.debug("convertManyDBResultToObject() method is called.");
 
         List<Order> objectList = new ArrayList<>();
 
@@ -120,11 +166,20 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
 
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.error("Error occurred during convertManyDBResultToObject() method called: {}", e);
         }
         return null;
     }
 
+    /**
+     * Puts the item into the selected order
+     * @param order
+     * @return
+     * @throws NotFoundException
+     */
     private Order fillWithLineItem(Order order) throws NotFoundException {
+        LOGGER.debug("fillWithLineItem() method is called.");
+
         LineItemDaoDB lineItemDB = LineItemDaoDB.getInstance();
         ProductDaoDB productDB = ProductDaoDB.getInstance();
         List<LineItem> lineItems = lineItemDB.getBy(order.getId());
@@ -139,7 +194,13 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
         return order;
     }
 
+    /**
+     * Updates the status and the total price of the cart.
+     * @param order
+     */
     public void update(Order order){
+        LOGGER.debug("update() method is called.");
+
         String query = "UPDATE \"order\" SET TOTAL_PRICE = ?, STATUS=?";
         try {
             PreparedStatement stmt;
@@ -149,6 +210,7 @@ public class OrderDaoDB extends AbstractDBHandler implements OrderDao{
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.error("Error occurred during update() method called: {}", e);
         }
     }
 }

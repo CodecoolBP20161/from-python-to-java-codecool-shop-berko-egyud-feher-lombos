@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--Display footer-->
+    <div th:fragment="footer">
+        <div th:unless="${paginationExamine} != 'INDEX'" class="text-center">
+            <div th:replace="fragment/pagination :: pagination"></div>
+        </div>
+
+        <div class="bottom-navbar">
+            <!-- Footer -->
+            <div class="footer">
+
+                <div class="text-center">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; 2016-2017 Codecool Budapest by PindúrPandúrok</p>
+                        <a href="https://www.facebook.com/CodecoolOfficial/"><i class="fa fa-facebook-official fa-2x" style="color: limegreen"></i></a>
+                        <a href="https://github.com/CodecoolBP20161/from-python-to-java-codecool-shop-berko-egyud-feher-lombos"><i class="fa fa-github fa-2x" style="color: limegreen"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

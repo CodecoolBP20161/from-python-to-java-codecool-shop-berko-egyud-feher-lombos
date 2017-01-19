@@ -1,0 +1,12 @@
+
+com.codecool.shop.controller.event_controller.postal_fee_controller
+com.codecool.shop.controller.event_controller.postal_time_service_controller
+com.codecool.shop.controller.event_controller.session_controller
+com.codecool.shop.controller.rendered_page
+com.codecool.shop.dao
+com.codecool.shop.dao.implementation.db
+com.codecool.shop.model
+com.codecool.shop.model.process
+com.codecool.shop.model.process.Email
+com.codecool.shop.services
+com.codecool.shop.testdata

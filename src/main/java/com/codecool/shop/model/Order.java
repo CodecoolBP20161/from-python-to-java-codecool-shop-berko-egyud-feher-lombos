@@ -79,7 +79,10 @@ public class Order implements Orderable {
         this.userSessionId = userSessionId;
     }
 
-    // creates a line item, and add it to itemsToBuy, and increments the quantity of the lineitem if it exists.
+    /**
+     * creates a line item, and add it to itemsToBuy, and increments the quantity of the lineitem if it exists.
+     * @param item
+     */
     public void add(Product item) {
         LineItem newItem = new LineItem(item, this.getId());
         totalQuantity += 1;
@@ -96,7 +99,10 @@ public class Order implements Orderable {
         this.setTotalPrice(this.getTotalPrice() + item.getDefaultPrice());
     }
 
-    // creates a line item, and remove it from itemsToBuy, and decrease the quantity of the lineitem if it exists.
+    /**
+     * creates a line item, and remove it from itemsToBuy, and decrease the quantity of the lineitem if it exists.
+     * @param item
+     */
     public void remove(Product item) {
         LineItem newItem = new LineItem(item, item.getId());
         totalQuantity -= 1;
@@ -127,13 +133,20 @@ public class Order implements Orderable {
                 this.itemsToBuy);
     }
 
-    // it set the Order's status to "CHECKED"
+
+    /**
+     * it set the Order's status to "CHECKED"
+     * @return true
+     */
     public boolean checkout() {
         this.setStatus(Status.CHECKED);
         return true;
     }
 
-    // it set the Order's status to "PAID"
+    /**
+     * it set the Order's status to "PAID"
+     * @return true
+     */
     public boolean pay() {
         this.setStatus(Status.PAID);
         return true;
