@@ -29,6 +29,7 @@ public class Controller {
     private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
+
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
         LOGGER.info("setParams() method is called.");

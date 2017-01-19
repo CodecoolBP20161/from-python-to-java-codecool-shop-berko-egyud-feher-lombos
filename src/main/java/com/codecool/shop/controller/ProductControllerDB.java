@@ -66,34 +66,32 @@ public class ProductControllerDB {
     // Action for display filtered products
     public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderFilteredProducts() method is called.");
-
         Map params = Controller.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
-            LOGGER.debug("Examine URL for categoryID to show the products filtered by category");
+            LOGGER.info("Examine URL for categoryID to show the products filtered by category...");
             categoryId = Integer.parseInt(req.params(":categoryid"));
             params.put("products", productDB.getBy(productCategoryDB.find(categoryId)));
             req.session().attribute("currentUrl", "/category/" + req.params(":categoryid"));
         }
         else if ( req.params(":supplierid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the products filtered by supplier");
+            LOGGER.info("Examine URL for supplerID to show the products filtered by supplier...");
             supplierId = Integer.parseInt(req.params(":supplierid"));
             params.put("products", productDB.getBy(supplierDB.find(supplierId)));
             req.session().attribute("currentUrl", "/supplier/" + req.params(":supplierid"));
         }
 
         if ( req.params(":categoryid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the name of category.");
+            LOGGER.info("Examine URL for supplerID to show the name of category...");
 
-            params = Controller.setParams(req);
             params.put("category", productCategoryDB.find(categoryId));
         }
         if ( req.params(":supplierid") != null ) {
-            LOGGER.debug("Examine URL for supplerID to show the name of supplier.");
+            LOGGER.info("Examine URL for supplerID to show the name of supplier...");
 
-            params = Controller.setParams(req);
             params.put("supplier", supplierDB.find(supplierId));
         }
+
         return new ModelAndView(params, "rendered_html/index");
     }
 
