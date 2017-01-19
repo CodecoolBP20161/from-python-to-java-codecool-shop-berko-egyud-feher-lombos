@@ -1,6 +1,7 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.rendered_page;
 
 
+import com.codecool.shop.controller.event_controller.session_controller.SessionEventController;
 import com.codecool.shop.dao.implementation.db.ProductCategoryDaoDB;
 import com.codecool.shop.dao.implementation.db.ProductDaoDB;
 import com.codecool.shop.dao.implementation.db.SupplierDaoDB;
@@ -27,7 +28,7 @@ public class ProductControllerDB {
 
     // Action for display all with opportunities of pagination
     public static ModelAndView renderProducts(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
         LOGGER.info("renderProducts() method is called.");
 
         // pagination handling
@@ -66,7 +67,7 @@ public class ProductControllerDB {
     // Action for display filtered products
     public static ModelAndView renderFilteredProducts(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("renderFilteredProducts() method is called.");
-        Map params = Controller.setParams(req);
+        Map params = SessionEventController.setParams(req);
 
         if ( req.params(":categoryid") != null ) {
             LOGGER.info("Examine URL for categoryID to show the products filtered by category...");

@@ -1,4 +1,4 @@
-package com.codecool.shop.controller;
+package com.codecool.shop.controller.rendered_page;
 
 
 import com.codecool.shop.dao.implementation.db.UserLoginHandlerDAODB;

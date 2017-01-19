@@ -1,4 +1,4 @@
-package com.codecool.shop.controller.postal_fee_controller;
+package com.codecool.shop.controller.event_controller.postal_fee_controller;
 
 import com.codecool.shop.dao.implementation.db.ShippingDataDB;
 import com.codecool.shop.model.Order;
