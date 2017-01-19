@@ -29,6 +29,7 @@ public class Controller {
     private static SupplierDaoDB supplierDB = SupplierDaoDB.getInstance();
     private static ShippingDataDB shippingDataDB = ShippingDataDB.getInstance();
 
+
     // Handle the content of the params HashMap
     static Map setParams(Request req) throws NotFoundException, SQLException {
         LOGGER.info("setParams() method is called.");
@@ -44,6 +45,9 @@ public class Controller {
 
         if ( req.url().equals("http://localhost:8888/cartcontent")) {
             req.session().attribute("currentUrl", "/cartcontent");
+        }
+        if ( req.url().equals("http://localhost:8888/shippinginformation")) {
+            req.session().attribute("currentUrl", "/shippinginformation");
         }
 
         Order cart = req.session().attribute("Cart");
@@ -99,22 +103,22 @@ public class Controller {
     }
 
     // Shipping data saved to session
-    public static String saveShippingInfoToSession(Request req, Response res) {
+    public static String saveShippingInfoToSession(Request req, Response res) throws NotFoundException, SQLException {
         LOGGER.info("saveShippingInfoToSession() method is called.");
+        Map params = setParams(req);
 
         String first_name = req.queryParams("first_name");
         String last_name = req.queryParams("last_name");
         String email = req.queryParams("email");
         String phone = req.queryParams("phone");
-        String adress = req.queryParams("adress");
+        String address = req.queryParams("adress");
         String city = req.queryParams("city");
         String state = req.queryParams("state");
         String zip = req.queryParams("zip");
         String comment = req.queryParams("comment");
 
-        ArrayList<String> shippingDataList =new ArrayList(Arrays.asList(first_name, last_name, email, phone, adress, city,state, zip, comment));
+        ArrayList<String> shippingDataList = new ArrayList(Arrays.asList(first_name, last_name, email, phone, address, city,state, zip, comment));
         req.session().attribute("ShippingDataList", shippingDataList);
-
 
         // saving shipping data for order
         Orderable order;

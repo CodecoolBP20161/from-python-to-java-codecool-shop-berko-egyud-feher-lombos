@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 public class PostalTimeServiceController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostalTimeServiceController .class);
-    private static final String SERVICE_URL = "http://0.0.0.0:60003/api/timecalculator/";
+    private static final String SERVICE_URL = "http://localhost:60002/api/timecalculator/";
     public  static final String ORIGIN_CITY = "Budapest";
 
     /**
