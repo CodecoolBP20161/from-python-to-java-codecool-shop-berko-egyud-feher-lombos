@@ -2,14 +2,12 @@ package com.codecool.shop.controller.postal_fee_controller;
 
 import com.codecool.shop.dao.implementation.db.ShippingDataDB;
 import com.codecool.shop.model.Order;
-import com.codecool.shop.model.Orderable;
 import javassist.NotFoundException;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.utils.StringUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 public class PostalFeeCalculatorServiceController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostalFeeCalculatorServiceController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostalFeeCalculatorServiceController.class);
     private static final String SERVICE_URL = "http://localhost:60001";
     private static final String TARGET_PARAM_KEY = "target";
     private static final String WEBSHOP_PARAM_KEY= "webshop";
@@ -38,7 +36,7 @@ public class PostalFeeCalculatorServiceController {
      * @version final
      */
     public static ArrayList<String> getPostalFee(spark.Request request, Order order) throws IOException, URISyntaxException, NotFoundException {
-        logger.info("Getting Postal Fee...");
+        LOGGER.debug("Getting Postal Fee with getPostalFee() method.");
 
         String webshopCity = "Budapest";
 
@@ -47,17 +45,17 @@ public class PostalFeeCalculatorServiceController {
         URIBuilder builder = new URIBuilder(SERVICE_URL + "/api");
         builder.addParameter(TARGET_PARAM_KEY, userCity);
         builder.addParameter(WEBSHOP_PARAM_KEY, webshopCity);
-        logger.info("Getting URL " + builder.build());
+        LOGGER.info("Getting URL " + builder.build());
 
         String cost = execute(builder.build());
         JSONObject json = new JSONObject(cost);
 
-        logger.info("Getting cost from JSON " + json);
+        LOGGER.debug("Getting cost from JSON " + json);
 
         ArrayList<String> postalFeeAsJson = new ArrayList<>();
         postalFeeAsJson.add(0, json.getString("cost"));
         postalFeeAsJson.add(1, json.getString("status"));
-        logger.info("Getting postalFeeAsJson " + postalFeeAsJson);
+        LOGGER.debug("Getting postalFeeAsJson " + postalFeeAsJson);
 
         return postalFeeAsJson;
     }

@@ -32,11 +32,14 @@
             <artifactId>spark-template-thymeleaf</artifactId>
             <version>2.3</version>
         </dependency>
+
+
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.6.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-debug-tools</artifactId>
@@ -88,8 +91,6 @@
             <version>1.4.7</version>
         </dependency>
 
-
-
         <!-- service dependencies -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -98,25 +99,12 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.6.3</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
         </dependency>
-
-
-        <!-- logging stack -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.1.7</version>
-        </dependency>
-
 
     </dependencies>
+
+
 </project>

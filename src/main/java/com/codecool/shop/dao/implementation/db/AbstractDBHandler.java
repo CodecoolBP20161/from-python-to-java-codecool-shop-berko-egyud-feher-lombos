@@ -1,6 +1,8 @@
 package com.codecool.shop.dao.implementation.db;
 
 import com.codecool.shop.services.ConnectionPropertyValues;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +12,8 @@ import java.util.HashMap;
 
 
 public abstract class AbstractDBHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDBHandler.class);
+
     private static ConnectionPropertyValues configReader = new ConnectionPropertyValues();
     private static HashMap DBprops = configReader.getPropValuesOfDB();
 
@@ -19,7 +23,11 @@ public abstract class AbstractDBHandler {
     protected static Connection connection = null;
 
     public static Connection getConnection() throws SQLException {
+        LOGGER.debug("getConnection() method is called.");
+
         if (connection == null) {
+            LOGGER.info("create connection");
+
             connection = DriverManager.getConnection(
                     DATABASE,
                     DB_USER,
@@ -32,9 +40,10 @@ public abstract class AbstractDBHandler {
         try (
              Statement statement = connection.createStatement()
         ){
+            LOGGER.debug("Execute query on statement.");
             statement.execute(query);
-
         } catch (SQLException e) {
+            LOGGER.error("Error occurred during execute query on statement: {}", e);
             e.printStackTrace();
         }
     }

@@ -1,7 +1,7 @@
 package com.codecool.shop.controller;
 
-
 import com.codecool.shop.controller.postal_fee_controller.PostalFeeCalculatorServiceController;
+import com.codecool.shop.controller.postal_time_service_controller.PostalTimeServiceController;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.process.CheckoutProcess;
 import com.codecool.shop.model.process.PayProcess;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class OrderControllerDB {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderControllerDB.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderControllerDB.class);
 
 
     /**
@@ -32,6 +32,8 @@ public class OrderControllerDB {
      * @throws SQLException
      */
     public static ModelAndView renderCartContent(Request req, Response res) throws NotFoundException, SQLException {
+        LOGGER.info("renderCartContent() method is called.");
+
         Map params = Controller.setParams(req);
         return new ModelAndView(params, "rendered_html/cart");
     }
@@ -46,9 +48,12 @@ public class OrderControllerDB {
      * @throws SQLException
      */
     public static ModelAndView renderCheckoutPage(Request req, Response res) throws NotFoundException, SQLException {
+        LOGGER.info("renderCheckoutPage() method is called.");
+
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
         order.setUserSessionId(req.session().id());
+        LOGGER.debug("renderCheckoutPage method, order from session : {}", order);
 
         // set order's status to "CHECKED"
         CheckoutProcess checkoutProcess = new CheckoutProcess();
@@ -67,8 +72,9 @@ public class OrderControllerDB {
      * @throws SQLException
      */
     public static ModelAndView renderPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
-        Map params = Controller.setParams(req);
+        LOGGER.info("renderPaymentPage() method is called.");
 
+        Map params = Controller.setParams(req);
 
         return new ModelAndView(params, "rendered_html/pay");
     }
@@ -83,10 +89,12 @@ public class OrderControllerDB {
      * @throws SQLException
      */
     public static ModelAndView renderAfterPaymentPage(Request req, Response res) throws NotFoundException, SQLException {
+        LOGGER.info("renderAfterPaymentPage() method is called.");
+
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
 
-        System.out.println(order);
+        LOGGER.debug("renderAfterPaymentPage method, order from session : {}", order);
 
         // Set order's status to "PAID"
         PayProcess payProcess = new PayProcess();
@@ -112,26 +120,29 @@ public class OrderControllerDB {
         Map params = Controller.setParams(req);
         Order order = req.session().attribute("Cart");
 
-
         try {
             if ((PostalFeeCalculatorServiceController.getPostalFee(req, order)).get(1).equals("Invalid parameters")){
                 params.put("shippinginformationerror", "Couldn't calculated! Sorry! Please give a valid city to shipping data!");
             }
             params.put("shippinginformation", Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
-            logger.info("Getting  postal fee: " + Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
-        } catch (NumberFormatException e){
-            logger.error("Getting error: " + e);
-        } catch (NotFoundException e) {
-            logger.error("Getting error: " + e);
+            LOGGER.debug("Getting  postal fee: " + Float.parseFloat(PostalFeeCalculatorServiceController.getPostalFee(req, order).get(0).replace("$", "").trim()));
         } catch (HttpResponseException e) {
             params.put("shippinginformationerror", "Sorry, the shipping isn't available yet, please contact us! ");
-            logger.error("Getting error: " + e);
-        } catch(IOException e) {
-            logger.error("Getting error: " + e);
-        } catch (URISyntaxException e ){
-            logger.error("Getting error: " + e);
+            LOGGER.error("Getting error: " + e);
+        } catch (NumberFormatException | URISyntaxException | NotFoundException | IOException e){
+            LOGGER.error("Getting error: " + e);
         }
 
+        try {
+            String postalTime = PostalTimeServiceController.getPostalTime(req, order);
+            params.put("shippingtime",  postalTime);
+
+        } catch (Exception exception) {
+            if(exception.getClass().equals(NotFoundException.class)) params.put("shippingtimeerror", exception.getMessage());
+            else {
+                exception.printStackTrace();
+            }
+        }
         return new ModelAndView(params, "rendered_html/shippinginformation");
     }
 
